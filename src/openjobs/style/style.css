@@ -1,0 +1,28 @@
+
+.card{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#openJobList{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+tr td {
+    text-align: center;
+}
+
+tr th {
+    text-align: center;
+}
+
+/* .btn {
+    background-color: #44B1FC;
+    color: white;
+} */
+
+.radioButton {
+    margin: 20px;
+    width: 100%;
+    font-size: 15px;
+}
