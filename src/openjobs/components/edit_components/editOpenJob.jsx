@@ -32,7 +32,7 @@ const EditOpenJobProgress = ({openJobID}) => {
                             label: 'Key Tasks & Responsibilities',
                             subtitle: '50%',
                             name: 'step 2',
-                            // content: <JobResponsibilites />,
+                            content: <EditOpenJobResponsibilities openJobID={openJobID} />,
                             // validator:validateJobResponsibilites
                         },
                         {
