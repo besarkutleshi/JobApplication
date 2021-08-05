@@ -58,13 +58,39 @@ class OpenJobsController {
 
     updateJobResponsibility = async (obj) => {
         try {
-            let updated = await axios.post(helper.url + 'open/updateJobResponsibility',obj);
+            let updated = await axios.post(helper.url + 'openJob/updateJobResponsibility',obj);
             return updated.status === 200 ? true : false;
         } catch (error) {
             throw Error(error);
         }
     }
 
+    addJobRequirement = async (obj) => {
+        try {
+            let added = await axios.post(helper.url + 'openJob/addJobRequirement',obj)
+            return added.status === 200 ? added.data : false;
+        } catch (error) {
+            throw Error(error);
+        }
+    }
+
+    deleteJobRequirement = async (id) => {
+        try {
+            let deleted = await axios.delete(helper.url + `openJob/deleteJobRequirement/${id}`);
+            return deleted.status === 200 ? true : false;
+        } catch (error) {
+            throw Error(error);
+        }
+    }
+
+    updateJobRequirement = async (obj) => {
+        try {
+            let updated = await axios.post(helper.url + 'openJob/updateJobRequirement',obj);
+            return updated.status === 200 ? true : false;
+        } catch (error) {
+            throw Error(error);
+        }
+    }
 
 }
 

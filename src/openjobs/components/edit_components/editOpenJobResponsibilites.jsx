@@ -36,11 +36,15 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
         e.preventDefault();
         let obj = {Id : id, JobId: openJobID, Responsibility : responsibility, IsActive: 1, InsertBy : 1};
         let added = await openJobController.addJobResponsibility(obj);
-        fillStoreArray(await openJobController.getOpenJobs());
-        let newObj = {id:added, responsibility:responsibility};
-        openJobResponsibilites.push(newObj);
-        setResponsibility('');
-        added ? SuccessAlert("Registered Successful") : ErrorAlert("Registered Not Successful");
+        if(added > 0){
+            fillStoreArray(await openJobController.getOpenJobs());
+            let newObj = {id:added, responsibility:responsibility};
+            openJobResponsibilites.push(newObj);
+            setResponsibility('');
+            SuccessAlert("Register Successful");
+            return;
+        }
+        ErrorAlert("Registered Not Successful");
     }
 
     const deleteJobResponsibility = async (id) => {
@@ -76,8 +80,23 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
         setSubmit("Update Responsibility");
     }
 
-    const updateJobResponsibility = async () => {
+    const updateJobResponsibility = async (e) => {
+        e.preventDefault();
         let obj = {Id:updatedId,Responsibility : responsibility, IsActive : 1, UpdateBy : 1};
+        let updated = await openJobController.updateJobResponsibility(obj);
+        if(updated){
+            openJobResponsibilites.forEach(element => {
+                if(element.id === updatedId){
+                    element.responsibility = obj.Responsibility;
+                }
+            });
+            fillStoreArray(await openJobController.getOpenJobs());
+            SuccessAlert("Update Successful");
+            setSubmit("Add Responsibility");
+            setResponsibility('');
+            return;
+        }
+        ErrorAlert("Update Not Successful");
     }
 
     return (

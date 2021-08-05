@@ -24,29 +24,19 @@ const EditOpenJobProgress = ({openJobID}) => {
                     steps={[
                         {
                             label: 'Job Details',
-                            subtitle: '25%',
                             name: 'step 1',
                             content: <EditOpenJob openJobID={openJobID} />
                         },
                         {
                             label: 'Key Tasks & Responsibilities',
-                            subtitle: '50%',
                             name: 'step 2',
                             content: <EditOpenJobResponsibilities openJobID={openJobID} />,
                             // validator:validateJobResponsibilites
                         },
                         {
                             label: 'Requirements & Qualifications',
-                            subtitle: '75%',
                             name: 'step 3',
-                            // content: <JobReuqirements />,
-                            // validator:validateJobRequirements
-                        },
-                        {
-                            label: 'Save & Preview',
-                            subtitle: '100%',
-                            name: 'step 3',
-                            // content: <SavePreview />
+                            content: <EditOpenJobRequirements openJobID={openJobID} />
                         }
                     ]}
                 />
