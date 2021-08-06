@@ -11,13 +11,16 @@ import openJobStore from './openjobs/reduxStore/reducers/store'
 import OpenJobDetails from './openjobs/components/openJobDetails';
 import InsertJob from './openjobs/components/insert_components/insertJob';
 import EditOpenJobProgress from './openjobs/components/edit_components/editOpenJob';
+import Login from './authentication/components/login';
+import Layout from './layout/layout';
+import ProtectedRoute from './protectRoute'
 const Demo = () => {
     return (
-        <div className="container-fluid">
-            <br />
+        <div>
             <Router>
+                <Route path="/" exact strict render={() => <Login />} />
                 <Provider store={openJobStore}>
-                    <Route path="/" exact strict render={() => <OpenJobList/>}/>
+                    <ProtectedRoute path="/openJobs" layout={Layout} component={OpenJobList} auth="true"  />
                     <Route path="/openJobDetail/:openJobID" exact strict render={
                         ({match}) => {
                             const openJobID = match.params.openJobID;
