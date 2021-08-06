@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom'
 import Icon from 'react-icons-kit'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
 import {edit} from 'react-icons-kit/fa/edit'
+import {ic_delete_forever_outline} from 'react-icons-kit/md/ic_delete_forever_outline'
+import openJobsController from '../controllers/openJobs.controller'
+import SuccessAlert from '../../alerts/components/successAlert';
+import ErrorAlert from '../../alerts/components/errorAlert';
+import Swal from 'sweetalert2'
 const OpenJobDetails = ({ openJobID }) => {
 
     const [jobDetails, setJobDetails] = useState({});
@@ -24,12 +29,36 @@ const OpenJobDetails = ({ openJobID }) => {
         getJobDetail();
     }, []);
 
+
+    const deleteJob = async () => {
+        let result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if(result.isConfirmed){
+            let deleted = await openJobsController.deleteJob(openJobID);
+            if(deleted){
+                SuccessAlert("Delete Successful");
+                window.location.hash = "/"
+                return;
+            }
+            ErrorAlert("Delete Not Successful");
+        }
+    }
+
     return(
         <div className="container-fluid">
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
-                    <Link to={{ pathname:`/`}} className="btn btn-primary"><Icon icon={arrowLeft2} /> Back</Link>
-                    <Link to={{ pathname:`/editJob/${openJobID}`, state:{openJobID:openJobID}}} className="btn btn-primary"> <Icon icon={edit} /> Edit job position</Link>
+                    <Link to={{ pathname:`/`}} className="btn btn-primary me-auto"><Icon icon={arrowLeft2} /> Back</Link>
+                    <Link to={{ pathname:`/editJob/${openJobID}`, state:{openJobID:openJobID}}} className="btn btn-primary mr-2"> <Icon icon={edit} /> Edit job position</Link>
+                    <button onClick={deleteJob} className="btn btn-danger"> <Icon icon={ic_delete_forever_outline} size={20} /> Pasive Job </button>
                 </div>
             </div>
             <br />
@@ -78,6 +107,10 @@ const OpenJobDetails = ({ openJobID }) => {
                                 <div className="d-flex justify-content-between align-items-right mb-2">
                                     <h5 className="lead ml-3">Number of applicants</h5>
                                     <h6 className="mr-3" style={{color:"#44B1FC"}}>{jobDetails.applicationsNumber}</h6>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-right mb-2">
+                                    <h5 className="lead ml-3">Active</h5>
+                                    <h6 className="mr-3">{jobDetails.isActive === 1 ? 'Yes' : 'No'}</h6>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-right mb-2">
                                     <h5 className="lead ml-3">Status </h5>

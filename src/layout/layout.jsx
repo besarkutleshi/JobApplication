@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import $ from 'jquery'
+import Icon from 'react-icons-kit'
+import {ic_work_outline_twotone} from 'react-icons-kit/md/ic_work_outline_twotone'
 export class Layout extends Component {
 
     constructor(props) {
@@ -32,8 +34,9 @@ export class Layout extends Component {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#"><i class="far fa-address-book"></i>
-                                            <span id="purchases"> Open Jobs </span>
+                                        <a>
+                                            <Icon icon={ic_work_outline_twotone} />
+                                            <span> Open Jobs </span>
                                         </a>
                                     </li>
                                     <li>

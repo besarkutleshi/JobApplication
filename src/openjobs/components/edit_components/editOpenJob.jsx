@@ -10,6 +10,11 @@ import { Link } from 'react-router-dom'
 
 
 const EditOpenJobProgress = ({openJobID}) => {
+
+    const backToDetails = () => {
+        window.location.hash = `/openJobDetail/${openJobID}`;
+    }
+
     return(
         <div className="container-fluid" style={{marginTop:"-50px"}}>
             <div className="row">
@@ -20,7 +25,7 @@ const EditOpenJobProgress = ({openJobID}) => {
             <StepProgressBar
                     startingStep={0}
                     contentClass={"contentClass"}
-                    // onSubmit={addJob}
+                    onSubmit={backToDetails}
                     steps={[
                         {
                             label: 'Job Details',
