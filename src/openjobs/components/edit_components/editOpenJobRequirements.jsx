@@ -105,6 +105,8 @@ const EditOpenJobRequirements = ({openJobID}) => {
 
     return (
         <div className="container-fluid">
+        <br />
+        <br />
             <div className="row">
                 <div className="col-sm-12">
                     <h5 className="lead" >Please write down the requirmenets & qualifications for the job below :</h5>

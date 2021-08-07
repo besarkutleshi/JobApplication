@@ -68,6 +68,8 @@ const EditOpenJob = ({ openJobID }) => {
 
     return (
         <div className="container-fluid">
+            <br />
+            <br />
             <div className="card p-4">
                 <form action="" onSubmit={updateJob}>
                     <div className="row">

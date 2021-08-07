@@ -7,16 +7,19 @@ import 'react-step-progress/dist/index.css';
 import Icon from 'react-icons-kit'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
 import { Link } from 'react-router-dom'
+import { useState } from 'react';
 
 
-const EditOpenJobProgress = ({openJobID}) => {
+const EditOpenJobProgress = ({...props}) => {
 
     const backToDetails = () => {
         window.location.hash = `/openJobDetail/${openJobID}`;
     }
 
+    const [openJobID, setOpenJobID] = useState(props.match.params.openJobID);
+
     return(
-        <div className="container-fluid" style={{marginTop:"-50px"}}>
+        <div className="container-fluid">
             <div className="row">
                 <div className="col-sm-12">
                     <Link to={{ pathname:`/openJobDetail/${openJobID}`, state: {openJobID : openJobID} }} className="btn btn-primary"><Icon icon={arrowLeft2} /> </Link>

@@ -17,6 +17,7 @@ const Login = () => {
     const addLogin = bindActionCreators(login,dispatch);
     
     const user =  useSelector((state) => state.login.user);
+    console.log(user);
 
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('');

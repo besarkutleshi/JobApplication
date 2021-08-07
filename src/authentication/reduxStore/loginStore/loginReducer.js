@@ -1,4 +1,4 @@
-import { LOGIN, GETUSER } from './action'
+import { LOGIN, GETUSER, LOGOUT } from './action'
 
 const initialState = {
     user : {}
@@ -12,6 +12,10 @@ const loginReducer = (state = initialState, action) => {
             };
         case GETUSER : 
             return state.user;
+        case LOGOUT :
+            return {
+                user : {}
+            }
         default:
             return state;
     }

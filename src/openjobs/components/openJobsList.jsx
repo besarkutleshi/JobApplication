@@ -22,15 +22,15 @@ const OpenJobList = () => {
             Authorization: `Bearer ${user.token != "" ? user.token : ''}`
         }
     }
-    const openJobsStore = useSelector((state) => state.openJob.openJobs);
-    const [isLoading, setIsLoading] = useState(false);
+    const openJobsStore = useSelector((state) => state.openJobs.openJobs);
+    const [isLoading, setIsLoading] = useState(true);
     const [openJobs, setOpenJobs] = useState([]);
     const dispatch = useDispatch();
     const fillStoreArray  = bindActionCreators(fillOpenJobArray,dispatch);
 
     const getOpenJobs = async () => {
         setIsLoading(true);
-        let openJobs = await openJobsController.getOpenJobs(config);    
+        let openJobs = await openJobsController.getOpenJobs(config);   
         if(openJobs){
             $(document).ready(function () {
                 $('#openJobList').DataTable();
@@ -39,9 +39,12 @@ const OpenJobList = () => {
             fillStoreArray(openJobs);
             setIsLoading(false);
         }
-        if(openJobsStore.length > 0){
+        else if(openJobsStore.length > 0){
+            console.log(openJobsStore);
             setOpenJobs(openJobsStore)
+            setIsLoading(false);
         }
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -56,7 +59,7 @@ const OpenJobList = () => {
             <Loading />
         )
     }
-    else{
+    else if (openJobs && openJobs.length > 0){
         return (
             <div className="container-fluid" > 
             <br />
@@ -167,6 +170,17 @@ const OpenJobList = () => {
                         </tfoot>
                     </table>
                     </div>
+                </div>
+            </div>
+        )
+    }
+    else{
+        return(
+            <div className="row">
+                <div className="col-sm-12 text-center">
+                    <h4>Does not have any registered job!</h4>
+                    <br />
+                    <Link to={{pathname:"/insertJob"}} className="btn btn-primary"> <Icon icon={plus} /> Add a new job vacancy</Link>
                 </div>
             </div>
         )

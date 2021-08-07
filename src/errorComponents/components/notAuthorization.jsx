@@ -5,8 +5,9 @@ const NotAuthorization = () => {
 
     return(
         <div className="row">
+            <br />
             <div className="col-sm-12 text-center">
-                <img src={accessDenied} alt="" />
+                <img src={accessDenied} alt="" width="500px" height="500px" />
             </div>
             <div className="col-sm-12 text-center">
                 <Link to={{pathname:'/'}}  className="btn btn-primary">Log In</Link>

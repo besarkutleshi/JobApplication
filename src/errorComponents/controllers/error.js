@@ -5,7 +5,7 @@ class Error {
 
     returnError = (error) => {
         if(error.response.status === 401){
-            Notification("error","Session Expired", "Session has expired, login again!")
+            Notification("error","Session Expired", "Session has expired, login again!");
             window.location.hash = "/login";
         }   
         else if (error.response.status === 400){

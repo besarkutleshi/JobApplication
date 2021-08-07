@@ -20,21 +20,12 @@ const Demo = () => {
     return (
         <div>
             <Router>
+                <Route path="/" exact strict render={() => <Login />} />
                 <Route path="/login" exact strict render={() => <Login />} />
-                <ProtectedRoute path="/openJobs" layout={Layout} component={OpenJobList} auth={user.token != "" ? "true" : "false"}  />
-                <Route path="/openJobDetail/:openJobID" exact strict render={
-                    ({match}) => {
-                        const openJobID = match.params.openJobID;
-                        return (<OpenJobDetails openJobID={openJobID} />)
-                    }
-                    } />
-                <Route path="/insertJob" exact strict render={() => <InsertJob/>}/>
-                <Route path="/editJob/:openJobID" exact strict render={
-                    ({match}) => {
-                        const openJobID = match.params.openJobID;
-                        return (<EditOpenJobProgress openJobID={openJobID} />)
-                    }
-                } />
+                <ProtectedRoute path="/openJobs" layout={Layout} component={OpenJobList} auth={user ? user.token != "" ? "true" : "false" : "false"}  />
+                <ProtectedRoute path="/openJobDetail/:openJobID" layout={Layout} component={OpenJobDetails}  auth={user ? user.token != "" ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/insertJob" layout={Layout} component={InsertJob}  auth={user ? user.token != "" ? "true" : "false" : "false"}/>
+                <ProtectedRoute path="/editJob/:openJobID" layout={Layout} component={EditOpenJobProgress}  auth={user ? user.token != "" ? "true" : "false" : "false"} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
             </Router>
         </div>
