@@ -11,30 +11,37 @@ import '../style/style.css'
 import {arrowRight2} from 'react-icons-kit/icomoon/arrowRight2'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addJob,deleteJob,fillOpenJobArray } from '../reduxStore/reducers/action'
+import {fillOpenJobArray } from '../reduxStore/reducers/action'
 import { Link } from 'react-router-dom'
 import Loading from '../../loader/components/loader'
-import MUI from 'mui-datatables'
 const OpenJobList = () => {
 
+    const user = useSelector((state) => state.login.user);
+    const config = {
+        headers:{
+            Authorization: `Bearer ${user.token != "" ? user.token : ''}`
+        }
+    }
+    const openJobsStore = useSelector((state) => state.openJob.openJobs);
     const [isLoading, setIsLoading] = useState(false);
     const [openJobs, setOpenJobs] = useState([]);
-    
-    const openJobsStore =  useSelector((state) => state.openJobs.openJobs);
     const dispatch = useDispatch();
-
     const fillStoreArray  = bindActionCreators(fillOpenJobArray,dispatch);
 
     const getOpenJobs = async () => {
         setIsLoading(true);
-        let openJobs = await openJobsController.getOpenJobs();
-        console.log(openJobs);
-        $(document).ready(function () {
-            $('#openJobList').DataTable();
-        });
-        setOpenJobs(openJobs);
-        fillStoreArray(openJobs);
-        setIsLoading(false);
+        let openJobs = await openJobsController.getOpenJobs(config);    
+        if(openJobs){
+            $(document).ready(function () {
+                $('#openJobList').DataTable();
+            });
+            setOpenJobs(openJobs);
+            fillStoreArray(openJobs);
+            setIsLoading(false);
+        }
+        if(openJobsStore.length > 0){
+            setOpenJobs(openJobsStore)
+        }
     }
 
     useEffect(() => {
@@ -52,10 +59,11 @@ const OpenJobList = () => {
     else{
         return (
             <div className="container-fluid" > 
+            <br />
                 <h5 className="text-center lead" style={{marginTop:'-40px'}}>Jobs List</h5>
                 <br />
                 <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h6 className="text-center lead">Active Jobs</h6>
@@ -64,7 +72,7 @@ const OpenJobList = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h6 className="text-center lead">Expired Jobs</h6>
@@ -73,7 +81,7 @@ const OpenJobList = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h6 className="text-center lead">Pasive Jobs</h6>
@@ -82,7 +90,7 @@ const OpenJobList = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h6 className="text-center lead">Total Jobs</h6>
@@ -116,7 +124,8 @@ const OpenJobList = () => {
                     </div>
                 </div> */}
                 <div className="row">
-                    <table id="openJobList" class="display">
+                    <div className="col-sm-12">
+                    <table id="openJobList" className="display table">
                         <thead>
                             <tr>
                                 <th>Position</th>
@@ -157,6 +166,7 @@ const OpenJobList = () => {
                             </tr>
                         </tfoot>
                     </table>
+                    </div>
                 </div>
             </div>
         )

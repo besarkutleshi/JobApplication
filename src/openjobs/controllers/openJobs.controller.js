@@ -1,13 +1,16 @@
 import axios from 'axios'
 import helper from '../../helpers/helper'
+import ErrorAlert from '../../alerts/components/errorAlert';
+import SessionExpired from '../../errorComponents/components/sessionExpired';
+import Error from '../../errorComponents/controllers/error'
 class OpenJobsController {
 
-    getOpenJobs = async () => {
+    getOpenJobs = async (config) => {
         try {
-            let openJobs = await axios.get(helper.url + 'openjob/getOpenJobs');
+            let openJobs = await axios.get(helper.url + 'openjob/getOpenJobs',config);
             return openJobs.status === 200 ? openJobs.data : null;
         } catch (error) {
-            throw Error(error);
+            Error.returnError(error);
         }
     }
 

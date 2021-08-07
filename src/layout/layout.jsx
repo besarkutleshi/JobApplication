@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import $ from 'jquery'
 import Icon from 'react-icons-kit'
-import {ic_work_outline_twotone} from 'react-icons-kit/md/ic_work_outline_twotone'
+import { ic_work_outline_twotone } from 'react-icons-kit/md/ic_work_outline_twotone'
+import albanianFlag from '../images/albanian.png'
+import englandFlag from '../images/englad.png'
+import {ic_logout} from 'react-icons-kit/md/ic_logout'
 export class Layout extends Component {
 
     constructor(props) {
@@ -17,7 +20,7 @@ export class Layout extends Component {
                 <React.Fragment>
                     <div class="wrapper d-flex align-items-stretch">
                         <nav id="sidebar">
-                            <h6 className="pl-4 pt-4 lead" style={{color:"white"}} id="hr" > KEDS & Career </h6>
+                            <h6 className="pl-4 pt-4 lead" style={{ color: "white" }} id="hr" > KEDS & Career </h6>
                             <div class="p-4">
                                 <ul class="list-unstyled components mb-5" style={{ marginTop: "20px" }}>
                                     <li class="">
@@ -48,7 +51,7 @@ export class Layout extends Component {
                             </div>
                         </nav>
 
-                        <div id="content" style={{backgroundColor : ''}}>
+                        <div id="content" style={{ backgroundColor: '' }}>
                             <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
                                 <div class="container-fluid">
 
@@ -65,14 +68,21 @@ export class Layout extends Component {
 
                                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                         <ul class="nav navbar-nav ml-auto">
-                                            <li className="p-2">
-                                                <h5 className="lead" style={{color:'white'}}>Welcome</h5>
-                                            </li>
-                                            <li class="nav-item dropdown p-2">
-                                                <h4 className="lead" style={{color:'white'}}>Besar Kutleshi</h4>
+                                            <li id="logout" className="nav-item dropdown">
+                                                <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown"> <span className="mr-2" style={{ fontSize: '20px' }}> <i id="welcome"> Welcome</i> <i></i> </span> </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a id="" href="/myProfile" class="dropdown-item"><i class="fa fa-user" aria-hidden="true"></i> <span id="profile" className="ml-2"> My Profile</span></a>
+                                                    <div className="dropdown-divider"></div>
+                                                    <a id="" className="dropdown-item"><img src={albanianFlag} width="25px" height="20px"/> <span id="albania" className="ml-2"> Albania</span></a>
+                                                    <a id="" className="dropdown-item"><img src={englandFlag} width="25px" height="20px"/><span id="english" className="ml-2"> English</span></a>
+                                                    <hr />
+                                                    <a id="" className="dropdown-item" href="/"> <Icon icon={ic_logout} size={20} className="ml-1" /> <span id="logoutbro" className="ml-2"> Log Out</span></a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
+
+
                                 </div>
                             </nav>
                             <div id="root">

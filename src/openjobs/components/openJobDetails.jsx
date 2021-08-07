@@ -56,7 +56,7 @@ const OpenJobDetails = ({ openJobID }) => {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
-                    <Link to={{ pathname:`/`}} className="btn btn-primary me-auto"><Icon icon={arrowLeft2} /> Back</Link>
+                    <Link to={{ pathname:`/openJobs`}} className="btn btn-primary me-auto"><Icon icon={arrowLeft2} /> Back</Link>
                     <Link to={{ pathname:`/editJob/${openJobID}`, state:{openJobID:openJobID}}} className="btn btn-primary mr-2"> <Icon icon={edit} /> Edit job position</Link>
                     <button onClick={deleteJob} className="btn btn-danger"> <Icon icon={ic_delete_forever_outline} size={20} /> Pasive Job </button>
                 </div>
