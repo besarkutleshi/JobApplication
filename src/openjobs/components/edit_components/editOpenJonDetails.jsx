@@ -61,7 +61,7 @@ const EditOpenJob = ({ openJobID }) => {
         }
         let updated = await openJobController.updateJob(obj);
         updated ? SuccessAlert("Updated Successful") : ErrorAlert("Update Not Successful");
-        window.location = '/'
+        // window.location = '/'
         setIsLoading(false);
     }
 

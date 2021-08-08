@@ -13,6 +13,8 @@ const Layout = ({ ...props }) => {
     const dispatch = useDispatch();
     const logOutStore = bindActionCreators(logOut,dispatch);
 
+    const modulesStore = useSelector((state) => state.module.modules);
+
     const logOutUser = () => {
         logOutStore();
         window.location.hash = '/login';
@@ -26,7 +28,46 @@ const Layout = ({ ...props }) => {
                         <h6 className="pl-4 pt-4 lead" style={{ color: "white" }} id="hr" > KEDS & Career </h6>
                         <div class="p-4">
                             <ul class="list-unstyled components mb-5" style={{ marginTop: "20px" }}>
-                                <li class="">
+
+                                {
+                                    modulesStore.map((element,key) => {
+                                        return(
+                                            <li key={key}>
+                                                <a id="" href={`#${element.moduleName}`} data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                                 <span id="reports"> {element.moduleName}</span></a>
+                                                 {
+                                                     element.menus.map((menu, keyMenu) => {
+                                                        return(
+                                                            <ul class="collapse list-unstyled" id={`${element.moduleName}`}>
+                                                                <li key={keyMenu}>
+                                                                    <a id="" href={`/#${menu.url}`}>{menu.menuName}</a>
+                                                                </li>
+                                                            </ul>
+                                                        )
+                                                     })
+                                                 }
+                                            </li>
+                                        )
+                                    })
+                                }
+
+                                {
+                                    modulesStore.map((element, key) => {
+                                        element.menus.map((menu, keymenu) => {
+                                            return(
+                                                <ul class="collapse nav flex-column ms-1" id={`${element.moduleName}`} data-bs-parent="#menu">
+                                                    <li class="w-100">
+                                                        <a href={`${menu.url}`} class="nav-link px-0"> <span class="d-none d-sm-inline">{menu.menuName}</span> 1</a>
+                                                    </li>
+                                                </ul>
+                                            )
+                                        })
+                                    })
+                                }
+
+                                
+
+                                {/* <li class="">
                                     <a href="#"><i class="far fa-address-card"></i> <span id="saleNav">Home </span></a>
                                 </li>
                                 <li>
@@ -49,7 +90,7 @@ const Layout = ({ ...props }) => {
                                     <a href="#"><i class="far fa-address-book"></i>
                                         <span id="purchases"> Administration </span>
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </nav>

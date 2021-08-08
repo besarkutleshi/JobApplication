@@ -22,7 +22,6 @@ const OpenJobDetails = ({ ...props }) => {
     
     useEffect(() => {
         const getJobDetail = () => {
-            console.log(props);
             // setIsLoading(true);
             let obj = openJobsStore.find(o => parseInt(o.id) === parseInt(openJobID));
             if(obj){
@@ -151,7 +150,7 @@ const OpenJobDetails = ({ ...props }) => {
                                     {
                                         jobResponsibility.map((element,key) => {
                                             return (
-                                                <li>{element.responsibility}</li>
+                                                <li key={key}>{element.responsibility}</li>
                                             )
                                         })
                                     }
@@ -163,7 +162,7 @@ const OpenJobDetails = ({ ...props }) => {
                                     {
                                         jobRequirements.map((element,key) => {
                                             return (
-                                                <li>{element.requirement}</li>
+                                                <li key={key}>{element.requirement}</li>
                                             )
                                         })
                                     }

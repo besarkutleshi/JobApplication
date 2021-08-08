@@ -8,6 +8,7 @@ import authenticationController from '../controllers/authentication.controller'
 import $ from 'jquery'
 import { bindActionCreators } from 'redux';
 import { login } from '../reduxStore/loginStore/action'
+import { addModules } from '../../modules/reduxStore/action'
 import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
@@ -15,10 +16,8 @@ const Login = () => {
 
     const dispatch = useDispatch();
     const addLogin = bindActionCreators(login,dispatch);
+    const addModulesStore = bindActionCreators(addModules,dispatch);
     
-    const user =  useSelector((state) => state.login.user);
-    console.log(user);
-
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -31,6 +30,7 @@ const Login = () => {
         setIsLoading(false);
         if(login.username){
             addLogin(login);
+            addModulesStore(login.modules);
             window.location.hash = "/openJobs";
         }
         else{

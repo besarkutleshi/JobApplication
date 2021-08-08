@@ -90,7 +90,7 @@ const SavePreview = () => {
                                     {
                                         jobResponsibility.map((element, key) => {
                                             return (
-                                                <li>{element.Responsibility}</li>
+                                                <li key={key}>{element.Responsibility}</li>
                                             )
                                         })
                                     }
@@ -102,7 +102,7 @@ const SavePreview = () => {
                                     {
                                         jobRequirements.map((element, key) => {
                                             return (
-                                                <li>{element.Requirement}</li>
+                                                <li key={key}>{element.Requirement}</li>
                                             )
                                         })
                                     }
