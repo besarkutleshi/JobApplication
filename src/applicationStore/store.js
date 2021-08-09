@@ -11,11 +11,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const openJobStore = createStore(
-    rootReducer,
-    {},
-    applyMiddleware(thunk)
-);
 
 // export default openJobStore;
 

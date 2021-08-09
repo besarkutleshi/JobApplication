@@ -7,16 +7,19 @@ class Error {
         if(error.response.status === 401){
             Notification("error","Session Expired", "Session has expired, login again!");
             window.location.hash = "/login";
-        }   
-        else if (error.response.status === 400){
+        }  
+        else {
             ErrorAlert(error.response.data);
-        }
-        else if (error.response.status === 404) {
-            ErrorAlert(error.response.data);
-        }
-        else if (error.response.status === 500){
-            ErrorAlert(error.response.data);
-        }
+        } 
+        // else if (error.response.status === 400){
+        //     ErrorAlert(error.response.data);
+        // }
+        // else if (error.response.status === 404) {
+        //     ErrorAlert(error.response.data);
+        // }
+        // else if (error.response.status === 500){
+        //     ErrorAlert(error.response.data);
+        // }
     }
 
 }

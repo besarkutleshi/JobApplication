@@ -4,6 +4,7 @@ import jobResponsibilitesReducer from '../openjobs/reduxStore/reducers/jobRespon
 import jobRequirementReducer from '../openjobs/reduxStore/reducers/jobRequirementReducer';
 import loginReducer from '../authentication/reduxStore/loginStore/loginReducer';
 import moduleReducer from '../modules/reduxStore/moduleReducer';
+
 const rootReducer = combineReducers({openJobs : openJobReducer, jobResponsibility:jobResponsibilitesReducer, 
     jobRequirement: jobRequirementReducer, login:loginReducer, module: moduleReducer});
 

@@ -13,6 +13,7 @@ import Layout from './layout/layout';
 import ProtectedRoute from './protectRoute'
 import { useSelector, useDispatch } from 'react-redux'
 import NotAuthorization from './errorComponents/components/notAuthorization';
+import RegisterUser from './authentication/components/registerUser'
 import Loading from './loader/components/loader';
 import { useEffect } from 'react';
 import { removeModules } from './modules/reduxStore/action'
@@ -32,6 +33,7 @@ const Demo = () => {
             <Router>
                 <Route path="/" exact strict render={() => <Login />} />
                 <Route path="/login" exact strict render={() => <Login />} />
+                <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
                 {
                     routes

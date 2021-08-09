@@ -12,6 +12,15 @@ class AuthenticationController {
         }
     }
 
+    registerUser = async (obj) => {
+        try {
+            let user = await axios.post(helper.url + 'authentication/registerUser',obj);
+            return user.status === 200 ? user.data : null;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
 }
 
 export default new AuthenticationController();
