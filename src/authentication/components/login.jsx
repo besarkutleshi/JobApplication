@@ -65,10 +65,10 @@ const Login = () => {
 
                                 <div className="d-flex mb-5 align-items-center">
                                     <Checkbox>Remeber Me</Checkbox> 
-                                    <span className="ml-auto"><a href="#" className="forgot-pass">Forgot Password</a></span>
+                                    <span className="ml-auto"><a href="/#/forgotPassword" className="forgot-pass">Forgot Password</a></span>
                                 </div>
-                                <button type="submit" className="btn btn-block btn-primary"> Log In <Icon icon={ic_login_outline} size={20} className="float-right" /></button>
-                                
+                                <button type="submit" className="btn btn-block btn-primary mb-1"> Log In <Icon icon={ic_login_outline} size={20} className="float-right" /></button>
+                                <a href="/#/registerUser" style={{color:"white"}} className="btn btn-block btn-primary"> Register <Icon icon={ic_login_outline} size={20} className="float-right" /></a>
                                 {isLoading && <div className="text-center"> <img src={loader} width="65px" height="65px" /> </div> }
                             </form>
                         </div>

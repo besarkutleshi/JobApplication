@@ -3,31 +3,24 @@ import bg from '../../images/bg_1.jpg'
 import '../css/style.css'
 import kedslogo from '../../images/kedslogo.svg'
 import authenticationController from '../controllers/authentication.controller'
-import $ from 'jquery'
 import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
+import $ from 'jquery'
 import helper from '../../helpers/helper'
-const RegisterUser = () => {
+const ForgotPassword = () => {
 
     const [isLoading, setIsLoading] = useState('');
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const registerUser = async (e) => {
+    const forgotPassword = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         if(helper.validUsername(username)){
-            let obj = {Username : username, Password: password, ConfirmPassword : confirmPassword};
-            if(password !== confirmPassword){
-                $("#error").text("Password and Confirm password does not match");
-                return;
-            }
-            let registered = await authenticationController.registerUser(obj);
-            if(registered){
-                clearAttributes();
-                window.location.hash = "/emailConfirmation"
+            let mailed = await authenticationController.forgotPassword(username);
+            if(mailed){
+                setIsLoading(false);
+                window.location.hash = "/forgotPasswordConfirmation"
             }
             setIsLoading(false);
         }
@@ -35,11 +28,6 @@ const RegisterUser = () => {
         setIsLoading(false);
     }
 
-    const clearAttributes = () => {
-        setUsername('');
-        setPassword('');
-        setConfirmPassword('');
-    }
 
     return(
         <div className="d-lg-flex half">
@@ -55,21 +43,15 @@ const RegisterUser = () => {
                             <br />
                             <p className="text-danger text-center" id="error" ></p>
                             <br />
-                            <h3 className="text-center lead">Register</h3>
+                            <h3 className="text-center lead">Forgot Password</h3>
                             <br />
-                            <form action="" onSubmit={registerUser}>
+                            <form action="" onSubmit={forgotPassword}>
 
                                 <div className="form-group first">
                                     <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
                                 </div>
-                                <div className="form-group last mb-3">
-                                    <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-                                </div>
-                                <div className="form-group last mb-3">
-                                    <input type="password" className="form-control" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" required />
-                                </div>
                                 
-                                <button type="submit" className="btn btn-block btn-primary"> Register <Icon icon={ic_login_outline} size={20} className="float-right" /></button>
+                                <button type="submit" className="btn btn-block btn-primary"> Send Recover Link <Icon icon={ic_login_outline} size={20} className="float-right" /></button>
                                 
                                 {isLoading && <div className="text-center"> <img src={loader} width="65px" height="65px" /> </div> }
                             </form>
@@ -82,4 +64,4 @@ const RegisterUser = () => {
 
 }
 
-export default RegisterUser;
+export default ForgotPassword;

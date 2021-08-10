@@ -1,6 +1,6 @@
 import axios from 'axios'
 import helper from '../../helpers/helper'
-
+import Error from '../../errorComponents/controllers/error';
 class AuthenticationController {
 
     login = async (obj) => {
@@ -15,9 +15,29 @@ class AuthenticationController {
     registerUser = async (obj) => {
         try {
             let user = await axios.post(helper.url + 'authentication/registerUser',obj);
-            return user.status === 200 ? user.data : null;
+            return user.status === 200 ? true : false;
         } catch (error) {
-            return error.response.data;
+            Error.returnError(error);
+        }
+    }
+
+    forgotPassword = async (username) => {
+        try {
+            let mailed = await axios.get(helper.url + `authentication/forgotPassword/${username}`);
+            return mailed.status === 200 ? true : false;
+        } catch (error) {
+            Error.returnError(error);
+            return false;
+        }
+    }
+
+    resetPassword = async (obj) => {
+        try {
+            let reseted = await axios.post(helper.url + 'authentication/resetPassword',obj);
+            return reseted.status === 200 ? true : false;
+        } catch (error) {
+            Error.returnError(error);
+            return false;
         }
     }
 

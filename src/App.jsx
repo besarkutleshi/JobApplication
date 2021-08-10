@@ -11,13 +11,13 @@ import EditOpenJobProgress from './openjobs/components/edit_components/editOpenJ
 import Login from './authentication/components/login';
 import Layout from './layout/layout';
 import ProtectedRoute from './protectRoute'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import NotAuthorization from './errorComponents/components/notAuthorization';
 import RegisterUser from './authentication/components/registerUser'
-import Loading from './loader/components/loader';
-import { useEffect } from 'react';
-import { removeModules } from './modules/reduxStore/action'
-import { bindActionCreators } from 'redux';
+import EmailConfirmation from './alerts/components/emailConfirmation';
+import ForgotPassword from './authentication/components/forgotPassword';
+import ResetPassword from './authentication/components/resetPassword';
+import ForgotPasswordEmail from './alerts/components/forgotPasswordConfirmation';
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
@@ -35,6 +35,16 @@ const Demo = () => {
                 <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
+                <Route path="/emailConfirmation" exact strict render={() => <EmailConfirmation />} />
+                <Route path="/forgotPassword" exact strict render={() => <ForgotPassword />} />
+                <Route path="/forgotPasswordConfirmation" exact strict render={() => <ForgotPasswordEmail />} />
+                <Route path="/resetPassword/:username/:token" exact strict render={
+                    ({match}) => {
+                        const username = match.params.username;
+                        const token = match.params.token;
+                        return (<ResetPassword userName={username} token={token} />)
+                    }
+                }/>
                 {
                     routes
                 }
