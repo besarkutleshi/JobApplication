@@ -13,6 +13,16 @@ class OpenJobsController {
         }
     }
 
+    getActiveJobs = async () => {
+        try {
+            let openJobs = await axios.get(helper.url + 'openjob/getActiveJobs');
+            return openJobs.status === 200 ? openJobs.data : [];
+        } catch (error) {
+            Error.returnError(error);
+            return [];
+        }
+    }
+
     addJob = async (job) => {
         try {
             let added = await axios.post(helper.url + 'openJob/createJob',job);

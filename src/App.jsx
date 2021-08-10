@@ -18,6 +18,8 @@ import EmailConfirmation from './alerts/components/emailConfirmation';
 import ForgotPassword from './authentication/components/forgotPassword';
 import ResetPassword from './authentication/components/resetPassword';
 import ForgotPasswordEmail from './alerts/components/forgotPasswordConfirmation';
+import ActiveOpenJobs from './openjobs/components/activeJobs'
+import Header from './layout/header';
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
@@ -26,12 +28,13 @@ const Demo = () => {
     const [modules, setModules] = useState(modulesStore ? modulesStore.length > 0 ? modulesStore : [] : []);
 
     const routes = modulesStore.map((element,key) => element.menus.map((menu, menuKey) => <ProtectedRoute path={`${menu.url}`} layout={Layout} 
-                                    component={componentsMap[`${menu.menuName}`]} auth={user ? user.token != "" ? "true" : "false" : "false"}   />))
+                                    component={componentsMap[`${menu.menuName}`]} auth={user ? user.token ? "true" : "false" : "false"}   />))
     
+                                    console.log(user);
     return (
         <div>
             <Router>
-                <Route path="/" exact strict render={() => <Login />} />
+                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}   />
                 <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
@@ -45,6 +48,8 @@ const Demo = () => {
                         return (<ResetPassword userName={username} token={token} />)
                     }
                 }/>
+                {/* <Header><Route path="/activeJobs" exact strict render={() => <ActiveOpenJobs />} /> </Header> */}
+                <ProtectedRoute path="/activeJobs" layout={Header} component={ActiveOpenJobs} auth={"true"}   />
                 {
                     routes
                 }
