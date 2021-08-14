@@ -1,4 +1,4 @@
-import React, { useState,Component } from 'react';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap'
@@ -20,6 +20,10 @@ import ResetPassword from './authentication/components/resetPassword';
 import ForgotPasswordEmail from './alerts/components/forgotPasswordConfirmation';
 import ActiveOpenJobs from './openjobs/components/activeJobs'
 import Header from './layout/header';
+import ActiveJobDetails from './openjobs/components/activeJobDetails';
+import UserHome from './userProfile/components/userHome';
+import ApplyJob from './applications/components/applyJob';
+import UserData from './userProfile/components/userDataInsert/userProfileProgress'
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
@@ -30,11 +34,20 @@ const Demo = () => {
     const routes = modulesStore.map((element,key) => element.menus.map((menu, menuKey) => <ProtectedRoute path={`${menu.url}`} layout={Layout} 
                                     component={componentsMap[`${menu.menuName}`]} auth={user ? user.token ? "true" : "false" : "false"}   />))
     
-                                    console.log(user);
     return (
         <div>
             <Router>
                 <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}   />
+                <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
+                <ProtectedRoute path="/apply/:jobId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/createProfile/:userId" exact strict layout={Header} component={UserData} auth={"true"} /> {/* duhet me bo authorize qit route */}
+                <Route path="/login/:urlRoute/:parameter?" exact strict render={
+                    ({match}) => {
+                        const parameter = match.params.parameter;
+                        const urlRoute = match.params.urlRoute;
+                        return (<Login urlRoute={urlRoute} parameter={parameter} />)
+                    }
+                }/>
                 <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
@@ -48,8 +61,7 @@ const Demo = () => {
                         return (<ResetPassword userName={username} token={token} />)
                     }
                 }/>
-                {/* <Header><Route path="/activeJobs" exact strict render={() => <ActiveOpenJobs />} /> </Header> */}
-                <ProtectedRoute path="/activeJobs" layout={Header} component={ActiveOpenJobs} auth={"true"}   />
+                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={user ? user.token ? "true" : "false" : "false"} />
                 {
                     routes
                 }

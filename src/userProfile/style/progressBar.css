@@ -9,3 +9,7 @@
 ._1hzhf  {
     color: white;
 }
+
+.image-upload>input {
+    display: none;
+  }

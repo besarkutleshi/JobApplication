@@ -4,8 +4,15 @@ import jobResponsibilitesReducer from '../openjobs/reduxStore/reducers/jobRespon
 import jobRequirementReducer from '../openjobs/reduxStore/reducers/jobRequirementReducer';
 import loginReducer from '../authentication/reduxStore/loginStore/loginReducer';
 import moduleReducer from '../modules/reduxStore/moduleReducer';
+import profileReducer from '../userProfile/reduxStore/profileReducer'
+import userEducationReducer from '../userProfile/reduxStore/educationReducer'
+import userExperiencesReducer from '../userProfile/reduxStore/experienceReducer'
+import userSkillReducer from '../userProfile/reduxStore/skillsReducer'
+import userLanguagesReducer from '../userProfile/reduxStore/languageReducer'
 
 const rootReducer = combineReducers({openJobs : openJobReducer, jobResponsibility:jobResponsibilitesReducer, 
-    jobRequirement: jobRequirementReducer, login:loginReducer, module: moduleReducer});
+    jobRequirement: jobRequirementReducer, login:loginReducer, module: moduleReducer, profile:profileReducer, userEducation:userEducationReducer,
+    userExperience:   userExperiencesReducer, userSkills:userSkillReducer, userLanguages:userLanguagesReducer
+});
 
 export default rootReducer;

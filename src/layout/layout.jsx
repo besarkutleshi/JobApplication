@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import $ from 'jquery'
 import Icon from 'react-icons-kit'
 import { ic_work_outline_twotone } from 'react-icons-kit/md/ic_work_outline_twotone'
@@ -8,16 +8,34 @@ import { ic_logout } from 'react-icons-kit/md/ic_logout'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
+import { removeModules } from '../modules/reduxStore/action'
 const Layout = ({ ...props }) => {
 
     const dispatch = useDispatch();
     const logOutStore = bindActionCreators(logOut,dispatch);
+    const removeModulesStore = bindActionCreators(removeModules, dispatch);
 
     const modulesStore = useSelector((state) => state.module.modules);
+    const user = useSelector((state) => state.login.user);
+
+    useEffect(() => {
+        const changeCss = () => {
+            let next = document.querySelector("#root > div > div > div._53Ji7 > div._3uApM > a._2pGos._hsN1w")
+            if(next){
+                next.style.color = "white";
+            }
+            let previous = document.querySelector("#root > div > div > div._53Ji7 > div._3uApM")
+            if(previous){
+                previous.style.color = "black";
+            }
+        }
+        changeCss();
+    })
 
     const logOutUser = () => {
+        window.location.hash = '/activeJobs';
         logOutStore();
-        window.location.hash = '/login';
+        removeModulesStore();
     }
 
     return (
@@ -28,7 +46,6 @@ const Layout = ({ ...props }) => {
                         <h6 className="pl-4 pt-4 lead" style={{ color: "white" }} id="hr" > KEDS & Career </h6>
                         <div class="p-4">
                             <ul class="list-unstyled components mb-5" style={{ marginTop: "20px" }}>
-
                                 {
                                     modulesStore.map((element,key) => {
                                         return(
@@ -50,47 +67,6 @@ const Layout = ({ ...props }) => {
                                         )
                                     })
                                 }
-
-                                {
-                                    modulesStore.map((element, key) => {
-                                        element.menus.map((menu, keymenu) => {
-                                            return(
-                                                <ul class="collapse nav flex-column ms-1" id={`${element.moduleName}`} data-bs-parent="#menu">
-                                                    <li class="w-100">
-                                                        <a href={`${menu.url}`} class="nav-link px-0"> <span class="d-none d-sm-inline">{menu.menuName}</span> 1</a>
-                                                    </li>
-                                                </ul>
-                                            )
-                                        })
-                                    })
-                                }
-
-                                
-
-                                {/* <li class="">
-                                    <a href="#"><i class="far fa-address-card"></i> <span id="saleNav">Home </span></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="far fa-address-book"></i>
-                                        <span id="purchases"> Applications </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="far fa-address-book"></i>
-                                        <span id="purchases"> Analystics </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <Icon icon={ic_work_outline_twotone} />
-                                        <span> Open Jobs </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="far fa-address-book"></i>
-                                        <span id="purchases"> Administration </span>
-                                    </a>
-                                </li> */}
                             </ul>
                         </div>
                     </nav>

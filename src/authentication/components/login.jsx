@@ -12,16 +12,20 @@ import { addModules } from '../../modules/reduxStore/action'
 import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
-const Login = () => {
+import helper from '../../helpers/helper'
+
+
+const Login = ({ urlRoute = null ,parameter = null }) => {
 
     const dispatch = useDispatch();
     const addLogin = bindActionCreators(login,dispatch);
     const addModulesStore = bindActionCreators(addModules,dispatch);
     
     const [isLoading, setIsLoading] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    
+    const [username, setUsername] = useState('besar.kutleshi@keds-energy.com');
+    const [password, setPassword] = useState('besark');
+
+
     const loginUser = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -31,6 +35,14 @@ const Login = () => {
         if(login.username){
             addLogin(login);
             addModulesStore(login.modules);
+            if(helper.validUsername(username)){
+                if(urlRoute != null && parameter != null){
+                    window.location.hash = `/${urlRoute}/${parameter}`;
+                    return;
+                }
+                window.location.hash = "/";
+                return;
+            }
             window.location.hash = "/openJobs";
         }
         else{

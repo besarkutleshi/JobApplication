@@ -11,7 +11,7 @@ import '../style/style.css'
 import {arrowRight2} from 'react-icons-kit/icomoon/arrowRight2'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {fillOpenJobArray } from '../reduxStore/reducers/action'
+import { fillOpenJobArray } from '../reduxStore/reducers/action'
 import { Link } from 'react-router-dom'
 import Loading from '../../loader/components/loader'
 const OpenJobList = () => {
