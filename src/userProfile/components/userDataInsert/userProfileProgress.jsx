@@ -6,7 +6,7 @@ import UserEducation from './userEducation';
 import UserExperience from './userExperience'
 import UserSkills from './userSkills'
 import UserLanguages from './userLanguages'
-import UserCV from './userCV';
+import UserCVPrint from './userCVPrint';
 import '../../style/progressBar.css'
 import {useSelector} from 'react-redux'
 
@@ -61,7 +61,7 @@ const UserProfileProgress = () => {
                         label: 'CV Review',
                         subtitle: '100%',
                         name: 'step 6',
-                        content: <UserCV />
+                        content: <UserCVPrint />
                     }
                 ]}
             />
