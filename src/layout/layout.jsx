@@ -9,11 +9,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
 import { removeModules } from '../modules/reduxStore/action'
+import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
 const Layout = ({ ...props }) => {
 
     const dispatch = useDispatch();
     const logOutStore = bindActionCreators(logOut,dispatch);
     const removeModulesStore = bindActionCreators(removeModules, dispatch);
+    const deleteLanguagesStore = bindActionCreators(deleteLanguages, dispatch);
+    const deleteSkillsStore = bindActionCreators(deleteSkills, dispatch);
+    const deleteEducationsStore = bindActionCreators(deleteEducations, dispatch);
+    const deleteExperiencesStore = bindActionCreators(deleteExperiences, dispatch);
+    const deleteProfileStore = bindActionCreators(deleteProfile, dispatch);
 
     const modulesStore = useSelector((state) => state.module.modules);
     const user = useSelector((state) => state.login.user);
@@ -36,6 +42,11 @@ const Layout = ({ ...props }) => {
         window.location.hash = '/activeJobs';
         logOutStore();
         removeModulesStore();
+        deleteLanguagesStore();
+        deleteSkillsStore();
+        deleteEducationsStore();
+        deleteExperiencesStore();
+        deleteProfileStore();
     }
 
     return (

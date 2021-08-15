@@ -22,7 +22,7 @@ const UserLanguages = () => {
     const user = useSelector((state) => state.login.user);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [id, setId] = useState(userLanguages && userLanguages.length > 0 ? Math.max.apply(Math, userLanguages.map(function (o) { return o.Id + 1; })) : 1);
+    const [id, setId] = useState(userLanguages && userLanguages.length > 0 ? Math.max.apply(Math, userLanguages.map(function (o) { return o.id + 1; })) : 1);
     const [languages, setLanguages] = useState(userLanguages ? userLanguages.length > 0 ? userLanguages : [] : []);
     const [submit, setSubmit] = useState('Add Language');
     const [language, setLanguage] = useState('');
@@ -39,18 +39,18 @@ const UserLanguages = () => {
     const addLanguage = async (e) => {
         e.preventDefault();
         let obj = {
-            Id:0,
-            UserId: user.userId,
-            AplicantProfileId:userProfile.Id,
-            Language:language,
-            KnowledgeLevel:knowledgeLevel,
-            IsActive:1,
-            InsertBy:user.userId
+            id:0,
+            userId: user.userId,
+            aplicantProfileId:userProfile.id,
+            language:language,
+            knowledgeLevel:knowledgeLevel,
+            isActive:1,
+            insertBy:user.userId
         }
         let added = await userProfileController.addLanguage(obj);
         if(added){
             SuccessAlert("Register Successful");
-            obj.Id = added;
+            obj.id = added;
             setId(id + 1);
             languages.push(obj);
             addLanguagesStore(languages);
@@ -59,10 +59,10 @@ const UserLanguages = () => {
     }
 
     const getDataForUpdate = (id) => {
-        let obj = languages.find(l => l.Id === id);
+        let obj = languages.find(l => l.id === id);
         if(obj){
-            setLanguage(obj.Language);
-            setKnowledgeLevel(obj.KnowledgeLevel);
+            setLanguage(obj.language);
+            setKnowledgeLevel(obj.knowledgeLevel);
             setUpdateId(id);
             setSubmit("Update Language");
         }
@@ -71,21 +71,21 @@ const UserLanguages = () => {
     const updateLanguage = async (e) => {
         e.preventDefault();
         let obj = {
-            Id:updateId,
-            UserId: user.userId,
-            AplicantProfileId:userProfile.Id,
-            Language:language,
-            KnowledgeLevel:knowledgeLevel,
-            IsActive:1,
-            UpdateBy:user.userId
+            id:updateId,
+            userId: user.userId,
+            aplicantProfileId:userProfile.id,
+            language:language,
+            knowledgeLevel:knowledgeLevel,
+            isActive:1,
+            updateBy:user.userId
         }
         let updated = await userProfileController.updateLanguage(obj);
         if(updated){
             SuccessAlert("Update Successful");
             languages.forEach(element => {
-                if(element.Id === updateId){
-                    element.Language = obj.Language;
-                    element.KnowledgeLevel = obj.KnowledgeLevel
+                if(element.id === updateId){
+                    element.language = obj.language;
+                    element.knowledgeLevel = obj.knowledgeLevel
                 }
             });
             addLanguagesStore(languages);
@@ -104,11 +104,11 @@ const UserLanguages = () => {
             confirmButtonText: 'Yes, delete it!'
         });
         if(result.isConfirmed){
-            let deleted = await userProfileController.deleteLanguage(userProfile.Id,id);
+            let deleted = await userProfileController.deleteLanguage(userProfile.id,id);
             if(deleted){
                 SuccessAlert("Delete Successful");
                 let result = languages.filter(element => {
-                    return element.Id !== id
+                    return element.id !== id
                 });
                 setLanguages(result);
                 addLanguagesStore(languages);
@@ -131,9 +131,9 @@ const UserLanguages = () => {
                                 <div className="col-sm-12 mb-2" key={key}>
                                     <div className="card">
                                         <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.Language} - {element.KnowledgeLevel}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.Id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteLanguage.bind(this, element.Id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.language} - {element.knowledgeLevel}</h6>
+                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                            <button type="button" onClick={deleteLanguage.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
                                         </div>
                                     </div>
                                 </div>

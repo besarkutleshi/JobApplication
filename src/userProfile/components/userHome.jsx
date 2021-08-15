@@ -22,7 +22,6 @@ const UserHome = () => {
                             <div className="card">
                                 <a class="list-group-item" onClick={() => setComponent('UserProfile')} > 
                                     <Icon icon={profile} size={20} className="mr-3"/> <span> Profile's </span> 
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} />  </span>
                                 </a>
                                 <a class="list-group-item" onClick={() => setComponent('UserExperience')}> 
                                     <Icon icon={ic_work_twotone} size={20} className="mr-3" /> <span> Experience's </span>

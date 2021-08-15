@@ -1,4 +1,4 @@
-import { ADD_EDUCATION } from './action'
+import { ADD_EDUCATION, DELETE_EDUCATION } from './action'
 
 const initalState = {
     userEducations : [] 
@@ -10,6 +10,10 @@ const userEducationReducer = (state = initalState, action) => {
             return{
                 userEducations : action.educations
             };
+        case DELETE_EDUCATION :
+            return{
+                userEducations : []
+            }
         default:
             return state;
     }

@@ -21,12 +21,15 @@ const UserEducation = () => {
     const userEducations = useSelector((state) => state.userEducation.userEducations);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [id, setId] = useState(userEducations && userEducations.length > 0 ? Math.max.apply(Math, userEducations.map(function (o) { return o.Id + 1; })) : 1);
+    const [id, setId] = useState(userEducations && userEducations.length > 0 ? Math.max.apply(Math, userEducations.map(function (o) { return o.id + 1; })) : 1);
     const [educations, setEducations] = useState(userEducations ? userEducations.length > 0 ? userEducations : [] : []);
     const [institution, setInstitution] = useState('');
     const [direction, setDirection] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
     const [onGoing, setOnGoing] = useState(0);
     const [updateId, setUpdateId] = useState(0);
     const [submit, setSubmit] = useState("Add Education");
@@ -38,18 +41,20 @@ const UserEducation = () => {
 
     const addEducation = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
         let obj = {
-            Id: 0,
-            UserId: user.userId,
-            AplicantProfileId: userProfile.Id,
-            Institution: institution,
-            Direction: direction,
-            StartDate: startDate,
-            EndDate: endDate,
-            OnGoing: onGoing,
-            IsActive: 1,
-            InsertBy: user.userId
+            id: 0,
+            userId: user.userId,
+            aplicantProfileId: userProfile.id,
+            institution: institution,
+            direction: direction,
+            startDate: startDate,
+            endDate: endDate,
+            onGoing: onGoing,
+            address:address,
+            city:city,
+            country:country,
+            isActive: 1,
+            insertBy: user.userId
         }
         let added = await userProfileController.addEducation(obj);
         if (added) {
@@ -60,7 +65,6 @@ const UserEducation = () => {
             SuccessAlert("Register Successful");
             clearAttributes();
         }
-        setIsLoading(false);
     }
 
     const clearAttributes = () => {
@@ -68,44 +72,53 @@ const UserEducation = () => {
         setDirection('');
         setStartDate('');
         setEndDate('');
+        setAddress('');
+        setCity('');
+        setCountry('');
         setOnGoing(0);
         setSubmit("Update Education");
     }
 
     const getDataForUpdate = (id) => {
-        let obj = educations.find(e => e.Id === id);
+        let obj = educations.find(e => e.id === id);
         setUpdateId(id);
-        setInstitution(obj.Institution);
-        setDirection(obj.Direction);
-        setStartDate(obj.StartDate);
-        setEndDate(obj.EndDate);
-        setOnGoing(obj.OnGoing);
+        setInstitution(obj.institution);
+        setDirection(obj.direction);
+        setStartDate(obj.startDate.split('T')[0]);
+        setEndDate(obj.endDate.split('T')[0]);
+        setOnGoing(obj.onGoing);
+        setAddress(obj.address);
+        setCity(obj.city);
+        setCountry(obj.country);
         setSubmit("Update Education");
     }
 
     const updateData = async (e) => {
         e.preventDefault();
         let obj = {
-            Id: updateId,
-            UserId: user.userId,
-            AplicantProfileId: userProfile.Id,
-            Institution: institution,
-            Direction: direction,
-            StartDate: startDate,
-            EndDate: endDate,
-            OnGoing: onGoing,
-            IsActive: 1,
-            UpdateBy: user.userId
+            id: updateId,
+            userId: user.userId,
+            aplicantProfileId: userProfile.id,
+            institution: institution,
+            direction: direction,
+            startDate: startDate,
+            endDate: endDate,
+            onGoing: onGoing,
+            address:address,
+            city:city,
+            country:country,
+            isActive: 1,
+            updateBy: user.userId
         }
         let updated = await userProfileController.updateEducation(obj);
         if (updated) {
             educations.forEach(element => {
-                if (element.Id === updateId) {
-                    element.Institution = obj.Institution;
-                    element.Direction = obj.Direction;
-                    element.StartDate = obj.StartDate;
-                    element.EndDate = obj.EndDate;
-                    element.OnGoing = obj.OnGoing;
+                if (element.id === updateId) {
+                    element.institution = obj.institution;
+                    element.direction = obj.direction;
+                    element.startDate = obj.startDate;
+                    element.endDate = obj.endDate;
+                    element.onGoing = obj.onGoing;
                 }
             });
             SuccessAlert("Update Successful");
@@ -126,11 +139,11 @@ const UserEducation = () => {
             confirmButtonText: 'Yes, delete it!'
         });
         if (result.isConfirmed) {
-            let deleted = await userProfileController.deleteEducation(userProfile.Id, id);
+            let deleted = await userProfileController.deleteEducation(userProfile.id, id);
             if (deleted) {
                 SuccessAlert("Delete Successful");
                 let result = educations.filter(element => {
-                    return element.Id !== id;
+                    return element.id !== id;
                 });
                 setEducations(result);
                 addEducationStore(result);
@@ -154,9 +167,9 @@ const UserEducation = () => {
                                 <div className="col-sm-12 mb-2" key={key}>
                                     <div className="card">
                                         <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.Institution}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.Id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteData.bind(this, element.Id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.institution} - {element.direction}</h6>
+                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                            <button type="button" onClick={deleteData.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
                                         </div>
                                     </div>
                                 </div>
@@ -177,6 +190,23 @@ const UserEducation = () => {
                                 <label htmlFor="">Diploma</label>
                                 <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                 <input type="text" className="form-control" value={direction} onChange={(e) => setDirection(e.target.value)} required />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-4 mb-2">
+                                <label htmlFor="">Address</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                            </div>
+                            <div className="col-sm-4 mb-2">
+                                <label htmlFor="">City</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} required />
+                            </div>
+                            <div className="col-sm-4 mb-2">
+                                <label htmlFor="">Country</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <input type="text" className="form-control" value={country} onChange={(e) => setCountry(e.target.value)} required />
                             </div>
                         </div>
                         <div className="row">

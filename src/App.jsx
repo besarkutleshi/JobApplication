@@ -23,7 +23,7 @@ import Header from './layout/header';
 import ActiveJobDetails from './openjobs/components/activeJobDetails';
 import UserHome from './userProfile/components/userHome';
 import ApplyJob from './applications/components/applyJob';
-import UserData from './userProfile/components/userDataInsert/userProfileProgress'
+import UserProfileProgress from './userProfile/components/userDataInsert/userProfileProgress'
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
@@ -40,7 +40,7 @@ const Demo = () => {
                 <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}   />
                 <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
                 <ProtectedRoute path="/apply/:jobId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/createProfile/:userId" exact strict layout={Header} component={UserData} auth={"true"} /> {/* duhet me bo authorize qit route */}
+                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={"true"} /> {/* duhet me bo authorize qit route */}
                 <Route path="/login/:urlRoute/:parameter?" exact strict render={
                     ({match}) => {
                         const parameter = match.params.parameter;

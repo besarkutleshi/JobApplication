@@ -5,31 +5,42 @@ import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
 import { useEffect } from 'react'
+import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
 
 const Header = ({ ...props }) => {
 
 
     const dispatch = useDispatch();
-    const logOutStore = bindActionCreators(logOut,dispatch);
+    const logOutStore = bindActionCreators(logOut, dispatch);
+    const deleteLanguagesStore = bindActionCreators(deleteLanguages, dispatch);
+    const deleteSkillsStore = bindActionCreators(deleteSkills, dispatch);
+    const deleteEducationsStore = bindActionCreators(deleteEducations, dispatch);
+    const deleteExperiencesStore = bindActionCreators(deleteExperiences, dispatch);
+    const deleteProfileStore = bindActionCreators(deleteProfile, dispatch);
     const user = useSelector((state) => state.login.user);
 
     useEffect(() => {
         const changeCss = () => {
             let next = document.querySelector("#root > div > div > div._3uApM > a._2pGos._hsN1w");
-            if(next){
+            if (next) {
                 next.style.color = "white";
             }
             let previous = document.querySelector("#root > div > div > div._3uApM");
-            if(previous){
+            if (previous) {
                 previous.style.color = "black";
             }
         }
         changeCss();
     })
-    
+
     const logOutUser = () => {
         window.location.hash = '/';
         logOutStore();
+        deleteLanguagesStore();
+        deleteSkillsStore();
+        deleteEducationsStore();
+        deleteExperiencesStore();
+        deleteProfileStore();
     }
 
     return (
@@ -52,7 +63,7 @@ const Header = ({ ...props }) => {
                                 <ul class="navbar-nav ml-auto mr-md-3">
                                     <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link">Home</a></li>
                                     {
-                                        user.token ? <li class="nav-item"> <a onClick={logOutUser} className="nav-link">Log Out</a></li> : <li class="nav-item"><a href="/#/login" class="nav-link">Login</a></li>
+                                        user.token ? <div> <li class="nav-item"> <a href="/#/userHome"> My Profile </a></li>  <li class="nav-item"> <a onClick={logOutUser} className="nav-link">Log Out</a></li> </div> : <li class="nav-item"><a href="/#/login" class="nav-link">Login</a></li>
                                     }
                                 </ul>
                             </div>

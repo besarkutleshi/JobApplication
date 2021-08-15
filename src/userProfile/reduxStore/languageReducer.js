@@ -1,5 +1,6 @@
 import {
-    ADD_LANGUAGE
+    ADD_LANGUAGE,
+    DELETE_LANGUAGE
 } from './action'
 
 const initialState = {
@@ -11,6 +12,10 @@ const userLanguagesReducer = (state = initialState, action) => {
         case ADD_LANGUAGE:
             return {
                 userLanguages: action.languages
+            };
+        case DELETE_LANGUAGE:
+            return {
+                userLanguages: []
             };
         default:
             return state;

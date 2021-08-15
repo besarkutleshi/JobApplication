@@ -1,5 +1,6 @@
 import {
-    ADD_SKILLS
+    ADD_SKILLS,
+    DELETE_SKILLS
 } from './action'
 
 const initialState = {
@@ -12,6 +13,10 @@ const userSkillsReducer = (state = initialState, action) => {
             return {
                 userSkills: action.skills
             };
+        case DELETE_SKILLS:
+            return{
+                userSkills: []
+            }
         default:
             return state;
     }

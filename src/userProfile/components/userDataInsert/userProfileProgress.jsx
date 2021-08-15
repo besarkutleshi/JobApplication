@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import StepProgressBar from 'react-step-progress';
 import 'react-step-progress/dist/index.css';
 import UserProfile from './userProfile'
@@ -6,25 +6,13 @@ import UserEducation from './userEducation';
 import UserExperience from './userExperience'
 import UserSkills from './userSkills'
 import UserLanguages from './userLanguages'
+import UserCV from './userCV';
 import '../../style/progressBar.css'
+import {useSelector} from 'react-redux'
 
 const UserProfileProgress = () => {
 
-    const [component, setComponent] = useState('Personal Information');
-
-    const workExperience = () => {
-        setComponent("Work Experience")
-        return true;
-    }
-
-    const step2Validator = () => {
-        setComponent("Work Experience")
-        return true;
-    }
-
-    const step3Validator = () => {
-        return true;
-    }
+    const profile = useSelector((state) => state.profile.profile)
 
     const onFormSubmit = () => {
         alert('success')
@@ -32,17 +20,6 @@ const UserProfileProgress = () => {
 
     return (
         <div style={{marginTop:"-70px"}}>
-            <br />
-            {/* <div className="row">
-                <div className="d-flex flex-row bd-highlight mb-3 justify-content-between">
-                    <div>
-                        <h4 className="text-muted lead p-3 pr-5" style={{ border: '1px solid gray' }}><b>Reporting Analystic</b></h4>
-                    </div>
-                    <div style={{ borderLeft: "1px solid black" }}>
-                        <img src={kedsLogo} className="p-3" alt="" />
-                    </div>
-                </div>
-            </div> */}
             <br />
             <StepProgressBar
                 startingStep={0}
@@ -54,29 +31,25 @@ const UserProfileProgress = () => {
                         subtitle: '20%',
                         name: 'step 1',
                         state:"CURRENT",
-                        content: <UserProfile />,
-                        validator: workExperience,
+                        content: <UserProfile />
                     },
                     {
                         label: 'Work Experience',
                         subtitle: '40%',
                         name: 'step 2',
-                        content: <UserExperience />,
-                        validator: step2Validator,
+                        content: <UserExperience />
                     },
                     {
                         label: 'Education',
                         subtitle: '60%',
                         name: 'step 3',
-                        content: <UserEducation />,
-                        validator: step3Validator
+                        content: <UserEducation />
                     },
                     {
                         label: 'Skills',
                         subtitle: '85%',
                         name: 'step 4',
-                        content: <UserSkills />,
-                        validator: step3Validator
+                        content: <UserSkills />
                     },
                     {
                         label: 'Languages',
@@ -88,6 +61,7 @@ const UserProfileProgress = () => {
                         label: 'CV Review',
                         subtitle: '100%',
                         name: 'step 6',
+                        content: <UserCV />
                     }
                 ]}
             />

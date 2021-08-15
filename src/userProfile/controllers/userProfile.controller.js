@@ -15,7 +15,7 @@ class UserProfileController {
     updateProfile = async (obj) => {
         try {
             let created = await axios.put(helper.url + 'applicants/',obj);
-            return created.data;
+            return created.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
         }

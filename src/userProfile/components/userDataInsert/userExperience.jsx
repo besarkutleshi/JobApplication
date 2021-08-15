@@ -22,7 +22,7 @@ const UserExperience = () => {
     const user = useSelector((state) => state.login.user);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [id, setId] = useState(userExperiences && userExperiences.length > 0 ? Math.max.apply(Math, userExperiences.map(function (o) { return o.Id + 1; })) : 1);
+    const [id, setId] = useState(userExperiences && userExperiences.length > 0 ? Math.max.apply(Math, userExperiences.map(function (o) { return o.id + 1; })) : 1);
     const [experiences, setExperiences] = useState(userExperiences ? userExperiences.length > 0 ? userExperiences : [] : []);
     const [submit, setSubmit] = useState("Add Experience");
     const [institution, setInstitution] = useState('');
@@ -32,6 +32,7 @@ const UserExperience = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [onGoing, setOnGoing] = useState(0);
+    const [description, setDescription] = useState('');
     const [updateId, setUpdateId] = useState(0);
 
     const getOnGoingValue = (checked) => {
@@ -46,79 +47,81 @@ const UserExperience = () => {
         setStartDate('');
         setEndDate('');
         setOnGoing(0);
+        setDescription('');
         setSubmit("Add Experience");
     }
 
     const addExperience = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
         let obj = {
-            Id:0,
-            UserId: user.userId,
-            ApplicantProfileId: userProfile.Id,
-            Institution: institution,
-            Position: position,
-            City: city,
-            Country: country,
-            StartDate: startDate,
-            EndDate: endDate,
-            OnGoing: onGoing,
-            IsActive: 1,
-            InsertBy: user.userId
+            id:0,
+            userId: user.userId,
+            applicantProfileId: userProfile.id,
+            institution: institution,
+            position: position,
+            city: city,
+            country: country,
+            startDate: startDate,
+            endDate: endDate,
+            onGoing: onGoing,
+            description:description,
+            isActive: 1,
+            insertBy: user.userId
         }
         let added = await userProfileController.addExperience(obj);
         if(added){
-            obj.Id = added;
+            obj.id = added;
             setId(id + 1);
             experiences.push(obj);
             addExperiencesStore(experiences);
             SuccessAlert("Register Successful");
             clearAttributes();
         }
-        setIsLoading(false);
     }
 
     const getDataForUpdate = (id) => {
-        let obj = experiences.find(e => e.Id === id);
+        let obj = experiences.find(e => e.id === id);
         setUpdateId(id);
-        setInstitution(obj.Institution);
-        setPosition(obj.Position);
-        setCity(obj.City);
-        setCountry(obj.Country);
-        setStartDate(obj.StartDate);
-        setEndDate(obj.EndDate);
-        setOnGoing(obj.OnGoing);
+        setInstitution(obj.institution);
+        setPosition(obj.position);
+        setCity(obj.city);
+        setCountry(obj.country);
+        setStartDate(obj.startDate.split('T')[0]);
+        setEndDate(obj.endDate.split('T')[0]);
+        setOnGoing(obj.onGoing);
+        setDescription(obj.description);
         setSubmit("Update Experience");
     }
 
     const updateExperience = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
         let obj = {
-            Id:updateId,
-            UserId: user.userId,
-            ApplicantProfileId: userProfile.Id,
-            Institution: institution,
-            Position: position,
-            City: city,
-            Country: country,
-            StartDate: startDate,
-            EndDate: endDate,
-            OnGoing: onGoing,
-            IsActive: 1,
-            UpdateBy: user.userId
+            id:updateId,
+            userId: user.userId,
+            applicantProfileId: userProfile.id,
+            institution: institution,
+            position: position,
+            city: city,
+            country: country,
+            startDate: startDate,
+            endDate: endDate,
+            onGoing: onGoing,
+            description:description,
+            isActive: 1,
+            updateBy: user.userId
         }
         let updated = await userProfileController.updateExperience(obj);
         if(updated){
             experiences.forEach(element => {
                 if(element.Id === updateId){
-                    element.Institution = obj.Institution;
-                    element.Position = obj.Position;
-                    element.City = obj.City;
-                    element.Country = obj.Country;
-                    element.StartDate = obj.StartDate;
-                    element.EndDate = obj.EndDate;
-                    element.OnGoing = obj.OnGoing;
+                    element.institution = obj.institution;
+                    element.position = obj.position;
+                    element.city = obj.city;
+                    element.country = obj.country;
+                    element.startDate = obj.startDate;
+                    element.endDate = obj.endDate;
+                    element.onGoing = obj.onGoing;
+                    element.description = obj.description;
                 }
             });
             SuccessAlert("Update Successful");
@@ -139,10 +142,10 @@ const UserExperience = () => {
             confirmButtonText: 'Yes, delete it!'
         });
         if(result.isConfirmed){
-            let deleted = await userProfileController.deleteExperience(userProfile.Id,id);
+            let deleted = await userProfileController.deleteExperience(userProfile.id,id);
             if(deleted){
                 let result = experiences.filter(element => {
-                    return element.Id !== id;
+                    return element.id !== id;
                 });
                 SuccessAlert("Delete Successful");
                 setExperiences(result);
@@ -167,9 +170,9 @@ const UserExperience = () => {
                                 <div className="col-sm-12 mb-2" key={key}>
                                     <div className="card">
                                         <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight"> {element.Position} - {element.Institution}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.Id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteExperience.bind(this, element.Id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight"> {element.position} - {element.institution}</h6>
+                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                            <button type="button" onClick={deleteExperience.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
                                         </div>
                                     </div>
                                 </div>
@@ -216,6 +219,13 @@ const UserExperience = () => {
                             <div className="col-sm-3 mb-2" style={{ marginTop: "40px" }}>
                                 <label htmlFor="">On Going</label>
                                 <Switch checked={onGoing === 1 ? true : false} onChange={getOnGoingValue} className="ml-5"></Switch>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <label htmlFor="">Main Responsibilites</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" rows="10" required></textarea>
                             </div>
                         </div>
                         <br />

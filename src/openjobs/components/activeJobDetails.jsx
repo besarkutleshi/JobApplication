@@ -41,7 +41,8 @@ const ActiveJobDetails = ({ ...props }) => {
                     window.location.hash = `/apply/${openJobID}`
                     return;
                 }
-                window.location.hash = "/createProfile/:userId"
+                window.location.hash = `/createProfile`;
+                return;
             }
         }
         window.location.hash = `/login/activeJobDetails/${openJobID}`;

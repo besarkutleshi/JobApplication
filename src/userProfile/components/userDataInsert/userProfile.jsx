@@ -14,46 +14,60 @@ import { bindActionCreators } from 'redux';
 import { addProfile } from '../../reduxStore/action'
 import { ic_delete_sweep } from 'react-icons-kit/md/ic_delete_sweep'
 import { ic_file_download_done } from 'react-icons-kit/md/ic_file_download_done'
-const UserData = () => {
+import { useEffect } from 'react';
+
+const UserData = ({ submitText = null }) => {
 
     const dispatch = useDispatch();
     const addProfileStore = bindActionCreators(addProfile, dispatch);
     const user = useSelector((state) => state.login.user);
+    const profile = useSelector((state) => state.profile.profile)
 
     const [isLoading, setIsLoading] = useState(false);
-    const [id, setId] = useState(0);
+    const [id, setId] = useState(profile ? profile.id ? profile.id : 0 : 0);
     const [photo, setPhoto] = useState();
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [personalNumber, setPersonalNumber] = useState('');
-    const [birthdate, setBirthdate] = useState('');
-    const [birthPlace, setBirthPlace] = useState('');
-    const [birthNationality, setBirthNationality] = useState('');
-    const [currentNationality, setCurrentNationality] = useState('');
-    const [gender, setGender] = useState('');
-    const [permanentAddress, setPermanentAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [permanentEmail, setPermantentEmail] = useState('');
+    const [name, setName] = useState(profile ? profile.name ? profile.name : '' : '');
+    const [surname, setSurname] = useState(profile ? profile.surname ? profile.surname : '' : '');
+    const [middleName, setMiddleName] = useState(profile ? profile.middleName ? profile.middleName : '' : '');
+    const [personalNumber, setPersonalNumber] = useState(profile ? profile.personalNumber ? profile.personalNumber : '' : '');
+    const [birthdate, setBirthdate] = useState(profile ? profile.birthDate ? profile.birthDate : '' : '');
+    const [birthPlace, setBirthPlace] = useState(profile ? profile.birthPlace ? profile.birthPlace : '' : '');
+    const [birthNationality, setBirthNationality] = useState(profile ? profile.birthCountry ? profile.birthCountry : '' : '');
+    const [currentNationality, setCurrentNationality] = useState(profile ? profile.currentCountry ? profile.currentCountry : '' : '');
+    const [gender, setGender] = useState(profile ? profile.gender ? profile.gender : '' : '');
+    const [permanentAddress, setPermanentAddress] = useState(profile ? profile.address ? profile.address : '' : '');
+    const [phoneNumber, setPhoneNumber] = useState(profile ? profile.phone ? profile.phone : '' : '');
+    const [permanentEmail, setPermantentEmail] = useState(profile ? profile.email ? profile.email : '' : '');
     const [submit, setSubmit] = useState('Add Profile Data');
+
+    useEffect(() => {
+        const submitMessage = () => {
+            if(name.length > 0){
+                setSubmit("Update Profile Data");
+            }
+        }
+        submitMessage();
+    },[]);
 
     const createProfile = async (e) => {
         e.preventDefault();
         let obj = {
-            Id: 0,
-            UserId: 1,
-            Name: name,
-            Surname: surname,
-            MiddleName: middleName,
-            PersonalNumber: personalNumber,
-            BirthDate: birthdate,
-            BirthPlace: birthPlace,
-            CurrentCountry: currentNationality,
-            BirthCountry: birthNationality,
-            Email: permanentEmail,
-            Phone: phoneNumber,
-            Gender: gender,
-            InsertBy: user.id
+            id: 0,
+            userId: user.userId,
+            name: name,
+            surname: surname,
+            middleName: middleName,
+            personalNumber: personalNumber,
+            birthDate: birthdate,
+            birthPlace: birthPlace,
+            currentCountry: currentNationality,
+            birthCountry: birthNationality,
+            address:permanentAddress,
+            email: permanentEmail,
+            phone: phoneNumber,
+            gender: gender,
+            isActive : 1,
+            insertBy: user.id
         };
         let created = await userProfileController.createProfile(obj);
         if (created > 0) {
@@ -62,7 +76,7 @@ const UserData = () => {
             // formData.append("FileName",photo.name);
             // formData.append("ProfileId",created);
             // let inserted = await userProfileController.insertImage(formData);
-            obj.Id = created;
+            obj.id = created;
             SuccessAlert('Registered Successful');
             addProfileStore(obj);
             setSubmit("Update Profile Data");
@@ -90,22 +104,26 @@ const UserData = () => {
     const updateProfile = async (e) => {
         e.preventDefault();
         let obj = {
-            Id: id,
-            UserId: 1,
-            Name: name,
-            Surname: surname,
-            MiddleName: middleName,
-            PersonalNumber: personalNumber,
-            BirthDate: birthdate,
-            BirthPlace: birthPlace,
-            CurrentCountry: currentNationality,
-            BirthCountry: birthNationality,
-            Email: permanentEmail,
-            Phone: phoneNumber,
-            Gender: gender
+            id: id,
+            userId: user.userId,
+            name: name,
+            surname: surname,
+            middleName: middleName,
+            personalNumber: personalNumber,
+            birthDate: birthdate,
+            birthPlace: birthPlace,
+            currentCountry: currentNationality,
+            birthCountry: birthNationality,
+            address:permanentAddress,
+            email: permanentEmail,
+            phone: phoneNumber,
+            gender: gender,
+            isActive:1,
+            updateBy:user.userId
         }
         let created = await userProfileController.updateProfile(obj);
-        if (created > 0) {
+        console.log(created);
+        if (created) {
             SuccessAlert('Update Successful');
             addProfileStore(obj);
         }

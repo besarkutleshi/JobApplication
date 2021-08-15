@@ -1,4 +1,4 @@
-import { ADD_EXPERIENCE } from './action'
+import { ADD_EXPERIENCE, DELETE_EXPERIENCE } from './action'
 
 const initalState = {
     userExperiences : [] 
@@ -10,6 +10,10 @@ const userExperiencesReducer = (state = initalState, action) => {
             return{
                 userExperiences : action.experiences
             };
+        case DELETE_EXPERIENCE:
+            return{
+                userExperiences : []
+            }
         default:
             return state;
     }

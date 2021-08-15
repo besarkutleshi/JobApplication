@@ -13,13 +13,18 @@ import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
 import helper from '../../helpers/helper'
-
+import { addEducations,addExperiences,addLanguages,addProfile,addSkills } from '../../userProfile/reduxStore/action'
 
 const Login = ({ urlRoute = null ,parameter = null }) => {
 
     const dispatch = useDispatch();
     const addLogin = bindActionCreators(login,dispatch);
     const addModulesStore = bindActionCreators(addModules,dispatch);
+    const addEducationsStore = bindActionCreators(addEducations,dispatch);
+    const addExperiencesStore = bindActionCreators(addExperiences,dispatch);
+    const addLanguagesStore = bindActionCreators(addLanguages,dispatch);
+    const addProfileStore = bindActionCreators(addProfile,dispatch);
+    const addSkillsStore = bindActionCreators(addSkills,dispatch);
     
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('besar.kutleshi@keds-energy.com');
@@ -31,10 +36,37 @@ const Login = ({ urlRoute = null ,parameter = null }) => {
         setIsLoading(true);
         let obj = {Username:username, Password:password};
         let login = await authenticationController.login(obj);
+        console.log(login);
         setIsLoading(false);
         if(login.username){
             addLogin(login);
             addModulesStore(login.modules);
+            addEducationsStore(login.profile.applicantEducations);
+            addExperiencesStore(login.profile.applicantWorkExperiences);
+            addLanguagesStore(login.profile.applicantLanguages);
+            addSkillsStore(login.profile.applicantSkills);
+            let profile = {
+                birthCountry : login.profile.birthCountry,
+                birthDate : login.profile.birthDate,
+                birthPlace: login.profile.birthPlace,
+                currentCountry:login.profile.currentCountry,
+                description:login.profile.description,
+                email:login.profile.email,
+                gender:login.profile.gender,
+                id: login.profile.id,
+                insertDate: login.profile.insertDate,
+                isActive: login.profile.isActive,
+                middleName: login.profile.middleName,
+                name: login.profile.name,
+                personalNumber: login.profile.personalNumber,
+                phone: login.profile.phone,
+                photo: login.profile.photo,
+                status: login.profile.status,
+                surname: login.profile.surname,
+                userId: login.userId,
+                address: login.profile.address
+            }
+            addProfileStore(profile);
             if(helper.validUsername(username)){
                 if(urlRoute != null && parameter != null){
                     window.location.hash = `/${urlRoute}/${parameter}`;
