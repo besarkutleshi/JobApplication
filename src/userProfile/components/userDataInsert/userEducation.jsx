@@ -119,6 +119,9 @@ const UserEducation = () => {
                     element.startDate = obj.startDate;
                     element.endDate = obj.endDate;
                     element.onGoing = obj.onGoing;
+                    element.address = obj.address;
+                    element.city = obj.city;
+                    element.country = obj.country;
                 }
             });
             SuccessAlert("Update Successful");

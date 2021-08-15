@@ -123,6 +123,37 @@ const UserSkills = () => {
     else {
         return (
             <div className="container-fluid">
+            <div className="card p-4">
+                <form onSubmit={submit === "Add Skill" ? addSkills : updateSkills}>
+                    <div className="row">
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Skill </label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={skill} onChange={(e) => setSkill(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Knowledge Level</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <select value={knowledgeLevel} onChange={(e) => setKnowledgeLevel(e.target.value)} className="form-select" required>
+                                <option value="">Not Selected</option>
+                                <option value="Novice">Novice</option>
+                                <option value="Advanced Beginner">Advanced Beginner</option>
+                                <option value="Competent">Competent</option>
+                                <option value="Proficient">Proficient</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="col-sm-12 d-flex justify-content-between">
+                            <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
+                            <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br />
                 <div className="row">
                     {
                         skills.map((element, key) => {
@@ -139,37 +170,6 @@ const UserSkills = () => {
                             )
                         })
                     }
-                </div>
-                <br />
-                <div className="card p-4">
-                    <form onSubmit={submit === "Add Skill" ? addSkills : updateSkills}>
-                        <div className="row">
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Skill </label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={skill} onChange={(e) => setSkill(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Knowledge Level</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <select value={knowledgeLevel} onChange={(e) => setKnowledgeLevel(e.target.value)} className="form-select" required>
-                                    <option value="">Not Selected</option>
-                                    <option value="Novice">Novice</option>
-                                    <option value="Advanced Beginner">Advanced Beginner</option>
-                                    <option value="Competent">Competent</option>
-                                    <option value="Proficient">Proficient</option>
-                                    <option value="Expert">Expert</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-sm-12 d-flex justify-content-between">
-                                <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
-                                <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         )
