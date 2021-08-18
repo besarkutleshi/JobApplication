@@ -39,7 +39,6 @@ const Layout = ({ ...props }) => {
     })
 
     const logOutUser = () => {
-        window.location.hash = '/activeJobs';
         logOutStore();
         removeModulesStore();
         deleteLanguagesStore();
@@ -47,6 +46,7 @@ const Layout = ({ ...props }) => {
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
+        window.location.hash = '/';
     }
 
     return (
@@ -107,7 +107,7 @@ const Layout = ({ ...props }) => {
                                                 <a id="" className="dropdown-item"><img src={albanianFlag} width="25px" height="20px" /> <span id="albania" className="ml-2"> Albania</span></a>
                                                 <a id="" className="dropdown-item"><img src={englandFlag} width="25px" height="20px" /><span id="english" className="ml-2"> English</span></a>
                                                 <hr />
-                                                <a id="" onClick={logOutUser} className="dropdown-item" href="/"> <Icon icon={ic_logout} size={20} className="ml-1" /> <span id="logoutbro" className="ml-2"> Log Out</span></a>
+                                                <a onClick={logOutUser} className="dropdown-item"> <Icon icon={ic_logout} size={20} className="ml-1" /> <span id="logoutbro" className="ml-2"> Log Out</span></a>
                                             </div>
                                         </li>
                                     </ul>

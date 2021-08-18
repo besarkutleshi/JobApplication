@@ -9,10 +9,11 @@ import userEducationReducer from '../userProfile/reduxStore/educationReducer'
 import userExperiencesReducer from '../userProfile/reduxStore/experienceReducer'
 import userSkillReducer from '../userProfile/reduxStore/skillsReducer'
 import userLanguagesReducer from '../userProfile/reduxStore/languageReducer'
+import questionReducer from '../applications/reduxStore/questionReducer'
 
 const rootReducer = combineReducers({openJobs : openJobReducer, jobResponsibility:jobResponsibilitesReducer, 
     jobRequirement: jobRequirementReducer, login:loginReducer, module: moduleReducer, profile:profileReducer, userEducation:userEducationReducer,
-    userExperience:   userExperiencesReducer, userSkills:userSkillReducer, userLanguages:userLanguagesReducer
+    userExperience:   userExperiencesReducer, userSkills:userSkillReducer, userLanguages:userLanguagesReducer, applicantQuestions : questionReducer
 });
 
 export default rootReducer;

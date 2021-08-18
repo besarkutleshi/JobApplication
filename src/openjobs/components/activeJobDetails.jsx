@@ -34,11 +34,10 @@ const ActiveJobDetails = ({ ...props }) => {
 
 
     const redirectToApplyPage = () => {
-        console.log(user);
         if(user){
             if(user.token){
                 if(user.profile){
-                    window.location.hash = `/apply/${openJobID}`
+                    window.location.hash = `/apply/${openJobID}/1`
                     return;
                 }
                 window.location.hash = `/createProfile`;

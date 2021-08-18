@@ -22,7 +22,7 @@ const SavePreview = () => {
     else {
         return (
             <div className="container-fluid">
-                <br /><br /><br />
+                <br />
                 <div className="row">
                     <div className="col-sm-4">
                         <div className="row">

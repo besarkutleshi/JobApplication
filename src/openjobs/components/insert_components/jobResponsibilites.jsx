@@ -63,8 +63,6 @@ const JobResponsibilites = () => {
     return (
         <div className="container-fluid">
         <br />
-        <br />
-        <br />
             <div className="card p-4">
                 <div className="row">
                     <div className="col-sm-12">

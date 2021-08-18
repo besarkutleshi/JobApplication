@@ -4,42 +4,48 @@ import Icon from 'react-icons-kit'
 import {check} from 'react-icons-kit/fa/check'
 import { useSelector } from 'react-redux'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
-
+import ApplicationQuestions from './applicationQuestions';
+import {check as conditions} from 'react-icons-kit/iconic/check'
+import ErrorAlert from '../../alerts/components/errorAlert'
+import applicationController from '../controllers/application.controller';
+import SuccessAlert from '../../alerts/components/successAlert'
 const ApplyJob = ({...props}) => {
 
-    const openJobsStore = useSelector((state) => state.openJobs.openJobs);
+    const [idJob, setIdJob] = useState(props.match.params.jobId);
+    const [applicationTypeId, setapplicationTypeId] = useState(props.match.params.applicationTypeId);
     const user = useSelector((state) => state.login.user);
-    console.log(user);
-
-    const [jobId, setJobId] = useState(props.match.params.jobId);
+    const profile = useSelector((state) => state.profile.profile);
+    const aplicantQuestions = useSelector((state) => state.applicantQuestions.questions);
     const [responsiblity, setResponsibility] = useState(false);
     const [savePersonalData, setSavePersonalData] = useState(false);
-    const [job, setJob] = useState('');
 
-    useEffect(() => {
-        let job = openJobsStore.find(o => parseInt(o.id) === parseInt(jobId));
-        setJob(job);
-    },[])
+
+    const createProfile = async () => {
+        if(responsiblity && savePersonalData){
+            let obj = {id:0,userId:user.userId,aplicantProfileId:profile.id,openJobId:idJob,applicationTypeId:applicationTypeId,aplicantQuestions:aplicantQuestions};
+            let created = await applicationController.createApplication(obj);
+            if(created > 1){
+                SuccessAlert("Application send successful.");
+                return;
+            }
+            ErrorAlert("Application does not send successful!");
+        }
+        else{
+            ErrorAlert("Please read check conditions");
+        }
+    }
 
     return(
         <div className="container card p-4">
-            <div className="row d-flex justify-content-center">
-                <div className="col-sm-5 p-5 card">
-                    <div className="d-flex justify-content-between">
-                        {job.openJobName}
-                        <a className="text-info" href={`/#/activeJobDetails/${job.id}`}> Details </a>
-                    </div>
-                </div>
-                <div className="col-sm-5 p-5 card ml-2">
-                    {job.openJobName}
+            <ApplicationQuestions applicationTypeId={1} />
+            <hr />
+            <div className="row p-2">
+                <div className="col-sm-12 ml-4">
+                    <Icon size={30} icon={conditions} /> <span className="ml-4">Check Conditions</span>
                 </div>
             </div>
             <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <div className="row">
+            <div className="row p-2">
                 <div className="col-sm-12 mb-5">
                     <Checkbox checked={responsiblity} onChange={(e) => setResponsibility(e.target.checked)} >
                         <h5>
@@ -67,7 +73,7 @@ const ApplyJob = ({...props}) => {
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
                     <button className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </button>
-                    <button className="btn btn-info"> <Icon icon={check} /> Apply </button>
+                    <button onClick={createProfile} className="btn btn-info"> <Icon icon={check} /> Apply </button>
                 </div>
             </div>
         </div>

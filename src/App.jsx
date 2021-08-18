@@ -12,7 +12,7 @@ import Login from './authentication/components/login';
 import Layout from './layout/layout';
 import ProtectedRoute from './protectRoute'
 import { useSelector } from 'react-redux'
-import NotAuthorization from './errorComponents/components/notAuthorization';
+import NotAuthorization from './error/components/notAuthorization';
 import RegisterUser from './authentication/components/registerUser'
 import EmailConfirmation from './alerts/components/emailConfirmation';
 import ForgotPassword from './authentication/components/forgotPassword';
@@ -22,14 +22,14 @@ import ActiveOpenJobs from './openjobs/components/activeJobs'
 import Header from './layout/header';
 import ActiveJobDetails from './openjobs/components/activeJobDetails';
 import UserHome from './userProfile/components/userHome';
-import ApplyJob from './applications/components/applyJob';
 import UserProfileProgress from './userProfile/components/userDataInsert/userProfileProgress'
+import ApplyJob from './applications/components/applyJob';
+
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
     const user = useSelector((state) => state.login.user);
     const modulesStore = useSelector((state) => state.module.modules);
-    const [modules, setModules] = useState(modulesStore ? modulesStore.length > 0 ? modulesStore : [] : []);
 
     const routes = modulesStore.map((element,key) => element.menus.map((menu, menuKey) => <ProtectedRoute path={`${menu.url}`} layout={Layout} 
                                     component={componentsMap[`${menu.menuName}`]} auth={user ? user.token ? "true" : "false" : "false"}   />))
@@ -37,10 +37,10 @@ const Demo = () => {
     return (
         <div>
             <Router>
-                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}   />
+                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
                 <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
-                <ProtectedRoute path="/apply/:jobId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={"true"} /> {/* duhet me bo authorize qit route */}
+                <ProtectedRoute path="/apply/:jobId/:applicationTypeId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} /> {/* duhet me bo authorize qit route */}
                 <Route path="/login/:urlRoute/:parameter?" exact strict render={
                     ({match}) => {
                         const parameter = match.params.parameter;
@@ -65,14 +65,6 @@ const Demo = () => {
                 {
                     routes
                 }
-                {/* <ProtectedRoute path="/openJobs" layout={Layout} component={componentsMap['OpenJobList']} 
-                    auth={user ? user.token != "" ? "true" : "false" : "false"}  />
-                <ProtectedRoute path="/openJobDetail/:openJobID" layout={Layout} component={componentsMap['OpenJobDetails']}  
-                    auth={user ? user.token != "" ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/insertJob" layout={Layout} component={componentsMap['InsertJob']}  
-                    auth={user ? user.token != "" ? "true" : "false" : "false"}/>
-                <ProtectedRoute path="/editJob/:openJobID" layout={Layout} component={componentsMap['EditOpenJobProgress']}  
-                    auth={user ? user.token != "" ? "true" : "false" : "false"} /> */}
             </Router>
         </div>
     );

@@ -16,16 +16,16 @@ const UserCV = () => {
     return (
         <div className="container">
             <br />
-            <div className="card">
+            <div className="">
                 <div className="row">
                     <div className="col-sm-4" style={{ backgroundColor: "#fafafa" }}>
                         <br />
-                        <div className="text-center">
+                        <div className="ml-4">
                             <h4>{profile.name}</h4>
-                            <h5 className="lead" style={{ marginTop: "-14px" }}>{profile.surname}</h5>
+                            <h5 className="lead ml-4" style={{ marginTop: "-14px" }}>{profile.surname}</h5>
                             <br />
                             <h6 className="text-info">DATE OF BIRTH</h6>
-                            <p style={{ marginTop: "-14px", color: "black" }}><b>{profile.birthDate.split('T')[0]}</b></p>
+                            <p className="ml-4" style={{ marginTop: "-14px", color: "black" }}><b>{profile.birthDate.split('T')[0]}</b></p>
                         </div>
                         <div>
                             <h5 className="ml-4">Contact</h5>
@@ -53,10 +53,17 @@ const UserCV = () => {
                                                 <p className="ml-5"> <span className="text-info"> <b> {element.startDate.split('T')[0]} – {element.endDate.split('T')[0]} </b> </span> –  <span className="text-info"> {element.address}, {element.city}, {element.country} </span></p>
                                                 <h5 className="ml-5" style={{ color: "#5A5A5A", fontSize: "20px", marginTop: "-10px" }}> <b> {element.position} </b></h5>
                                                 <p className="ml-5" style={{ fontSize: "20px", color: "#5A5A5A", marginTop: "-10px" }}>{element.institution}</p>
-                                                <p style={{ fontSize: "18px", color: "#5A5A5A", marginTop: "-10px", marginLeft: "60px" }} >{element.description}</p>
+                                                <p style={{ fontSize: "18px", color: "#5A5A5A", marginTop: "-10px", marginLeft: "60px" }} >
+                                                    {
+                                                        element.description.split('.').map((element,key) => {
+                                                            return(
+                                                                <span>{element} <br /></span>
+                                                            )
+                                                        })
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
-                                        <br />
                                     </div>
                                 )
                             })

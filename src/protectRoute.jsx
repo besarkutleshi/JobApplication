@@ -6,8 +6,7 @@ const ProtectedRoute = ({ component: Component,layout:Layout, auth, ...rest }) =
         auth === "true"
             ? <Layout><Component {...props}/></Layout>
             : <Redirect to={{
-                pathname:"/login",
-                state: {next : props.location.pathname}
+                pathname:`/login${props.location.pathname}`
             }} />
     )} />
 )

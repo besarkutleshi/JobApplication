@@ -6,7 +6,13 @@ import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
 import { useEffect } from 'react'
 import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
-
+import Icon from 'react-icons-kit'
+import {ic_home_filled} from 'react-icons-kit/md/ic_home_filled'
+import {ic_work_twotone} from 'react-icons-kit/md/ic_work_twotone'
+import {ic_power_settings_new_twotone} from 'react-icons-kit/md/ic_power_settings_new_twotone'
+import {ic_settings_input_hdmi_twotone} from 'react-icons-kit/md/ic_settings_input_hdmi_twotone'
+import {ic_login} from 'react-icons-kit/md/ic_login'
+import {profile} from 'react-icons-kit/icomoon/profile'
 const Header = ({ ...props }) => {
 
 
@@ -31,16 +37,16 @@ const Header = ({ ...props }) => {
             }
         }
         changeCss();
-    })
+    },[])
 
     const logOutUser = () => {
-        window.location.hash = '/';
         logOutStore();
         deleteLanguagesStore();
         deleteSkillsStore();
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
+        window.location.hash = '/';
     }
 
     return (
@@ -61,10 +67,13 @@ const Header = ({ ...props }) => {
                                 </button> */}
                             <div class="collapse navbar-collapse" id="ftco-nav">
                                 <ul class="navbar-nav ml-auto mr-md-3">
-                                    <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link">Home</a></li>
-                                    {
-                                        user.token ? <div> <li class="nav-item"> <a href="/#/userHome"> My Profile </a></li>  <li class="nav-item"> <a onClick={logOutUser} className="nav-link">Log Out</a></li> </div> : <li class="nav-item"><a href="/#/login" class="nav-link">Login</a></li>
-                                    }
+                                    <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link"> <Icon size={20} icon={ic_home_filled} /> Home</a></li>
+                                    { user.token && <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon size={20} icon={ic_work_twotone} />  Jobs </a></li> }
+                                    { user.token && <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_work_twotone} /> Interesed Job </a></li> }
+                                    { user.token && <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_settings_input_hdmi_twotone} /> Keds Academy </a></li> }
+                                    { user.token && <li class="nav-item"> <a class="nav-link" href="/#/userHome"> <Icon size={20} icon={profile} /> My Profile </a></li> }
+                                    { user.token && <li class="nav-item"> <a class="nav-link" onClick={logOutUser}> <Icon size={20} icon={ic_power_settings_new_twotone} /> Log Out </a></li> }
+                                    { !user.token && <li class="nav-item"> <a class="nav-link" href="/#/login"> <Icon icon={ic_login} size={20}  /> Login </a></li> }
                                 </ul>
                             </div>
                         </div>

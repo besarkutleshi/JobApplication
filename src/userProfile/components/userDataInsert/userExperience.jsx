@@ -34,11 +34,14 @@ const UserExperience = () => {
     const [onGoing, setOnGoing] = useState(0);
     const [description, setDescription] = useState('');
     const [updateId, setUpdateId] = useState(0);
+    
+    const [classList, setClassList] = useState(experiences.length > 7 ? 'overflow-auto card' : '');
+    const [heightList, setHeightList] = useState(experiences.length > 7 ? '500px' : '');
 
     const getOnGoingValue = (checked) => {
         setOnGoing(checked ? 1 : 0);
     }
-    
+
     const clearAttributes = () => {
         setInstitution('');
         setPosition('');
@@ -54,7 +57,7 @@ const UserExperience = () => {
     const addExperience = async (e) => {
         e.preventDefault();
         let obj = {
-            id:0,
+            id: 0,
             userId: user.userId,
             applicantProfileId: userProfile.id,
             institution: institution,
@@ -64,12 +67,12 @@ const UserExperience = () => {
             startDate: startDate,
             endDate: endDate,
             onGoing: onGoing,
-            description:description,
+            description: description,
             isActive: 1,
             insertBy: user.userId
         }
         let added = await userProfileController.addExperience(obj);
-        if(added){
+        if (added) {
             obj.id = added;
             setId(id + 1);
             experiences.push(obj);
@@ -96,7 +99,7 @@ const UserExperience = () => {
     const updateExperience = async (e) => {
         e.preventDefault();
         let obj = {
-            id:updateId,
+            id: updateId,
             userId: user.userId,
             applicantProfileId: userProfile.id,
             institution: institution,
@@ -106,14 +109,14 @@ const UserExperience = () => {
             startDate: startDate,
             endDate: endDate,
             onGoing: onGoing,
-            description:description,
+            description: description,
             isActive: 1,
             updateBy: user.userId
         }
         let updated = await userProfileController.updateExperience(obj);
-        if(updated){
+        if (updated) {
             experiences.forEach(element => {
-                if(element.Id === updateId){
+                if (element.Id === updateId) {
                     element.institution = obj.institution;
                     element.position = obj.position;
                     element.city = obj.city;
@@ -141,9 +144,9 @@ const UserExperience = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         });
-        if(result.isConfirmed){
-            let deleted = await userProfileController.deleteExperience(userProfile.id,id);
-            if(deleted){
+        if (result.isConfirmed) {
+            let deleted = await userProfileController.deleteExperience(userProfile.id, id);
+            if (deleted) {
                 let result = experiences.filter(element => {
                     return element.id !== id;
                 });
@@ -156,31 +159,13 @@ const UserExperience = () => {
         }
     }
 
-    if(isLoading){
+    if (isLoading) {
         <Loading />
     }
-    else{
+    else {
 
         return (
             <div className="container-fluid">
-                <div className="row">
-                    {
-                        experiences.map((element, key) => {
-                            return (
-                                <div className="col-sm-12 mb-2" key={key}>
-                                    <div className="card">
-                                        <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight"> {element.position} - {element.institution}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteExperience.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <br />
                 <div className="card p-4">
                     <form onSubmit={submit === "Add Experience" ? addExperience : updateExperience}>
                         <div className="row">
@@ -236,6 +221,26 @@ const UserExperience = () => {
                             </div>
                         </div>
                     </form>
+                </div>
+                <br />
+                <div className={`${classList}`} style={{ height: `${heightList}` }}>
+                    <div className="row">
+                        {
+                            experiences.map((element, key) => {
+                                return (
+                                    <div className="col-sm-12 mb-2" key={key}>
+                                        <div className="card">
+                                            <div className="d-flex justify-content-between">
+                                                <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight"> {element.position} - {element.institution}</h6>
+                                                <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                                <button type="button" onClick={deleteExperience.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         )

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import helper from '../../helpers/helper'
-import Error from '../../errorComponents/controllers/error';
+import Error from '../../error/controllers/error';
 class AuthenticationController {
 
     login = async (obj) => {

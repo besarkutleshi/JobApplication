@@ -34,6 +34,9 @@ const UserEducation = () => {
     const [updateId, setUpdateId] = useState(0);
     const [submit, setSubmit] = useState("Add Education");
 
+    const [classList, setClassList] = useState(educations.length > 7 ? 'overflow-auto card' : '');
+    const [heightList, setHeightList] = useState(educations.length > 7 ? '500px' : '');
+
     const getOnGoingValue = (checked) => {
         setOnGoing(checked ? 1 : 0);
     }
@@ -163,24 +166,6 @@ const UserEducation = () => {
     else {
         return (
             <div className="container-fluid">
-                <div className="row">
-                    {
-                        educations.map((element, key) => {
-                            return (
-                                <div className="col-sm-12 mb-2" key={key}>
-                                    <div className="card">
-                                        <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.institution} - {element.direction}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteData.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <br />
                 <div className="card p-4">
                     <form onSubmit={submit === "Add Education" ? addEducation : updateData}>
                         <div className="row">
@@ -236,6 +221,26 @@ const UserEducation = () => {
                             </div>
                         </div>
                     </form>
+                </div>
+                <br />
+                <div  className={`${classList}`} style={{height:`${heightList}`}}>
+                    <div className="row">
+                        {
+                            educations.map((element, key) => {
+                                return (
+                                    <div className="col-sm-12 mb-2" key={key}>
+                                        <div className="card">
+                                            <div className="d-flex justify-content-between">
+                                                <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.institution} - {element.direction}</h6>
+                                                <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                                <button type="button" onClick={deleteData.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         )

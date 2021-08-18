@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Error from '../../errorComponents/controllers/error'
+import Error from '../../error/controllers/error'
 import helper from '../../helpers/helper'
 class UserProfileController {
 

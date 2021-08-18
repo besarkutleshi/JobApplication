@@ -61,8 +61,6 @@ const JobDetails = () => {
         return (
             <div className="container-fluid">
             <br />
-            <br />
-            <br />
                 <div className="card p-4">
                     <form action="">
                         <div className="row">

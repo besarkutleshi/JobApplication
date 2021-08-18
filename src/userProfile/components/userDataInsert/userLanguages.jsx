@@ -28,6 +28,9 @@ const UserLanguages = () => {
     const [language, setLanguage] = useState('');
     const [knowledgeLevel, setKnowledgeLevel] = useState('');
     const [updateId, setUpdateId] = useState(0);
+    
+    const [classList, setClassList] = useState(languages.length > 7 ? 'overflow-auto card' : '');
+    const [heightList, setHeightList] = useState(languages.length > 7 ? '500px' : '');
 
     const clearAttributes = () => {
         setKnowledgeLevel('');
@@ -124,24 +127,6 @@ const UserLanguages = () => {
     else {
         return (
             <div className="container-fluid">
-                <div className="row">
-                    {
-                        languages.map((element, key) => {
-                            return (
-                                <div className="col-sm-12 mb-2" key={key}>
-                                    <div className="card">
-                                        <div className="d-flex justify-content-between">
-                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.language} - {element.knowledgeLevel}</h6>
-                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                            <button type="button" onClick={deleteLanguage.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <br />
                 <div className="card p-4">
                     <form onSubmit={submit === "Add Language" ? addLanguage : updateLanguage}>
                         <div className="row">
@@ -171,6 +156,26 @@ const UserLanguages = () => {
                             </div>
                         </div>
                     </form>
+                </div>
+                <br />
+                <div className={`${classList}`} style={{height:`${heightList}`}}>
+                    <div className="row">
+                        {
+                            languages.map((element, key) => {
+                                return (
+                                    <div className="col-sm-12 mb-2" key={key}>
+                                        <div className="card">
+                                            <div className="d-flex justify-content-between">
+                                                <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.language} - {element.knowledgeLevel}</h6>
+                                                <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                                <button type="button" onClick={deleteLanguage.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         )
