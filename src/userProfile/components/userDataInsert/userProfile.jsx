@@ -15,22 +15,25 @@ import { addProfile } from '../../reduxStore/action'
 import { ic_delete_sweep } from 'react-icons-kit/md/ic_delete_sweep'
 import { ic_file_download_done } from 'react-icons-kit/md/ic_file_download_done'
 import { useEffect } from 'react';
-
+import fileController from '../../../shared/fileControllers/file.controller';
 const UserData = ({ submitText = null }) => {
 
     const dispatch = useDispatch();
     const addProfileStore = bindActionCreators(addProfile, dispatch);
     const user = useSelector((state) => state.login.user);
-    const profile = useSelector((state) => state.profile.profile)
+    const profile = useSelector((state) => state.profile.profile);
 
     const [isLoading, setIsLoading] = useState(false);
     const [id, setId] = useState(profile ? profile.id ? profile.id : 0 : 0);
-    const [photo, setPhoto] = useState();
+    const [photo, setPhoto] = useState(profile ? profile.photo.split('_')[1] : '');
+    const [lastImageName, setLastImageName] = useState(profile ? profile.photo : '');
+    const [photoFile, setPhotoFile] = useState(profile ? profile.photoFile : '');
+    const [imageBytes, setImageBytes] = useState(profile ? profile.imageBytes : '');
     const [name, setName] = useState(profile ? profile.name ? profile.name : '' : '');
     const [surname, setSurname] = useState(profile ? profile.surname ? profile.surname : '' : '');
     const [middleName, setMiddleName] = useState(profile ? profile.middleName ? profile.middleName : '' : '');
     const [personalNumber, setPersonalNumber] = useState(profile ? profile.personalNumber ? profile.personalNumber : '' : '');
-    const [birthdate, setBirthdate] = useState(profile ? profile.birthDate ? profile.birthDate : '' : '');
+    const [birthdate, setBirthdate] = useState(profile ? profile.birthDate ? profile.birthDate.split('T')[0] : '' : '');
     const [birthPlace, setBirthPlace] = useState(profile ? profile.birthPlace ? profile.birthPlace : '' : '');
     const [birthNationality, setBirthNationality] = useState(profile ? profile.birthCountry ? profile.birthCountry : '' : '');
     const [currentNationality, setCurrentNationality] = useState(profile ? profile.currentCountry ? profile.currentCountry : '' : '');
@@ -41,7 +44,7 @@ const UserData = ({ submitText = null }) => {
     const [submit, setSubmit] = useState('Add Profile Data');
 
     useEffect(() => {
-        const submitMessage = () => {
+        const submitMessage = async () => {
             if(name.length > 0){
                 setSubmit("Update Profile Data");
             }
@@ -49,38 +52,60 @@ const UserData = ({ submitText = null }) => {
         submitMessage();
     },[]);
 
+    const getObject = (obj) => {
+        let profile = {
+            birthCountry: obj.birthCountry,
+            birthDate: obj.birthDate,
+            birthPlace: obj.birthPlace,
+            currentCountry: obj.currentCountry,
+            description: obj.description,
+            email: obj.email,
+            gender: obj.gender,
+            id: obj.id,
+            insertDate: obj.insertDate,
+            isActive: obj.isActive,
+            middleName: obj.middleName,
+            name: obj.name,
+            personalNumber: obj.personalNumber,
+            phone: obj.phone,
+            photo: obj.photo,
+            photoFile:obj.photoFile,
+            imageBytes: obj.imageBytes,
+            status: obj.status,
+            surname: obj.surname,
+            userId: user.userId,
+            address: obj.address
+        }
+        return profile;
+    }
+
     const createProfile = async (e) => {
         e.preventDefault();
-        let obj = {
-            id: 0,
-            userId: user.userId,
-            name: name,
-            surname: surname,
-            middleName: middleName,
-            personalNumber: personalNumber,
-            birthDate: birthdate,
-            birthPlace: birthPlace,
-            currentCountry: currentNationality,
-            birthCountry: birthNationality,
-            address:permanentAddress,
-            email: permanentEmail,
-            phone: phoneNumber,
-            gender: gender,
-            isActive : 1,
-            insertBy: user.id
-        };
-        let created = await userProfileController.createProfile(obj);
-        if (created > 0) {
-            // const formData = new FormData();
-            // formData.append("FormFile",photo);
-            // formData.append("FileName",photo.name);
-            // formData.append("ProfileId",created);
-            // let inserted = await userProfileController.insertImage(formData);
-            obj.id = created;
+
+        let bodyFormData = new FormData();
+        bodyFormData.append('id', '0');
+        bodyFormData.append('name', name);
+        bodyFormData.append('surname', surname);
+        bodyFormData.append('middleName', middleName);
+        bodyFormData.append('personalNumber', personalNumber);
+        bodyFormData.append('birthDate', birthdate);
+        bodyFormData.append('birthPlace', birthPlace);
+        bodyFormData.append('currentCountry', currentNationality);
+        bodyFormData.append('birthCountry', birthNationality);
+        bodyFormData.append('address', permanentAddress);
+        bodyFormData.append('email', permanentEmail);
+        bodyFormData.append('phone', phoneNumber);
+        bodyFormData.append('gender', gender);
+        bodyFormData.append('isActive', 1);
+        bodyFormData.append('insertBy', user.userId);
+        bodyFormData.append('photoFile', photoFile);
+
+        let created = await userProfileController.createProfile(bodyFormData);
+        if(created > 1){
             SuccessAlert('Registered Successful');
-            addProfileStore(obj);
+            addProfileStore(getObject(created));
             setSubmit("Update Profile Data");
-            setId(created);
+            setId(created.id);
         }
     }
 
@@ -103,29 +128,31 @@ const UserData = ({ submitText = null }) => {
 
     const updateProfile = async (e) => {
         e.preventDefault();
-        let obj = {
-            id: id,
-            userId: user.userId,
-            name: name,
-            surname: surname,
-            middleName: middleName,
-            personalNumber: personalNumber,
-            birthDate: birthdate,
-            birthPlace: birthPlace,
-            currentCountry: currentNationality,
-            birthCountry: birthNationality,
-            address:permanentAddress,
-            email: permanentEmail,
-            phone: phoneNumber,
-            gender: gender,
-            isActive:1,
-            updateBy:user.userId
-        }
-        let created = await userProfileController.updateProfile(obj);
-        console.log(created);
-        if (created) {
+        let bodyFormData = new FormData();
+        bodyFormData.append('id', id);
+        bodyFormData.append('name', name);
+        bodyFormData.append('surname', surname);
+        bodyFormData.append('middleName', middleName);
+        bodyFormData.append('personalNumber', personalNumber);
+        bodyFormData.append('birthDate', birthdate);
+        bodyFormData.append('birthPlace', birthPlace);
+        bodyFormData.append('currentCountry', currentNationality);
+        bodyFormData.append('birthCountry', birthNationality);
+        bodyFormData.append('address', permanentAddress);
+        bodyFormData.append('email', permanentEmail);
+        bodyFormData.append('phone', phoneNumber);
+        bodyFormData.append('gender', gender);
+        bodyFormData.append('isActive', 1);
+        bodyFormData.append('insertBy', user.userId);
+        bodyFormData.append('photoFile', photoFile);
+        bodyFormData.append('lastImageName', lastImageName);
+
+        setPhoto(photoFile.name)
+
+        let updated = await userProfileController.updateProfile(bodyFormData);
+        if (updated !== false && updated.name) {
             SuccessAlert('Update Successful');
-            addProfileStore(obj);
+            addProfileStore(getObject(updated));
         }
     }
 
@@ -140,12 +167,25 @@ const UserData = ({ submitText = null }) => {
                     <div className="row">
                         <div className="col-md-3 text-center">
                             <label htmlFor="">Image</label>
-                            <div class="image-upload ml-3" style={{ marginTop: "100px", cursor: "auto" }}>
-                                <label for="file-input">
-                                    <Icon size={100} icon={userPlus} />
-                                </label>
-                                <input id="file-input" type="file" onChange={(e) => setPhoto(e.target.files[0])} />
-                                <label htmlFor="">{photo ? photo.name : ""}</label>
+                            <div class="image-upload ml-3" style={{ marginTop: "50px", cursor: "auto" }}>
+                                {
+                                    imageBytes && <label for="file-input">  <img id="my-img" src={`data:image/png;base64, ${imageBytes}`} alt="" width={150} height={150} /></label>
+                                }
+                                {
+                                    !imageBytes && <label for="file-input"> <Icon size={100} icon={userPlus} /></label>
+                                }
+                                
+                                <input id="file-input" type="file" onChange={ async (e) => {
+                                    const file = e.target.files[0];
+                                    if(file){
+                                        setPhotoFile(file);
+                                        let bytes = await fileController.getAsByteArray(file);
+                                        document.getElementById('my-img').src = URL.createObjectURL(
+                                            new Blob([bytes.buffer], { type: 'image/png' })
+                                        );
+                                    }
+                                }} />
+                                <label htmlFor="">{photo ? photo : ''}</label>
                             </div>
                         </div>
                         <div className="col-md-8">

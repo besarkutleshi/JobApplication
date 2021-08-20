@@ -38,9 +38,11 @@ const Demo = () => {
         <div>
             <Router>
                 <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
+                <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
                 <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
                 <ProtectedRoute path="/apply/:jobId/:applicationTypeId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} /> {/* duhet me bo authorize qit route */}
+                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} />
+                <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/login/:urlRoute/:parameter?" exact strict render={
                     ({match}) => {
                         const parameter = match.params.parameter;
@@ -48,7 +50,6 @@ const Demo = () => {
                         return (<Login urlRoute={urlRoute} parameter={parameter} />)
                     }
                 }/>
-                <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
                 <Route path="/emailConfirmation" exact strict render={() => <EmailConfirmation />} />
@@ -61,7 +62,7 @@ const Demo = () => {
                         return (<ResetPassword userName={username} token={token} />)
                     }
                 }/>
-                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={"true"} />
                 {
                     routes
                 }

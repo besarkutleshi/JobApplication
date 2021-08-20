@@ -5,7 +5,7 @@ class UserProfileController {
 
     createProfile = async (obj) => {
         try {
-            let created = await axios.post(helper.url + 'applicants/',obj);
+            let created = await axios.post(helper.url + 'applicants/',obj,{headers:{ "Content-Type": "multipart/form-data" }});
             return created.data;
         } catch (error) {
             Error.returnError(error);
@@ -14,8 +14,8 @@ class UserProfileController {
 
     updateProfile = async (obj) => {
         try {
-            let created = await axios.put(helper.url + 'applicants/',obj);
-            return created.status === 200 ? true : false;
+            let created = await axios.put(helper.url + 'applicants/',obj,{headers:{ "Content-Type": "multipart/form-data" }});
+            return created.status === 200 ? created.data : false;
         } catch (error) {
             Error.returnError(error);
         }

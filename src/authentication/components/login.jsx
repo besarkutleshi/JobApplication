@@ -40,32 +40,36 @@ const Login = ({ urlRoute = null, parameter = null }) => {
         if (login.username) {
             addLogin(login);
             if (helper.validUsername(username)) {
-                addEducationsStore(login.profile.applicantEducations);
-                addExperiencesStore(login.profile.applicantWorkExperiences);
-                addLanguagesStore(login.profile.applicantLanguages);
-                addSkillsStore(login.profile.applicantSkills);
-                let profile = {
-                    birthCountry: login.profile.birthCountry,
-                    birthDate: login.profile.birthDate,
-                    birthPlace: login.profile.birthPlace,
-                    currentCountry: login.profile.currentCountry,
-                    description: login.profile.description,
-                    email: login.profile.email,
-                    gender: login.profile.gender,
-                    id: login.profile.id,
-                    insertDate: login.profile.insertDate,
-                    isActive: login.profile.isActive,
-                    middleName: login.profile.middleName,
-                    name: login.profile.name,
-                    personalNumber: login.profile.personalNumber,
-                    phone: login.profile.phone,
-                    photo: login.profile.photo,
-                    status: login.profile.status,
-                    surname: login.profile.surname,
-                    userId: login.userId,
-                    address: login.profile.address
+                if(login.profile){
+                    addEducationsStore(login.profile.applicantEducations ? login.profile.applicantEducations : [] );
+                    addExperiencesStore(login.profile.applicantWorkExperiences ? login.profile.applicantWorkExperiences  : []);
+                    addLanguagesStore(login.profile.applicantLanguages ? login.profile.applicantLanguages : []);
+                    addSkillsStore(login.profile.applicantSkills ? login.profile.applicantSkills : []);
+                    let profile = {
+                        birthCountry: login.profile.birthCountry,
+                        birthDate: login.profile.birthDate,
+                        birthPlace: login.profile.birthPlace,
+                        currentCountry: login.profile.currentCountry,
+                        description: login.profile.description,
+                        email: login.profile.email,
+                        gender: login.profile.gender,
+                        id: login.profile.id,
+                        insertDate: login.profile.insertDate,
+                        isActive: login.profile.isActive,
+                        middleName: login.profile.middleName,
+                        name: login.profile.name,
+                        personalNumber: login.profile.personalNumber,
+                        phone: login.profile.phone,
+                        photo: login.profile.photo,
+                        photoFile:login.profile.photoFile,
+                        imageBytes: login.profile.imageBytes,
+                        status: login.profile.status,
+                        surname: login.profile.surname,
+                        userId: login.userId,
+                        address: login.profile.address
+                    }
+                    addProfileStore(profile);
                 }
-                addProfileStore(profile);
                 if (urlRoute != null) {
                     if (parameter != null) {
                         window.location.hash = `/${urlRoute}/${parameter}`;

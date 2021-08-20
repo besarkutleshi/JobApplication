@@ -40,13 +40,13 @@ const Header = ({ ...props }) => {
     },[])
 
     const logOutUser = () => {
+        window.location.hash = '/';
         logOutStore();
         deleteLanguagesStore();
         deleteSkillsStore();
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
-        window.location.hash = '/';
     }
 
     return (
@@ -68,11 +68,11 @@ const Header = ({ ...props }) => {
                             <div class="collapse navbar-collapse" id="ftco-nav">
                                 <ul class="navbar-nav ml-auto mr-md-3">
                                     <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link"> <Icon size={20} icon={ic_home_filled} /> Home</a></li>
-                                    { user.token && <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon size={20} icon={ic_work_twotone} />  Jobs </a></li> }
-                                    { user.token && <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_work_twotone} /> Interesed Job </a></li> }
-                                    { user.token && <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_settings_input_hdmi_twotone} /> Keds Academy </a></li> }
+                                    <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon size={20} icon={ic_work_twotone} />  Jobs </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_work_twotone} /> Interesed Job </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_settings_input_hdmi_twotone} /> Keds Academy </a></li>
                                     { user.token && <li class="nav-item"> <a class="nav-link" href="/#/userHome"> <Icon size={20} icon={profile} /> My Profile </a></li> }
-                                    { user.token && <li class="nav-item"> <a class="nav-link" onClick={logOutUser}> <Icon size={20} icon={ic_power_settings_new_twotone} /> Log Out </a></li> }
+                                    { user.token && <li class="nav-item"> <button style={{background:"none",border:"0px"}} class="nav-link" onClick={logOutUser}> <Icon size={20} icon={ic_power_settings_new_twotone} /> Log Out </button></li> }
                                     { !user.token && <li class="nav-item"> <a class="nav-link" href="/#/login"> <Icon icon={ic_login} size={20}  /> Login </a></li> }
                                 </ul>
                             </div>

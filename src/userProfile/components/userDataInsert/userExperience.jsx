@@ -167,6 +167,9 @@ const UserExperience = () => {
         return (
             <div className="container-fluid">
                 <div className="card p-4">
+                    <h6 className="lead">Work Experience</h6>
+                    <hr />
+                    <br />
                     <form onSubmit={submit === "Add Experience" ? addExperience : updateExperience}>
                         <div className="row">
                             <div className="col-sm-3 mb-2">
@@ -213,7 +216,7 @@ const UserExperience = () => {
                                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" rows="10" required></textarea>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div className="row">
                             <div className="col-sm-12 d-flex justify-content-between">
                                 <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>

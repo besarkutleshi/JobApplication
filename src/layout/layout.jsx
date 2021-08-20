@@ -39,6 +39,7 @@ const Layout = ({ ...props }) => {
     })
 
     const logOutUser = () => {
+        window.location.hash = '/';
         logOutStore();
         removeModulesStore();
         deleteLanguagesStore();
@@ -46,7 +47,6 @@ const Layout = ({ ...props }) => {
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
-        window.location.hash = '/';
     }
 
     return (

@@ -13,19 +13,28 @@ const UserCV = () => {
     const skills = useSelector((state) => state.userSkills.userSkills);
     const languages = useSelector((state) => state.userLanguages.userLanguages);
 
-    return (
-        <div className="container">
-            <br />
-            <div className="">
+    // if (!profile) {
+    //     return (
+    //         <div className="container-fluid">
+    //             <div className="row">
+    //                 <h6 className="lead text-center">You don't have profile, please create one!</h6>
+    //             </div>
+    //         </div>
+    //     )
+    // }
+    // else {
+        return (
+            <div className="container">
+                <br />
                 <div className="row">
-                    <div className="col-sm-4" style={{ backgroundColor: "#fafafa" }}>
+                    <div className="col-sm-4 float-left" style={{ backgroundColor: "#fafafa", width: "30%", float: "left" }}>
                         <br />
-                        <div className="ml-4">
+                        <div className="text-center">
                             <h4>{profile.name}</h4>
-                            <h5 className="lead ml-4" style={{ marginTop: "-14px" }}>{profile.surname}</h5>
+                            <h5 className="lead" style={{ marginTop: "-14px" }}>{profile.surname}</h5>
                             <br />
                             <h6 className="text-info">DATE OF BIRTH</h6>
-                            <p className="ml-4" style={{ marginTop: "-14px", color: "black" }}><b>{profile.birthDate.split('T')[0]}</b></p>
+                            <p className="" style={{ marginTop: "-14px", color: "black" }}><b>{profile.birthDate.split('T')[0]}</b></p>
                         </div>
                         <div>
                             <h5 className="ml-4">Contact</h5>
@@ -37,7 +46,7 @@ const UserCV = () => {
                         </div>
                         <br />
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8" style={{ width: "70%", float: "right" }}>
                         <br />
                         <div className="row">
                             <div className="col-md-12">
@@ -55,8 +64,8 @@ const UserCV = () => {
                                                 <p className="ml-5" style={{ fontSize: "20px", color: "#5A5A5A", marginTop: "-10px" }}>{element.institution}</p>
                                                 <p style={{ fontSize: "18px", color: "#5A5A5A", marginTop: "-10px", marginLeft: "60px" }} >
                                                     {
-                                                        element.description.split('.').map((element,key) => {
-                                                            return(
+                                                        element.description.split('.').map((element, key) => {
+                                                            return (
                                                                 <span>{element} <br /></span>
                                                             )
                                                         })
@@ -134,9 +143,8 @@ const UserCV = () => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-
-}
+        )
+    }
+// }
 
 export default UserCV;

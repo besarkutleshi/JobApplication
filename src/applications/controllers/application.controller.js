@@ -23,6 +23,16 @@ class ApplicationController{
         }
     }
 
+    getUserApplications = async (userId) => {
+        try {
+            let response = await axios.get(helper.url + `applications/${userId}/applications`);
+            return response.data;
+        } catch (error) {
+            Error.returnError(error);
+            return null;
+        }
+    }
+
 }
 
 export default new ApplicationController();

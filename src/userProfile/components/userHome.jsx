@@ -17,11 +17,12 @@ import UserCVPrint from './userDataInsert/userCVPrint';
 import {ic_edit_twotone} from 'react-icons-kit/md/ic_edit_twotone'
 import $ from 'jquery'
 import {list2} from 'react-icons-kit/icomoon/list2'
+import {ic_fact_check_twotone} from 'react-icons-kit/md/ic_fact_check_twotone'
+import UserApplications from '../../applications/components/userApplications/userApplications'
 const UserHome = () => {
 
     const [component, setComponent] = useState('UserProfile');
     const [classElement, setClass] = useState("col-sm-9");
-    const [show, setShow] = useState("");
 
     const hideorShow = () => {
         $("#list").toggle();
@@ -41,33 +42,41 @@ const UserHome = () => {
             </div>
             <div className="row">
                 <div className="col-sm-3 mb-2" id="list">
-                        <div className="col-sm-12">
-                            <div className="card">
-                                <a class="list-group-item" onClick={() => setComponent('UserProfile')} > 
-                                    <Icon icon={profile} size={20} className="mr-3"/> <span> Profile's </span> 
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /></span>
-                                </a>
-                                <a class="list-group-item" onClick={() => setComponent('UserExperience')}> 
-                                    <Icon icon={ic_work_twotone} size={20} className="mr-3" /> <span> Experience's </span>
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
-                                </a>
-                                <a class="list-group-item" onClick={() => setComponent('UserEducation')}> 
-                                    <Icon icon={ic_cast_for_education} size={20} className="mr-3" /> <span> Education's </span>
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
-                                </a>
-                                <a class="list-group-item" onClick={() => setComponent('UserSkills')}> 
-                                    <Icon icon={ic_computer_twotone} size={20} className="mr-3" /> <span> Skills's </span>
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
-                                </a>
-                                <a class="list-group-item" onClick={() => setComponent('UserLanguages')}> 
-                                    <Icon icon={ic_language_twotone} size={20} className="mr-3" /> <span> Language's </span>
-                                    <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
-                                </a>
-                                <a class="list-group-item" onClick={() => setComponent('UserCV')}> 
-                                    <Icon icon={ic_insert_drive_file_twotone} size={20} className="mr-3" /> <span> CV </span>
-                                </a>
-                            </div>
+                    <div className="col-sm-12">
+                        <div className="card">
+                            <a class="list-group-item" onClick={() => setComponent('UserProfile')} > 
+                                <Icon icon={profile} size={20} className="mr-3"/> <span> Profile's </span> 
+                                <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /></span>
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('UserExperience')}> 
+                                <Icon icon={ic_work_twotone} size={20} className="mr-3" /> <span> Experience's </span>
+                                <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('UserEducation')}> 
+                                <Icon icon={ic_cast_for_education} size={20} className="mr-3" /> <span> Education's </span>
+                                <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('UserSkills')}> 
+                                <Icon icon={ic_computer_twotone} size={20} className="mr-3" /> <span> Skills's </span>
+                                <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('UserLanguages')}> 
+                                <Icon icon={ic_language_twotone} size={20} className="mr-3" /> <span> Language's </span>
+                                <span className="float-right"> <Icon onClick={() => alert('ss')} size={20} icon={ic_edit_twotone} /> <Icon onClick={() => alert('ss')} size={20} icon={plusCircle} /> </span>
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('UserCV')}> 
+                                <Icon icon={ic_insert_drive_file_twotone} size={20} className="mr-3" /> <span> CV </span>
+                            </a>
                         </div>
+                    </div>
+                    <br />
+                    <div className="col-sm-12">
+                        <div className="card">
+                            <a class="list-group-item" onClick={() => setComponent('MyApplications')} > 
+                                <Icon icon={ic_fact_check_twotone} size={20} className="mr-3"/> <span> My Application's </span> 
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div className={`${classElement}`}>
                     <div className="row">
@@ -77,7 +86,8 @@ const UserHome = () => {
                             { component === "UserEducation" && <UserEducation />  }
                             { component === "UserSkills" && <UserSkills />  }
                             { component === "UserLanguages" && <UserLanguage />  }
-                            { component === "UserCV" && <UserCVPrint />  }
+                            { component === "UserCV" && <UserCVPrint /> }
+                            { component === "MyApplications" && <UserApplications />  }
                         </div>
                     </div>
                 </div>

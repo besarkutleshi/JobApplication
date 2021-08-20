@@ -128,6 +128,9 @@ const UserLanguages = () => {
         return (
             <div className="container-fluid">
                 <div className="card p-4">
+                    <h6 className="lead">Language's </h6>
+                    <hr />
+                    <br />
                     <form onSubmit={submit === "Add Language" ? addLanguage : updateLanguage}>
                         <div className="row">
                             <div className="col-sm-4 mb-2">
@@ -148,7 +151,7 @@ const UserLanguages = () => {
                                 </select>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div className="row">
                             <div className="col-sm-12 d-flex justify-content-between">
                                 <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>

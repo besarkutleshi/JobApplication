@@ -28,7 +28,7 @@ const UserSkills = () => {
     const [skill, setSkill] = useState('');
     const [knowledgeLevel, setKnowledgeLevel] = useState('');
     const [updateId, setUpdateId] = useState(0);
-    const [classList, setClassList] = useState(skills.length > 7 ? 'overflow-auto ' : '');
+    const [classList, setClassList] = useState(skills.length > 7 ? 'overflow-auto card' : '');
     const [heightList, setHeightList] = useState(skills.length > 7 ? '500px' : '');
 
     const clearAttributes = () => {
@@ -126,6 +126,9 @@ const UserSkills = () => {
         return (
             <div className="container-fluid">
                 <div className="card p-4">
+                    <h6 className="lead">Skill's</h6>
+                    <hr />
+                    <br />
                     <form onSubmit={submit === "Add Skill" ? addSkills : updateSkills}>
                         <div className="row">
                             <div className="col-sm-4 mb-2">
@@ -146,7 +149,7 @@ const UserSkills = () => {
                                 </select>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div className="row">
                             <div className="col-sm-12 d-flex justify-content-between">
                                 <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
@@ -156,7 +159,7 @@ const UserSkills = () => {
                     </form>
                 </div>
                 <br />
-                <div className={`${classList} card`} style={{height:`${heightList}`}}>
+                <div className={`${classList}`} style={{height:`${heightList}`}}>
                     <div className="row">
                         {
                             skills.map((element, key) => {

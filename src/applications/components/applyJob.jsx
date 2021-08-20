@@ -26,6 +26,7 @@ const ApplyJob = ({...props}) => {
             let created = await applicationController.createApplication(obj);
             if(created > 1){
                 SuccessAlert("Application send successful.");
+                window.location.hash = "/userHome";
                 return;
             }
             ErrorAlert("Application does not send successful!");
@@ -72,7 +73,7 @@ const ApplyJob = ({...props}) => {
             <br />
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
-                    <button className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </button>
+                    <a href={`/#/activeJobDetails/${idJob}`} className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </a>
                     <button onClick={createProfile} className="btn btn-info"> <Icon icon={check} /> Apply </button>
                 </div>
             </div>
