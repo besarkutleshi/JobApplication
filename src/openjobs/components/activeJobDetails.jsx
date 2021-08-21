@@ -60,7 +60,7 @@ const ActiveJobDetails = ({ ...props }) => {
                 <div className="row">
                     <div className="col-sm-12 d-flex justify-content-between">
                         <Link to={{ pathname:`/`}} className="btn btn-info me-auto"><Icon icon={arrowLeft2} /> Back</Link>
-                        <button onClick={redirectToApplyPage} className="btn btn-info float-right"> <Icon icon={fileText}/> Apply</button>
+                        <button onClick={redirectToApplyPage} className="btn btn-info float-right"> <Icon icon={fileText}/> Apply Online</button>
                     </div>
                 </div>
                 <br />

@@ -24,7 +24,7 @@ import ActiveJobDetails from './openjobs/components/activeJobDetails';
 import UserHome from './userProfile/components/userHome';
 import UserProfileProgress from './userProfile/components/userDataInsert/userProfileProgress'
 import ApplyJob from './applications/components/applyJob';
-
+import KedsAcademy from './applications/components/kedsAcademy';
 const Demo = () => {
 
     const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
@@ -37,19 +37,6 @@ const Demo = () => {
     return (
         <div>
             <Router>
-                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
-                <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
-                <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
-                <ProtectedRoute path="/apply/:jobId/:applicationTypeId" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} />
-                <Route path="/login" exact strict render={() => <Login />} />
-                <Route path="/login/:urlRoute/:parameter?" exact strict render={
-                    ({match}) => {
-                        const parameter = match.params.parameter;
-                        const urlRoute = match.params.urlRoute;
-                        return (<Login urlRoute={urlRoute} parameter={parameter} />)
-                    }
-                }/>
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
                 <Route path="/emailConfirmation" exact strict render={() => <EmailConfirmation />} />
@@ -62,7 +49,22 @@ const Demo = () => {
                         return (<ResetPassword userName={username} token={token} />)
                     }
                 }/>
-                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={"true"} />
+                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
+                <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
+                <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
+                <ProtectedRoute path="/apply/:jobId?/:applicationTypeId?" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} />
+                <Route path="/login" exact strict render={() => <Login />} />
+                <Route path="/login/:urlRoute/:parameter?" exact strict render={
+                    ({match}) => {
+                        const parameter = match.params.parameter;
+                        const urlRoute = match.params.urlRoute;
+                        return (<Login urlRoute={urlRoute} parameter={parameter} />)
+                    }
+                }/>
+                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/showInterest/:applicationTypeId" layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/kedsAcademy/:applicationTypeId" layout={Header} component={KedsAcademy} auth={"true"} />
                 {
                     routes
                 }

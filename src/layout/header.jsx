@@ -13,6 +13,9 @@ import {ic_power_settings_new_twotone} from 'react-icons-kit/md/ic_power_setting
 import {ic_settings_input_hdmi_twotone} from 'react-icons-kit/md/ic_settings_input_hdmi_twotone'
 import {ic_login} from 'react-icons-kit/md/ic_login'
 import {profile} from 'react-icons-kit/icomoon/profile'
+import {heartO} from 'react-icons-kit/fa/heartO'
+import { useState } from 'react'
+import Loading from '../loader/components/loader'
 const Header = ({ ...props }) => {
 
 
@@ -24,6 +27,7 @@ const Header = ({ ...props }) => {
     const deleteExperiencesStore = bindActionCreators(deleteExperiences, dispatch);
     const deleteProfileStore = bindActionCreators(deleteProfile, dispatch);
     const user = useSelector((state) => state.login.user);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const changeCss = () => {
@@ -40,7 +44,6 @@ const Header = ({ ...props }) => {
     },[])
 
     const logOutUser = () => {
-        window.location.hash = '/';
         logOutStore();
         deleteLanguagesStore();
         deleteSkillsStore();
@@ -48,46 +51,52 @@ const Header = ({ ...props }) => {
         deleteExperiencesStore();
         deleteProfileStore();
     }
-
-    return (
-        <div>
-            <React.Fragment>
-                <div class="container-fluid p-4">
-                    <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
-                        <div class="container-fluid">
-                            <img src={kedsLogo} alt="" />
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="fa fa-bars"></span>
-                                <span class="fa fa-bars"></span>
-                                <span class="fa fa-bars"></span>
-                            </button>
-                            {/* <button type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                                    <i class="fa fa-bars text-white"></i>
-                                    <span class="sr-only">Toggle Menu</span>
-                                </button> */}
-                            <div class="collapse navbar-collapse" id="ftco-nav">
-                                <ul class="navbar-nav ml-auto mr-md-3">
-                                    <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link"> <Icon size={20} icon={ic_home_filled} /> Home</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon size={20} icon={ic_work_twotone} />  Jobs </a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_work_twotone} /> Interesed Job </a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="#"> <Icon size={20} icon={ic_settings_input_hdmi_twotone} /> Keds Academy </a></li>
-                                    { user.token && <li class="nav-item"> <a class="nav-link" href="/#/userHome"> <Icon size={20} icon={profile} /> My Profile </a></li> }
-                                    { user.token && <li class="nav-item"> <button style={{background:"none",border:"0px"}} class="nav-link" onClick={logOutUser}> <Icon size={20} icon={ic_power_settings_new_twotone} /> Log Out </button></li> }
-                                    { !user.token && <li class="nav-item"> <a class="nav-link" href="/#/login"> <Icon icon={ic_login} size={20}  /> Login </a></li> }
-                                </ul>
+    
+    if(isLoading){
+        return(
+            <Loading/>
+        )
+    }
+    else{
+        return (
+            <div>
+                <React.Fragment>
+                    <div class="container-fluid p-4">
+                        <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
+                            <div class="container-fluid">
+                                <img src={kedsLogo} alt="" />
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="fa fa-bars"></span>
+                                    <span class="fa fa-bars"></span>
+                                    <span class="fa fa-bars"></span>
+                                </button>
+                                {/* <button type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                                        <i class="fa fa-bars text-white"></i>
+                                        <span class="sr-only">Toggle Menu</span>
+                                    </button> */}
+                                <div class="collapse navbar-collapse" id="ftco-nav">
+                                    <ul class="navbar-nav ml-auto mr-md-3">
+                                        <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link"> <Icon className="text-info" size={20} icon={ic_home_filled} /> Home</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon className="text-info" size={20} icon={ic_work_twotone} />  Open Job Vacancy </a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/#/showInterest/2"> <Icon className="text-info" size={20} icon={heartO} /> Show your interest </a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/#/kedsAcademy/3"> <Icon  className="text-info" size={20} icon={ic_settings_input_hdmi_twotone} /> KEDS Academy </a></li>
+                                        { user.token && <li class="nav-item"> <a class="nav-link" href="/#/userHome"> <Icon className="text-info" size={20} icon={profile} /> My Profile </a></li> }
+                                        { user.token && <li class="nav-item"> <a href="/#/" class="nav-link" onClick={() => logOutUser()}> <Icon className="text-info" size={20} icon={ic_power_settings_new_twotone} /> Log Out </a></li> }
+                                        { !user.token && <li class="nav-item"> <a class="nav-link" href="/#/login"> <Icon className="text-info" icon={ic_login} size={20}  /> Login </a></li> }
+                                    </ul>
+                                </div>
                             </div>
+                        </nav>
+                        <div id="root">
+                            {props.children}
                         </div>
-                    </nav>
-                    <div id="root">
-                        {props.children}
+    
+                        <br />
                     </div>
-
-                    <br />
-                </div>
-            </React.Fragment>
-        </div>
-    )
-
+                </React.Fragment>
+            </div>
+        )
+    }
 }
 
 

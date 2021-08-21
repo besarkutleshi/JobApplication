@@ -73,16 +73,20 @@ const Login = ({ urlRoute = null, parameter = null }) => {
                 if (urlRoute != null) {
                     if (parameter != null) {
                         window.location.hash = `/${urlRoute}/${parameter}`;
+                        urlRoute = null;parameter = null;
                         return;
                     }
                     window.location.hash = `/${urlRoute}`;
+                    urlRoute = null;parameter = null;
                     return;
                 }
                 window.location.hash = "/";
+                urlRoute = null;parameter = null;
                 return;
             }
             addModulesStore(login.modules);
             window.location.hash = "/openJobs";
+            urlRoute = null;parameter = null;
             return;
         }
         else {
