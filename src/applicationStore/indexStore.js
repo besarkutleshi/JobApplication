@@ -10,10 +10,12 @@ import userExperiencesReducer from '../userProfile/reduxStore/experienceReducer'
 import userSkillReducer from '../userProfile/reduxStore/skillsReducer'
 import userLanguagesReducer from '../userProfile/reduxStore/languageReducer'
 import questionReducer from '../applications/reduxStore/questionReducer'
+import configReducer from '../authentication/reduxStore/loginStore/configReducer';
 
 const rootReducer = combineReducers({openJobs : openJobReducer, jobResponsibility:jobResponsibilitesReducer, 
     jobRequirement: jobRequirementReducer, login:loginReducer, module: moduleReducer, profile:profileReducer, userEducation:userEducationReducer,
-    userExperience:   userExperiencesReducer, userSkills:userSkillReducer, userLanguages:userLanguagesReducer, applicantQuestions : questionReducer
+    userExperience:   userExperiencesReducer, userSkills:userSkillReducer, userLanguages:userLanguagesReducer, applicantQuestions : questionReducer,
+    config:configReducer
 });
 
 export default rootReducer;

@@ -169,7 +169,7 @@ const UserData = ({ submitText = null }) => {
                             <label htmlFor="">Image</label>
                             <div class="image-upload ml-3" style={{ marginTop: "50px", cursor: "auto" }}>
                                 {
-                                    imageBytes && <label for="file-input">  <img id="my-img" src={`data:image/png;base64, ${imageBytes}`} alt="" width={150} height={150} /></label>
+                                    imageBytes && <label for="file-input">  <img id="my-img" className="rounded img-fluid" src={`data:image/png;base64, ${imageBytes}`} alt="" width={150} height={150} /></label>
                                 }
                                 {
                                     !imageBytes && <label for="file-input"> <Icon size={100} icon={userPlus} /></label>

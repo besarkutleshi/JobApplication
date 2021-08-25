@@ -55,3 +55,24 @@
 .PhoneInputInput{
     border: 0px;
 }
+
+
+#findJobRow{
+    align-items: center;
+    height: 600px;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-content: center;
+}
+
+#search{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  position: absolute;
+  z-index: 2;
+  padding: 20px;
+  text-align: center;
+}

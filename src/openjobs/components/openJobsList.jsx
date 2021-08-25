@@ -14,14 +14,16 @@ import { bindActionCreators } from 'redux'
 import { fillOpenJobArray } from '../reduxStore/reducers/action'
 import { Link } from 'react-router-dom'
 import Loading from '../../loader/components/loader'
+import MUI from 'mui-datatables'
+import {ic_event_available_twotone} from 'react-icons-kit/md/ic_event_available_twotone'
+import {ic_event_busy_twotone} from 'react-icons-kit/md/ic_event_busy_twotone'
+import {ic_disabled_by_default_twotone} from 'react-icons-kit/md/ic_disabled_by_default_twotone'
+import {ic_work_twotone} from 'react-icons-kit/md/ic_work_twotone'
 const OpenJobList = () => {
 
     const user = useSelector((state) => state.login.user);
-    const config = {
-        headers:{
-            Authorization: `Bearer ${user.token != "" ? user.token : ''}`
-        }
-    }
+    const config = useSelector((state) => state.config.headers);
+    
     const openJobsStore = useSelector((state) => state.openJobs.openJobs);
     const [isLoading, setIsLoading] = useState(true);
     const [openJobs, setOpenJobs] = useState([]);
@@ -30,7 +32,7 @@ const OpenJobList = () => {
 
     const getOpenJobs = async () => {
         setIsLoading(true);
-        let openJobs = await openJobsController.getOpenJobs(config);   
+        let openJobs = await openJobsController.getOpenJobs(config); 
         if(openJobs){
             $(document).ready(function () {
                 $('#openJobList').DataTable();
@@ -63,15 +65,17 @@ const OpenJobList = () => {
         return (
             <div className="container-fluid" > 
             <br />
-                <h5 className="text-center lead" style={{marginTop:'-40px'}}>Jobs List</h5>
-                <br />
                 <div className="row">
                     <div className="col-sm-3 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h6 className="text-center lead">Active Jobs</h6>
                                 <br />
-                                <h5 className="text-center">{ openJobs.filter((e) => e.isActive === 1 && e.status === 'Open').length }</h5>
+                                    <i> <Icon size={40} icon={ic_event_available_twotone} className="text-success" /> </i>
+                                    <h5 style={{marginTop:"-30px"}} className="text-center">{ openJobs.filter((e) => e.isActive === 1 && e.status === 'Open').length }</h5>
+                                <div className="d-flex">
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -80,7 +84,8 @@ const OpenJobList = () => {
                             <div className="card-body">
                                 <h6 className="text-center lead">Expired Jobs</h6>
                                 <br />
-                                <h5 className="text-center">{ openJobs.filter((e) => e.status === 'Expired').length }</h5>
+                                <i><Icon icon={ic_event_busy_twotone} size={40}  className="text-danger"></Icon></i>
+                                <h5 style={{marginTop:"-30px"}} className="text-center">{ openJobs.filter((e) => e.status === 'Expired').length }</h5>
                             </div>
                         </div>
                     </div>
@@ -89,7 +94,8 @@ const OpenJobList = () => {
                             <div className="card-body">
                                 <h6 className="text-center lead">Pasive Jobs</h6>
                                 <br />
-                                <h5 className="text-center">{openJobs.filter((e) => e.isActive === 0).length}</h5>
+                                <i><Icon icon={ic_disabled_by_default_twotone} size={40} className="text-warning" /></i>
+                                <h5 style={{marginTop:"-30px"}} className="text-center">{openJobs.filter((e) => e.isActive === 0).length}</h5>
                             </div>
                         </div>
                     </div>
@@ -98,37 +104,38 @@ const OpenJobList = () => {
                             <div className="card-body">
                                 <h6 className="text-center lead">Total Jobs</h6>
                                 <br />
-                                <h5 className="text-center">{openJobs.length}</h5>
+                                <i><Icon icon={ic_work_twotone} size={40} className="text-info" /></i>
+                                <h5 style={{marginTop:"-30px"}} className="text-center">{openJobs.length}</h5>
                             </div>
                         </div>
                     </div>
                 </div>
                 <br />
                 <div className="row">
-                    <div className="col-sm-12">
-                        <Link to={{pathname:"/insertJob"}} className="btn btn-primary float-right"> <Icon icon={plus} /> Add a new job vacancy</Link>
+                    <div className="col-sm-4 float-right">
+                        <Link to={{pathname:"/insertJob"}} className="btn btn-primary"> <Icon icon={plus} /> Add a new job vacancy</Link>
                     </div>
                 </div>
                 <br />
-                {/* <div className="row">
+                <div className="row">
                     <div className="col-sm-12">
                         <MUI 
                             title = "Job List"
                             data = {
                                 openJobs.map((element, key) => {
                                     let array = [
-                                        element.openJobName,element.departament,element.division,61,element.expireDate.toString().split('T')[0],element.applicationsNumber,
+                                        element.openJobName,element.departament,element.division,element.remainingDays,element.expireDate.toString().split('T')[0],element.applicationsNumber,element.status,
                                         <Link to={{ pathname:`/openJobDetail/${element.id}`, state: {openJobID : element.id} }} className="btn btn-primary"><Icon icon={arrowRight2} /> </Link>]
                                     return array;
                                 })
                             }
-                            columns = {["Position","Departament","Division","Remaining Time","Expire Date","Number of Applicants","Details"]}
+                            columns = {["Position","Departament","Division","Remaining Time","Expire Date","Number of Applicants","Status","Details"]}
                         />
                     </div>
-                </div> */}
-                <div className="row">
+                </div>
+                {/* <div className="row">
                     <div className="col-sm-12">
-                    <table id="openJobList" className="display table">
+                    <table id="openJobList" className="table">
                         <thead>
                             <tr>
                                 <th>Position</th>
@@ -170,7 +177,7 @@ const OpenJobList = () => {
                         </tfoot>
                     </table>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

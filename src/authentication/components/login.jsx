@@ -8,17 +8,20 @@ import authenticationController from '../controllers/authentication.controller'
 import $ from 'jquery'
 import { bindActionCreators } from 'redux';
 import { login } from '../reduxStore/loginStore/action'
+import { saveConfig } from '../reduxStore/loginStore/action'
 import { addModules } from '../../modules/reduxStore/action'
 import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import { ic_login_outline } from 'react-icons-kit/md/ic_login_outline'
-import helper from '../../helpers/helper'
+import helper from '../../shared/helpers/helper'
 import { addEducations, addExperiences, addLanguages, addProfile, addSkills } from '../../userProfile/reduxStore/action'
 
 const Login = ({ urlRoute = null, parameter = null }) => {
 
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.login.user);
     const addLogin = bindActionCreators(login, dispatch);
+    const saveChangesStore = bindActionCreators(saveConfig, dispatch);
     const addModulesStore = bindActionCreators(addModules, dispatch);
     const addEducationsStore = bindActionCreators(addEducations, dispatch);
     const addExperiencesStore = bindActionCreators(addExperiences, dispatch);
@@ -38,7 +41,13 @@ const Login = ({ urlRoute = null, parameter = null }) => {
         let login = await authenticationController.login(obj);
         setIsLoading(false);
         if (login.username) {
+            addModulesStore(login.modules);
             addLogin(login);
+            saveChangesStore({
+                headers:{
+                    Authorization: `Bearer ${user ? user.token != "" ? user.token : '' : ''}`
+                }
+            });
             if (helper.validUsername(username)) {
                 if(login.profile){
                     addEducationsStore(login.profile.applicantEducations ? login.profile.applicantEducations : [] );
@@ -84,7 +93,6 @@ const Login = ({ urlRoute = null, parameter = null }) => {
                 urlRoute = null;parameter = null;
                 return;
             }
-            addModulesStore(login.modules);
             window.location.hash = "/openJobs";
             urlRoute = null;parameter = null;
             return;

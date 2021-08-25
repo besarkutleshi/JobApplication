@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Error from '../../error/controllers/error'
-import helper from '../../helpers/helper'
+import helper from '../../shared/helpers/helper'
 class UserProfileController {
 
     createProfile = async (obj) => {

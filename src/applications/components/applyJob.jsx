@@ -9,6 +9,7 @@ import { check as conditions } from 'react-icons-kit/iconic/check'
 import ErrorAlert from '../../alerts/components/errorAlert'
 import applicationController from '../controllers/application.controller';
 import SuccessAlert from '../../alerts/components/successAlert'
+import helper from '../../shared/helpers/helper';
 const ApplyJob = ({ ...props }) => {
 
     const [idJob, setIdJob] = useState(props.match.params.jobId ? props.match.params.jobId : 0);
@@ -38,8 +39,22 @@ const ApplyJob = ({ ...props }) => {
     }, [])
 
     const createProfile = async () => {
+        let obj = aplicantQuestions.find(element => element.hasAnswer === 1 && (!element.answer || element.answer === ''));
+        if(obj){
+            ErrorAlert("Please fill question description if you switched to ON any question!");
+            return;
+        }
         if (responsiblity && savePersonalData) {
-            let obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: idJob, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions };
+            let obj = '';
+            if(parseInt(applicationTypeId) === 1){
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: idJob, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+            }
+            else if (parseInt(applicationTypeId) === 2) {
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+            }
+            else if (parseInt(applicationTypeId) === 3){
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+            }
             let created = await applicationController.createApplication(obj);
             if (created > 1) {
                 SuccessAlert("Application send successful.");
@@ -68,7 +83,7 @@ const ApplyJob = ({ ...props }) => {
             return (
                 <div className="row">
                     <div className="col-sm-4">
-                        <label htmlFor="">Interest Field's</label>
+                        <label htmlFor="">Interest Field</label>
                         <select className="form-select">
                             <option value=""></option>
                         </select>
@@ -87,6 +102,7 @@ const ApplyJob = ({ ...props }) => {
             )
         }
     }
+
 
     return (
         <div className="container-fluid card p-4">
@@ -134,7 +150,7 @@ const ApplyJob = ({ ...props }) => {
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
                     <a href={`/#/activeJobDetails/${idJob}`} className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </a>
-                    <button onClick={createProfile} className="btn btn-info"> <Icon icon={check} /> Apply </button>
+                    {helper.validUsername(user.username) &&  <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply </button>}
                 </div>
             </div>
         </div>

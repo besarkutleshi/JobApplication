@@ -4,21 +4,18 @@ import { useSelector } from 'react-redux'
 import Loading from '../../../loader/components/loader'
 import Icon from 'react-icons-kit'
 import {sad} from 'react-icons-kit/icomoon/sad'
-
-const UserApplications = () => {
+const UserApplications = ({applicationTypeId}) => {
 
     const user = useSelector((state) => state.login.user);
-    console.log(user);
     const [isLoading, setIsLaoding] = useState(false);
     const [userApplications, setUserApplications] = useState([]);
 
 
     const getUserApplications = async () => {
         setIsLaoding(true);
-        let result = await applicationController.getUserApplications(user.userId);
+        let result = await applicationController.getUserApplications(user.userId,applicationTypeId);
         if(result){
             setUserApplications(result);
-            console.log(result);
         }
         setIsLaoding(false);
     }
@@ -40,7 +37,9 @@ const UserApplications = () => {
         return(
             <div className="container-fluid">
                 <div className="row">
-                    My Application's
+                    {parseInt(applicationTypeId) === 1 && 'My Applications'}
+                    {parseInt(applicationTypeId) === 2 && 'My Interest Applications'}
+                    {parseInt(applicationTypeId) === 3 && 'My KEDS Academy Applications'}
                 </div>
                 <br />
                 {
@@ -53,7 +52,11 @@ const UserApplications = () => {
                                     <span className="ml-3 mt-2" style={{color:"black"}}>Application Date</span>
                                 </div>
                                 <div className="col-sm-12 d-flex justify-content-between">
-                                    <h5 className="ml-3 flex-grow-1 bd-highlight"> <a className="text-info" href={`/#/activeJobDetails/${element.openJob.id}`} > {element.openJob.jobName} </a> </h5>
+                                    <h5 className="ml-3 flex-grow-1 bd-highlight"> 
+                                        { parseInt(applicationTypeId) === 1 && <a href={`/#/activeJobDetails/${element.openJob.id}`} className="text-info"> {element.openJob.jobName} </a> }
+                                        { parseInt(applicationTypeId) === 2 && <a className="text-info"> {element.jobCategory.category} </a> }
+                                        { parseInt(applicationTypeId) === 3 && <a href="https://www.keds-energy.com/eng/csr/keds-academy/" target="_blank" className="text-info"> KEDS Academy </a> }
+                                    </h5>
                                     <h5 className="mr-5 text-info">{element.status} </h5>
                                     <h5  className="text-info">{element.applicationDate.split('T')[0]}</h5>
                                 </div>

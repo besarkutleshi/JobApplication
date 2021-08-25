@@ -5,6 +5,7 @@ import Loading from '../../loader/components/loader'
 import {fileText} from 'react-icons-kit/fa/fileText'
 import Icon from 'react-icons-kit'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
+import helper from '../../shared/helpers/helper'
 const ActiveJobDetails = ({ ...props }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +61,7 @@ const ActiveJobDetails = ({ ...props }) => {
                 <div className="row">
                     <div className="col-sm-12 d-flex justify-content-between">
                         <Link to={{ pathname:`/`}} className="btn btn-info me-auto"><Icon icon={arrowLeft2} /> Back</Link>
-                        <button onClick={redirectToApplyPage} className="btn btn-info float-right"> <Icon icon={fileText}/> Apply Online</button>
+                        { helper.validUsername(user.username) && <button onClick={redirectToApplyPage} className="btn btn-info float-right"> <Icon icon={fileText}/> Apply Online</button> }
                     </div>
                 </div>
                 <br />

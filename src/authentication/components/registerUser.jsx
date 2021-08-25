@@ -7,7 +7,7 @@ import $ from 'jquery'
 import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
-import helper from '../../helpers/helper'
+import helper from '../../shared/helpers/helper'
 const RegisterUser = () => {
 
     const [isLoading, setIsLoading] = useState('');

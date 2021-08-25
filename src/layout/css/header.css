@@ -66,6 +66,20 @@
   
   [tabindex="-1"]:focus {
     outline: 0 !important; }
+
+
+    #navbar{
+      background: #11101d;
+      height: 50px;
+    }
+
+    #sidebar {
+      background: #11101d;
+    }
+
+    #sidebar ul li a {
+      color:#fff
+    }
   
   hr {
     -webkit-box-sizing: content-box;

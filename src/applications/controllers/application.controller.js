@@ -1,5 +1,5 @@
 import axios from 'axios'
-import helper from '../../helpers/helper';
+import helper from '../../shared/helpers/helper';
 import Error from '../../error/controllers/error'
 class ApplicationController{
 
@@ -23,9 +23,9 @@ class ApplicationController{
         }
     }
 
-    getUserApplications = async (userId) => {
+    getUserApplications = async (userId,applicationTypeId) => {
         try {
-            let response = await axios.get(helper.url + `applications/${userId}/applications`);
+            let response = await axios.get(helper.url + `applications/${userId}/${applicationTypeId}`);
             return response.data;
         } catch (error) {
             Error.returnError(error);

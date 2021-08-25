@@ -19,6 +19,8 @@ import $ from 'jquery'
 import {list2} from 'react-icons-kit/icomoon/list2'
 import {ic_fact_check_twotone} from 'react-icons-kit/md/ic_fact_check_twotone'
 import UserApplications from '../../applications/components/userApplications/userApplications'
+import {ic_flash_on} from 'react-icons-kit/md/ic_flash_on'
+import {heartO} from 'react-icons-kit/fa/heartO'
 const UserHome = () => {
 
     const [component, setComponent] = useState('UserProfile');
@@ -73,7 +75,13 @@ const UserHome = () => {
                     <div className="col-sm-12">
                         <div className="card">
                             <a class="list-group-item" onClick={() => setComponent('MyApplications')} > 
-                                <Icon icon={ic_fact_check_twotone} size={20} className="mr-3"/> <span> My Application's </span> 
+                                <Icon icon={ic_fact_check_twotone} size={20} className="mr-3 text-info"/> <span> My Application's </span> 
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('MyInterests')} > 
+                                <Icon icon={heartO} size={20} className="mr-3 text-danger"/> <span> My Interest's </span> 
+                            </a>
+                            <a class="list-group-item" onClick={() => setComponent('MyKedsApplications')} > 
+                                <Icon icon={ic_flash_on} size={20} className="mr-3 text-warning"/> <span> My KEDS Academy Application's </span> 
                             </a>
                         </div>
                     </div>
@@ -87,7 +95,9 @@ const UserHome = () => {
                             { component === "UserSkills" && <UserSkills />  }
                             { component === "UserLanguages" && <UserLanguage />  }
                             { component === "UserCV" && <UserCVPrint /> }
-                            { component === "MyApplications" && <UserApplications />  }
+                            { component === "MyApplications" && <UserApplications applicationTypeId={1} />  }
+                            { component === "MyInterests" && <UserApplications applicationTypeId={2} />  }
+                            { component === "MyKedsApplications" && <UserApplications applicationTypeId={3} />  }
                         </div>
                     </div>
                 </div>

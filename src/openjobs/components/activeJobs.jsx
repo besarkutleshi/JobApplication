@@ -4,13 +4,19 @@ import Loading from '../../loader/components/loader'
 import '../style/activeJobs.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {fillOpenJobArray } from '../reduxStore/reducers/action'
+import { fillOpenJobArray } from '../reduxStore/reducers/action'
 import { Link } from 'react-router-dom'
+import bg from '../../images/recruitment.jpg'
+import { Input } from 'antd'
+import Icon from 'react-icons-kit'
+import { search } from 'react-icons-kit/icomoon/search'
+import { Select } from 'antd';
+const { Option } = Select;
 const ActiveOpenJobs = () => {
 
     const dispatch = useDispatch();
-    const fillStoreArray  = bindActionCreators(fillOpenJobArray,dispatch);
-    
+    const fillStoreArray = bindActionCreators(fillOpenJobArray, dispatch);
+
     const [isLoading, setIsLoading] = useState([]);
     const [activeJobs, setActiveJobs] = useState([]);
 
@@ -40,30 +46,89 @@ const ActiveOpenJobs = () => {
     }
     else if (activeJobs.length > 0) {
         return (
-            <div className="container-fluid">
+            <div className="" style={{ marginTop: "-38px" }}>
+                <div className="container-fluid">
+
+                </div>
+                <div className="row" id="findJobRow" style={{backgroundImage: `url(${bg})`}}>
+                    <div id="search" className="container">
+                        <p className="float-left  text-muted lead"> <b>Find you dream job. </b></p>
+                        <br />
+                        <div className="p-5">
+                            <div className="row">
+                                <div className="col-sm-3">
+                                    <Input size="large" className="d-flex mb-2" placeholder="Search Job" prefix={<Icon style={{ color: "gray" }} icon={search} />} />
+                                </div>
+                                <div className="col-sm-3">
+                                    <Select
+                                        showSearch
+                                        style={{ width: 220 }}
+                                        placeholder="Select category"
+                                        size="large"
+                                        className="mb-2"
+                                    >
+                                        <Option value="Ferizaj">Ferizaj</Option>
+                                        <Option value="Gjakove">Gjakove</Option>
+                                        <Option value="Gjilan">Gjilan</Option>
+                                        <Option value="Mitrovice">Mitrovice</Option>
+                                        <Option value="Peje">Peje</Option>
+                                        <Option value="Prishtine">Prishtine</Option>
+                                        <Option value="Prizren">Prizren</Option>
+                                    </Select>
+                                </div>
+                                <div className="col-sm-3">
+                                    <Select
+                                        showSearch
+                                        style={{ width: 220 }}
+                                        placeholder="Select city"
+                                        size="large"
+                                        className="mb-2"
+                                    >
+                                        <Option value="Ferizaj">Ferizaj</Option>
+                                        <Option value="Gjakove">Gjakove</Option>
+                                        <Option value="Gjilan">Gjilan</Option>
+                                        <Option value="Mitrovice">Mitrovice</Option>
+                                        <Option value="Peje">Peje</Option>
+                                        <Option value="Prishtine">Prishtine</Option>
+                                        <Option value="Prizren">Prizren</Option>
+                                    </Select>
+                                </div>
+                                <div className="col-sm-3">
+                                    <button style={{ width: "100%" }} className="btn btn-primary"> <Icon icon={search} /> Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="float-left lead text-muted"><b>We have 23 job offers for you! </b></p>
+                    </div>
+                </div>
+                <div className="row mt-4">
+                    <div className="col-sm-12 text-center">
+                        <h5 style={{ fontSize: "24px" }} className="lead text-muted">Find the <b>right job</b>. <b> Right now. </b></h5>
+                    </div>
+                </div>
                 <br /><br />
                 <div className="row">
                     {
                         activeJobs.map((element, key) => {
                             return (
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card p-3 mb-2">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
-                                                <div class=""> <img src={require(`../../images/jobImageDeveloper.jpeg`).default}  className="rounded" width="100px" height="100px" /> </div>
+                                                <div class=""> <img src={require(`../../images/jobImageDeveloper.jpeg`).default} className="rounded" width="100px" height="100px" /> </div>
                                                 <div class="ms-2 c-details">
                                                     <h6 class="mb-0">KEDS</h6> <span>{element.dayAgo} days ago</span>
                                                 </div>
                                             </div>
                                             <div class="badge"> <span>{element.jobLocation}</span>  </div>
-                                            
+
                                         </div>
                                         <div class="mt-4">
                                             <h4 class="heading">{element.experienceLevel.split(' ')[0]} {element.openJobName}</h4>
                                         </div>
                                         <div className="d-flex justify-content-between mt-3">
                                             <div class=""> <span class="text1">{element.applicationsNumber} Applied <span class="text2">of {element.noEmployeesWanted} capacity</span></span> </div>
-                                            <Link to={{ pathname:`/activeJobDetails/${element.id}`, state: {id : element.id} }} className="btn btn-info">Job Details </Link>
+                                            <Link to={{ pathname: `/activeJobDetails/${element.id}`, state: { id: element.id } }} className="btn btn-info">Job Details </Link>
                                         </div>
                                     </div>
                                 </div>

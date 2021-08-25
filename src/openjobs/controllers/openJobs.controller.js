@@ -1,5 +1,5 @@
 import axios from 'axios'
-import helper from '../../helpers/helper'
+import helper from '../../shared/helpers/helper'
 import Error from '../../error/controllers/error'
 class OpenJobsController {
 
@@ -23,9 +23,9 @@ class OpenJobsController {
         }
     }
 
-    addJob = async (job) => {
+    addJob = async (job,config) => {
         try {
-            let added = await axios.post(helper.url + 'openJob/createJob',job);
+            let added = await axios.post(helper.url + 'openJob/createJob',job,config);
             return added.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -33,9 +33,9 @@ class OpenJobsController {
         }
     }
 
-    updateJob = async (job) => {
+    updateJob = async (job,config) => {
         try{
-            let updated = await axios.post(helper.url + 'openJob/updateJob',job);
+            let updated = await axios.post(helper.url + 'openJob/updateJob',job,config);
             return updated.status === 200 ? true : false;
         } catch(error){
             Error.returnError(error);
@@ -43,9 +43,9 @@ class OpenJobsController {
         }
     }
 
-    deleteJob = async (id) => {
+    deleteJob = async (id,config) => {
         try {
-            let deleted = await axios.delete(helper.url + `openJob/deleteJob/${id}`);
+            let deleted = await axios.delete(helper.url + `openJob/deleteJob/${id}`,config);
             return deleted.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -53,9 +53,9 @@ class OpenJobsController {
         }
     }
 
-    addJobResponsibility = async (obj) => {
+    addJobResponsibility = async (obj,config) => {
         try {
-            let added = await axios.post(helper.url + 'openJob/addJobResponsibility',obj)
+            let added = await axios.post(helper.url + 'openJob/addJobResponsibility',obj,config)
             return added.status === 200 ? added.data : false;
         } catch (error) {
             Error.returnError(error);
@@ -63,9 +63,9 @@ class OpenJobsController {
         }
     }
 
-    deleteJobResponsibility = async (id) => {
+    deleteJobResponsibility = async (id,config) => {
         try {
-            let deleted = await axios.delete(helper.url + `openJob/deleteJobResponsibility/${id}`);
+            let deleted = await axios.delete(helper.url + `openJob/deleteJobResponsibility/${id}`,config);
             return deleted.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -73,9 +73,9 @@ class OpenJobsController {
         }
     }
 
-    updateJobResponsibility = async (obj) => {
+    updateJobResponsibility = async (obj,config) => {
         try {
-            let updated = await axios.post(helper.url + 'openJob/updateJobResponsibility',obj);
+            let updated = await axios.post(helper.url + 'openJob/updateJobResponsibility',obj,config);
             return updated.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -83,9 +83,9 @@ class OpenJobsController {
         }
     }
 
-    addJobRequirement = async (obj) => {
+    addJobRequirement = async (obj,config) => {
         try {
-            let added = await axios.post(helper.url + 'openJob/addJobRequirement',obj)
+            let added = await axios.post(helper.url + 'openJob/addJobRequirement',obj,config)
             return added.status === 200 ? added.data : false;
         } catch (error) {
             Error.returnError(error);
@@ -93,9 +93,9 @@ class OpenJobsController {
         }
     }
 
-    deleteJobRequirement = async (id) => {
+    deleteJobRequirement = async (id,config) => {
         try {
-            let deleted = await axios.delete(helper.url + `openJob/deleteJobRequirement/${id}`);
+            let deleted = await axios.delete(helper.url + `openJob/deleteJobRequirement/${id}`,config);
             return deleted.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -103,9 +103,9 @@ class OpenJobsController {
         }
     }
 
-    updateJobRequirement = async (obj) => {
+    updateJobRequirement = async (obj,config) => {
         try {
-            let updated = await axios.post(helper.url + 'openJob/updateJobRequirement',obj);
+            let updated = await axios.post(helper.url + 'openJob/updateJobRequirement',obj,config);
             return updated.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);

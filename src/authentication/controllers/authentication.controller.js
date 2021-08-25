@@ -1,5 +1,5 @@
 import axios from 'axios'
-import helper from '../../helpers/helper'
+import helper from '../../shared/helpers/helper'
 import Error from '../../error/controllers/error';
 class AuthenticationController {
 

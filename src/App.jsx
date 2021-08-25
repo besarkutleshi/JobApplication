@@ -25,18 +25,22 @@ import UserHome from './userProfile/components/userHome';
 import UserProfileProgress from './userProfile/components/userDataInsert/userProfileProgress'
 import ApplyJob from './applications/components/applyJob';
 import KedsAcademy from './applications/components/kedsAcademy';
+import JobCategories from './openjobs/components/categories/jobCategories';
 const Demo = () => {
 
-    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress };
+    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress,JobCategories,ApplyJob,UserProfileProgress,UserHome };
+    const layoutMap = { Layout,Header }
     const user = useSelector((state) => state.login.user);
     const modulesStore = useSelector((state) => state.module.modules);
 
-    const routes = modulesStore.map((element,key) => element.menus.map((menu, menuKey) => <ProtectedRoute path={`${menu.url}`} layout={Layout} 
-                                    component={componentsMap[`${menu.menuName}`]} auth={user ? user.token ? "true" : "false" : "false"}   />))
+    const routes = modulesStore.map((element,key) => element.menus.map((menu, menuKey) => <ProtectedRoute path={`${menu.url}`} layout={layoutMap[`${menu.layout}`]} 
+                                    component={componentsMap[`${menu.componentName}`]} auth={user ? user.token ? "true" : "false" : "false"}   />))
     
     return (
         <div>
             <Router>
+
+
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
                 <Route path="/emailConfirmation" exact strict render={() => <EmailConfirmation />} />
@@ -49,11 +53,6 @@ const Demo = () => {
                         return (<ResetPassword userName={username} token={token} />)
                     }
                 }/>
-                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
-                <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
-                <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
-                <ProtectedRoute path="/apply/:jobId?/:applicationTypeId?" exact strict layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/createProfile" exact strict layout={Header} component={UserProfileProgress} auth={user ? user.token ? "true" : "false" : "false"} />
                 <Route path="/login" exact strict render={() => <Login />} />
                 <Route path="/login/:urlRoute/:parameter?" exact strict render={
                     ({match}) => {
@@ -62,9 +61,12 @@ const Demo = () => {
                         return (<Login urlRoute={urlRoute} parameter={parameter} />)
                     }
                 }/>
-                <ProtectedRoute path="/userHome" layout={Header} component={UserHome} auth={user ? user.token ? "true" : "false" : "false"} />
-                <ProtectedRoute path="/showInterest/:applicationTypeId" layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
+                <ProtectedRoute path="/" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
+                <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
+                <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
                 <ProtectedRoute path="/kedsAcademy/:applicationTypeId" layout={Header} component={KedsAcademy} auth={"true"} />
+                
+                <ProtectedRoute path="/showInterest/:applicationTypeId" layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
                 {
                     routes
                 }

@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
 import { removeModules } from '../modules/reduxStore/action'
 import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
+import 'boxicons'
 const Layout = ({ ...props }) => {
 
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Layout = ({ ...props }) => {
             <React.Fragment>
                 <div class="wrapper d-flex align-items-stretch">
                     <nav id="sidebar">
-                        <h6 className="pl-4 pt-4 lead" style={{ color: "white" }} id="hr" > KEDS & Career </h6>
+                        <p className="pt-3" style={{ color: "white", fontSize:"20px",marginLeft:"60px" }} id="hr" > <i class='bx bxs-bolt text-warning' ></i> KEDS - ATS </p>
                         <div class="p-4">
                             <ul class="list-unstyled components mb-5" style={{ marginTop: "20px" }}>
                                 {
@@ -62,18 +63,19 @@ const Layout = ({ ...props }) => {
                                         return(
                                             <li key={key}>
                                                 <a id="" href={`#${element.moduleName}`} data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                                 <span id="reports"> {element.moduleName}</span></a>
+                                                <i class={`${element.icon}`} style={{fontSize:"18px"}} ></i> <span className="ml-3">{element.moduleName}</span></a>
+                                                 
+                                                <ul class="collapse list-unstyled" id={`${element.moduleName}`}>
                                                  {
-                                                     element.menus.map((menu, keyMenu) => {
+                                                     element.menus.filter(element => { return element.isShown === 1}).map((menu, keyMenu) => {
                                                         return(
-                                                            <ul class="collapse list-unstyled" id={`${element.moduleName}`}>
-                                                                <li key={keyMenu}>
-                                                                    <a id="" href={`/#${menu.url}`}>{menu.menuName}</a>
-                                                                </li>
-                                                            </ul>
+                                                            <li key={keyMenu}>
+                                                                 <a id="" href={`/#${menu.url}`}> <i class={`${menu.icon}`} style={{fontSize:"18px"}} ></i> <span className="ml-3">{menu.menuName}</span></a>
+                                                            </li>
                                                         )
                                                      })
                                                  }
+                                                 </ul>
                                             </li>
                                         )
                                     })
@@ -100,7 +102,7 @@ const Layout = ({ ...props }) => {
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="nav navbar-nav ml-auto">
                                         <li id="logout" className="nav-item dropdown">
-                                            <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown"> <span className="mr-2" style={{ fontSize: '20px' }}> <i id="welcome"> Welcome</i> <i></i> </span> </a>
+                                            <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" style={{color:"white"}}> <span className="mr-2" style={{ fontSize: '20px' }}> <i style={{color:"white"}}> Welcome</i> <i></i> </span> </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a id="" href="/myProfile" class="dropdown-item"><i class="fa fa-user" aria-hidden="true"></i> <span id="profile" className="ml-2"> My Profile</span></a>
                                                 <div className="dropdown-divider"></div>

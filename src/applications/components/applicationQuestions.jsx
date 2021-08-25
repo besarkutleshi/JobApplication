@@ -22,13 +22,14 @@ const ApplicationQuestions = ({ applicationTypeId }) => {
     const getApplicationQuestions = async () => {
         setIsLoading(true);
         let questionsRes = await applicationController.getQuestions(applicationTypeId);
+        console.log(questionsRes);
         if (questionsRes && questionsRes.length > 0) {
             setQuestions(questionsRes);
             let array = [];
             questionsRes.forEach(element => {
                 let obj = {
-                    id: 0, ApplicationId: 0, userId: user.userId, aplicantProfileId: profile.id,
-                    questionId: element.id, hasAnswer: 0, answer: 'No', insertBy: user.userId, updateBy: user.userId
+                    id: 0, ApplicationId: 0, userId: user.userId, aplicantProfileId: profile ? profile.id : 0,
+                    questionId: element.id, hasAnswer: 0, answer: '', insertBy: user.userId, updateBy: user.userId
                 };
                 array.push(obj);
             });
@@ -39,18 +40,20 @@ const ApplicationQuestions = ({ applicationTypeId }) => {
     }
 
     const updateApplicantQuestion = (questionId, answerE) => {
-        questions.forEach(element => {
-            if (element.id === questionId) {
-                element.description = answerE
-            }
-        });
         applicantQuestions.forEach(element => {
             if (element.questionId === questionId) {
                 element.hasAnswer = answerE ? 1 : 0;
-                element.answer = answerE ? "Yes" : "No";
             }
         });
-        console.log(questions);
+        addQuestionsStore(applicantQuestions);
+    }
+
+    const updateApplicantQuestionAnswer = (questionId, text) => {
+        applicantQuestions.forEach(element => {
+            if (element.questionId === questionId) {
+                element.answer = text;
+            }
+        });
         addQuestionsStore(applicantQuestions);
     }
 
@@ -86,7 +89,7 @@ const ApplicationQuestions = ({ applicationTypeId }) => {
                                     <Switch className="float-right" onChange={(e) => updateApplicantQuestion(element.id, e)}> </Switch>
                                 </div>
                                 <div className="col-sm-12">
-                                    <textarea type="text" className="form-control" placeholder={element.placeholder} style={{ marginTop: "-8px" }} />
+                                    <textarea type="text" onChange={(e) => updateApplicantQuestionAnswer(element.id, e.target.value)} className="form-control" placeholder={element.placeholder} style={{ marginTop: "-8px" }} />
                                 </div>
                                 <br />
                             </div>

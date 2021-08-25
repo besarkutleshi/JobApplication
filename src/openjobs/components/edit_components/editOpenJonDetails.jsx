@@ -10,6 +10,7 @@ import loader from '../../../images/loader.gif'
 const EditOpenJob = ({ openJobID }) => {
 
     const openJobs = useSelector((state) => state.openJobs.openJobs);
+    const config = useSelector((state) => state.config.headers);
     const requirementsStore = useSelector((state) => state.jobRequirement.openJobsRequirements);
     const responsibilitesStore = useSelector((state) => state.jobResponsibility.openJobsResponsibilities);
 
@@ -53,13 +54,12 @@ const EditOpenJob = ({ openJobID }) => {
         setIsLoading(true);
         let obj = {Id:parseInt(openJobID), JobName:jobName, Departament:departament, Division:division, NoEmployeesWanted:noEmployeesWanted, JobLocation:jobLocation, ExpireDate:expireDate,
             IsRemote:isRemote, JobType:jobType, ExperienceLevel:experienceLevel,Description:description,UpdateBy:1,IsActive : 1 };
-        console.log(obj);
         if(obj.JobName === '' || obj.Departament === '' || obj.Division === '' || obj.NoEmployeesWanted <= 0 || obj.JobLocation === '' || obj.ExpireDate === ''){
             ErrorAlert("Can not add a job without his mandatory data, please check once again!");
             setIsLoading(false);
             return false;
         }
-        let updated = await openJobController.updateJob(obj);
+        let updated = await openJobController.updateJob(obj,config);
         updated ? SuccessAlert("Updated Successful") : ErrorAlert("Update Not Successful");
         // window.location = '/'
         setIsLoading(false);

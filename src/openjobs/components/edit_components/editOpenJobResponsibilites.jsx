@@ -14,6 +14,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
 
     const dispatch = useDispatch();
     const openJobs = useSelector((state) => state.openJobs.openJobs);
+    const config = useSelector((state) => state.config.headers);
     const fillStoreArray  = bindActionCreators(fillOpenJobArray,dispatch);
 
 
@@ -35,7 +36,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
     const addJobResponsibility = async (e) => {
         e.preventDefault();
         let obj = {Id : id, JobId: openJobID, Responsibility : responsibility, IsActive: 1, InsertBy : 1};
-        let added = await openJobController.addJobResponsibility(obj);
+        let added = await openJobController.addJobResponsibility(obj,config);
         if(added > 0){
             fillStoreArray(await openJobController.getOpenJobs());
             let newObj = {id:added, responsibility:responsibility};
@@ -59,7 +60,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
         });
 
         if(result.isConfirmed){
-            let response = await openJobController.deleteJobResponsibility(id);
+            let response = await openJobController.deleteJobResponsibility(id,config);
             if(response){
                 let result = openJobResponsibilites.filter(function(element) {
                     return element.id != id;
@@ -83,7 +84,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
     const updateJobResponsibility = async (e) => {
         e.preventDefault();
         let obj = {Id:updatedId,Responsibility : responsibility, IsActive : 1, UpdateBy : 1};
-        let updated = await openJobController.updateJobResponsibility(obj);
+        let updated = await openJobController.updateJobResponsibility(obj,config);
         if(updated){
             openJobResponsibilites.forEach(element => {
                 if(element.id === updatedId){
