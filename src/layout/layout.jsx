@@ -8,6 +8,7 @@ import { ic_logout } from 'react-icons-kit/md/ic_logout'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
+import { deleteConfig } from '../authentication/reduxStore/loginStore/action'
 import { removeModules } from '../modules/reduxStore/action'
 import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
 import 'boxicons'
@@ -15,6 +16,7 @@ const Layout = ({ ...props }) => {
 
     const dispatch = useDispatch();
     const logOutStore = bindActionCreators(logOut,dispatch);
+    const deleteConfigStore = bindActionCreators(deleteConfig,dispatch);
     const removeModulesStore = bindActionCreators(removeModules, dispatch);
     const deleteLanguagesStore = bindActionCreators(deleteLanguages, dispatch);
     const deleteSkillsStore = bindActionCreators(deleteSkills, dispatch);
@@ -42,6 +44,7 @@ const Layout = ({ ...props }) => {
     const logOutUser = () => {
         window.location.hash = '/';
         logOutStore();
+        deleteConfigStore();
         removeModulesStore();
         deleteLanguagesStore();
         deleteSkillsStore();

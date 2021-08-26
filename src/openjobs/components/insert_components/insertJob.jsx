@@ -17,6 +17,7 @@ import { bindActionCreators } from 'redux'
 import loader from '../../../images/loader.gif'
 const InsertJob = () => {
 
+    let config = useSelector((state) => state.config.headers);
     let requirementsStore = useSelector((state) => state.jobRequirement.openJobsRequirements);
     let responsibilitiesStore = useSelector((state) => state.jobResponsibility.openJobsResponsibilities);
     let jobDetailsStore = useSelector((state) => state.openJobs.openJob);
@@ -31,10 +32,11 @@ const InsertJob = () => {
     const addJob = async () => {
         setIsLoading(true);
         let obj = jobDetailsStore;
+        console.log(obj);
         obj.OpenJobsRequirements = requirementsStore;
         obj.OpenJobsResponsibilities = responsibilitiesStore;
-        if (obj.JobName === '' || obj.Departament === '' || obj.Division === '' || obj.JobTitleSQ === '' || obj.JobTitleEN === '' || obj.JobTitleSR === '' ||
-            obj.NoEmployeesWanted <= 0 || obj.JobLocation === '' || obj.ExpireDate === '') {
+        if (obj.JobName === '' || obj.Departament === '' || obj.Division === '' ||
+            obj.NoEmployeesWanted <= 0 || obj.JobLocation === '' || obj.ExpireDate === '' || parseInt(obj.CategoryId) === 0) {
             ErrorAlert("Can not add a job without his mandatory data, please check once again!");
             setIsLoading(false);
             return false;
@@ -49,7 +51,7 @@ const InsertJob = () => {
             setIsLoading(false);
             return false;
         }
-        let added = await openJobsController.addJob(obj);
+        let added = await openJobsController.addJob(obj,config);
         if (added) {
             deleteJobDetails({
                 JobName: "",

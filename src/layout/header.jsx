@@ -4,6 +4,7 @@ import kedsLogo from '../images/kedslogo.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../authentication/reduxStore/loginStore/action'
+import { deleteConfig } from '../authentication/reduxStore/loginStore/action'
 import { useEffect } from 'react'
 import { deleteEducations, deleteLanguages, deleteSkills, deleteExperiences, deleteProfile } from '../userProfile/reduxStore/action'
 import { removeModules } from '../modules/reduxStore/action'
@@ -11,7 +12,6 @@ import Icon from 'react-icons-kit'
 import {ic_home_filled} from 'react-icons-kit/md/ic_home_filled'
 import {ic_work_twotone} from 'react-icons-kit/md/ic_work_twotone'
 import {ic_power_settings_new_twotone} from 'react-icons-kit/md/ic_power_settings_new_twotone'
-import {ic_settings_input_hdmi_twotone} from 'react-icons-kit/md/ic_settings_input_hdmi_twotone'
 import {ic_login} from 'react-icons-kit/md/ic_login'
 import {profile} from 'react-icons-kit/icomoon/profile'
 import {heartO} from 'react-icons-kit/fa/heartO'
@@ -24,6 +24,7 @@ const Header = ({ ...props }) => {
 
     const dispatch = useDispatch();
     const logOutStore = bindActionCreators(logOut, dispatch);
+    const deleteConfigStore = bindActionCreators(deleteConfig, dispatch);
     const removeModulesStore = bindActionCreators(removeModules, dispatch);
     const deleteLanguagesStore = bindActionCreators(deleteLanguages, dispatch);
     const deleteSkillsStore = bindActionCreators(deleteSkills, dispatch);
@@ -33,9 +34,6 @@ const Header = ({ ...props }) => {
     const user = useSelector((state) => state.login.user);
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log(user);
-
-    
     const modulesStore = useSelector((state) => state.module.modules);
 
     useEffect(() => {
@@ -54,6 +52,7 @@ const Header = ({ ...props }) => {
 
     const logOutUser = () => {
         logOutStore();
+        deleteConfigStore();
         removeModulesStore();
         deleteLanguagesStore();
         deleteSkillsStore();
@@ -62,35 +61,6 @@ const Header = ({ ...props }) => {
         deleteProfileStore();
     }
 
-    
-    const getAdminModules = () => {
-        if(helper.validUsername(user.username)){
-            return(
-
-                `${
-                    modulesStore.map((element,key) => {
-                        return(
-                            <li class="nav-item"> 
-                                {
-                                    element.menus.filter(filter => { return filter.isShown === 1 }).map((menu, menuKey) => {
-                                        return(
-                                            <a class="nav-link" href={`/#${menu.url}`}> <Icon icon={profile} className="text-info" /> {menu.menuName} </a>
-                                        )
-                                    })
-                                }
-                            </li>
-                        )
-                    })
-                }`
-
-            )
-        }
-        else{
-            return(
-                ''
-            )
-        }
-    }
     
     if(isLoading){
         return(

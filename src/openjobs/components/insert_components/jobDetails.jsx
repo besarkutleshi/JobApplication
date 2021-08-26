@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { addJobDetails } from '../../reduxStore/reducers/action'
 import { bindActionCreators } from 'redux'
 import Loading from '../../../loader/components/loader'
+import jobCategoryController from '../../controllers/jobCategory.controller'
 const JobDetails = () => {
 
 
@@ -13,6 +14,8 @@ const JobDetails = () => {
     const dispatch = useDispatch();
     const addJobDetailsStore = bindActionCreators(addJobDetails, dispatch);
 
+    const [jobCategories, setJobCategories] = useState([]);
+    const [categoryId, setCategoryID] = useState(openJobDetails ? openJobDetails.CategoryId : 0);
     const [jobName, setJobName] = useState(openJobDetails ? openJobDetails.JobName : '');
     const [departament, setDepartament] = useState(openJobDetails ? openJobDetails.Departament : '');
     const [division, setDivision] = useState(openJobDetails ? openJobDetails.Division : '');
@@ -25,15 +28,23 @@ const JobDetails = () => {
     const [isRemote, setIsRemote] = useState(openJobDetails ? openJobDetails.IsRemote : 0);
     const [jobType, setJobType] = useState(openJobDetails ? openJobDetails.JobType : '');
     const [experienceLevel, setExperienceLevel] = useState(openJobDetails ? openJobDetails.ExperienceLevel : '');
-    const [description, setDescription] = useState(openJobDetails ? openJobDetails.Description : '')
+    const [description, setDescription] = useState(openJobDetails ? openJobDetails.Description : '');
+    
+
+    const getJobCategories = async () => {
+        let result = await jobCategoryController.getCategories({});
+        if (result) {
+            setJobCategories(result)
+        }
+    }
 
 
     useEffect(() => {
         addOpenJobDetails();
-    }, [jobName, departament, division, jobTitleSQ, jobTitleEN, jobTitleSR, noEmployeesWanted, jobLocation, expireDate, isRemote, jobType, experienceLevel, description])
+    }, [jobName, departament, division, jobTitleSQ, jobTitleEN, jobTitleSR, noEmployeesWanted, jobLocation, expireDate, isRemote, jobType, experienceLevel, description,categoryId])
 
 
-    const addOpenJobDetails = () => {
+    const addOpenJobDetails = async () => {
         let jobDetails = {
             JobName: jobName,
             Departament: departament,
@@ -45,11 +56,13 @@ const JobDetails = () => {
             JobLocation: jobLocation,
             ExpireDate: expireDate,
             IsRemote: isRemote,
+            CategoryId:categoryId,
             JobType: jobType,
             ExperienceLevel: experienceLevel,
             Description: description
         }
         addJobDetailsStore(jobDetails);
+        await getJobCategories();
     }
 
     if (!openJobDetails) {
@@ -60,7 +73,7 @@ const JobDetails = () => {
     else {
         return (
             <div className="container-fluid">
-            <br />
+                <br />
                 <div className="card p-4">
                     <form action="">
                         <div className="row">
@@ -68,6 +81,33 @@ const JobDetails = () => {
                                 <label htmlFor="">Job Name</label>
                                 <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                 <input type="text" className="form-control" placeholder="Job Name" value={jobName} onChange={(e) => setJobName(e.target.value)} />
+                            </div>
+                            {/* <div className="col-sm-4">
+                                <label htmlFor="">Job Title - EN</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <input type="text" className="form-control" placeholder="Job Title - EN" value={jobTitleEN} onChange={(e) => setJobTitleEN(e.target.value)} />
+                            </div>
+                            <div className="col-sm-4">
+                                <label htmlFor="">Job Title - SR</label>
+                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <input type="text" className="form-control" placeholder="Job Title - SR" value={jobTitleSR} onChange={(e) => setJobTitleSR(e.target.value)} />
+                            </div> */}
+                        </div>
+                        <br />
+                        <div className="row">
+                            <div className="col-sm-4">
+                                <label htmlFor="">Job Category</label>
+                                <label htmlFor="" className="float-right lead text-danger" style={{ fontSize: "13px" }}>*</label>
+                                <select className="form-select" value={categoryId} onChange={(e) => setCategoryID(e.target.value)}>
+                                                <option value="0">None</option>
+                                    {
+                                        jobCategories.map((element,key) => {
+                                            return(
+                                                <option value={element.id}>{element.category}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
                             </div>
                             <div className="col-sm-4">
                                 <label htmlFor="">Departament</label>
@@ -78,24 +118,6 @@ const JobDetails = () => {
                                 <label htmlFor="">Division</label>
                                 <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                 <input type="text" className="form-control" placeholder="Division" value={division} onChange={(e) => setDivision(e.target.value)} />
-                            </div>
-                        </div>
-                        <br />
-                        <div className="row">
-                            <div className="col-sm-4">
-                                <label htmlFor="">Job Title - SQ</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" placeholder="Job Title - SQ" value={jobTitleSQ} onChange={(e) => setTitleSQ(e.target.value)} />
-                            </div>
-                            <div className="col-sm-4">
-                                <label htmlFor="">Job Title - EN</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" placeholder="Job Title - EN" value={jobTitleEN} onChange={(e) => setJobTitleEN(e.target.value)} />
-                            </div>
-                            <div className="col-sm-4">
-                                <label htmlFor="">Job Title - SR</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" placeholder="Job Title - SR" value={jobTitleSR} onChange={(e) => setJobTitleSR(e.target.value)} />
                             </div>
                         </div>
                         <br />

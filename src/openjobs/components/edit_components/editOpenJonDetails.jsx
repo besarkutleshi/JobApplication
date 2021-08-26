@@ -5,8 +5,9 @@ import ErrorAlert from '../../../alerts/components/errorAlert';
 import openJobController from '../../controllers/openJobs.controller'
 import { Checkbox } from 'antd';
 import Icon from 'react-icons-kit'
-import {edit} from 'react-icons-kit/fa/edit'
+import { edit } from 'react-icons-kit/fa/edit'
 import loader from '../../../images/loader.gif'
+import jobCategoryController from '../../controllers/jobCategory.controller'
 const EditOpenJob = ({ openJobID }) => {
 
     const openJobs = useSelector((state) => state.openJobs.openJobs);
@@ -27,11 +28,22 @@ const EditOpenJob = ({ openJobID }) => {
     const [isRemote, setIsRemote] = useState(0);
     const [jobType, setJobType] = useState('');
     const [experienceLevel, setExperienceLevel] = useState('');
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState(0);
+
+
+    const getJobCategories = async () => {
+        let result = await jobCategoryController.getCategories({});
+        if (result) {
+            setCategories(result)
+        }
+    }
 
     useEffect(() => {
-        const getObjData = () => {
+        const getObjData = async () => {
             let obj = openJobs.find(e => parseInt(e.id) === parseInt(openJobID));
+            console.log(obj);
             setJobName(obj.openJobName);
             setDepartament(obj.departament);
             setDivision(obj.division);
@@ -45,6 +57,8 @@ const EditOpenJob = ({ openJobID }) => {
             setJobType(obj.jobType);
             setExperienceLevel(obj.experienceLevel);
             setDescription(obj.description);
+            setCategoryId(obj.categoryID);
+            await getJobCategories();
         }
         getObjData();
     }, []);
@@ -52,14 +66,18 @@ const EditOpenJob = ({ openJobID }) => {
     const updateJob = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        let obj = {Id:parseInt(openJobID), JobName:jobName, Departament:departament, Division:division, NoEmployeesWanted:noEmployeesWanted, JobLocation:jobLocation, ExpireDate:expireDate,
-            IsRemote:isRemote, JobType:jobType, ExperienceLevel:experienceLevel,Description:description,UpdateBy:1,IsActive : 1 };
-        if(obj.JobName === '' || obj.Departament === '' || obj.Division === '' || obj.NoEmployeesWanted <= 0 || obj.JobLocation === '' || obj.ExpireDate === ''){
+        let obj = {
+            Id: parseInt(openJobID), JobName: jobName, Departament: departament, Division: division, NoEmployeesWanted: noEmployeesWanted, 
+            JobLocation: jobLocation, ExpireDate: expireDate,
+            IsRemote: isRemote, JobType: jobType, ExperienceLevel: experienceLevel, Description: description, UpdateBy: 1, IsActive: 1, categoryId : categoryId
+        };
+        if (obj.JobName === '' || obj.Departament === '' || obj.Division === '' || obj.NoEmployeesWanted <= 0 
+            || obj.JobLocation === '' || obj.ExpireDate === '' || obj.categoryId <= 0) {
             ErrorAlert("Can not add a job without his mandatory data, please check once again!");
             setIsLoading(false);
             return false;
         }
-        let updated = await openJobController.updateJob(obj,config);
+        let updated = await openJobController.updateJob(obj, config);
         updated ? SuccessAlert("Updated Successful") : ErrorAlert("Update Not Successful");
         // window.location = '/'
         setIsLoading(false);
@@ -78,25 +96,7 @@ const EditOpenJob = ({ openJobID }) => {
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                             <input type="text" className="form-control" placeholder="Job Name" value={jobName} onChange={(e) => setJobName(e.target.value)} required />
                         </div>
-                        <div className="col-sm-4">
-                            <label htmlFor="">Departament</label>
-                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="text" className="form-control" placeholder="Departament" value={departament} onChange={(e) => setDepartament(e.target.value)} required/>
-                        </div>
-                        <div className="col-sm-4">
-                            <label htmlFor="">Division</label>
-                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="text" className="form-control" placeholder="Division" value={division} onChange={(e) => setDivision(e.target.value)} required/>
-                        </div>
-                    </div>
-                    <br />
-                    <div className="row">
-                        <div className="col-sm-4">
-                            <label htmlFor="">Job Title - SQ</label>
-                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="text" className="form-control" placeholder="Job Title - SQ" value={jobTitleSQ} onChange={(e) => setTitleSQ(e.target.value)} required/>
-                        </div>
-                        <div className="col-sm-4">
+                        {/* <div className="col-sm-4">
                             <label htmlFor="">Job Title - EN</label>
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                             <input type="text" className="form-control" placeholder="Job Title - EN" value={jobTitleEN} onChange={(e) => setJobTitleEN(e.target.value)} required/>
@@ -105,6 +105,33 @@ const EditOpenJob = ({ openJobID }) => {
                             <label htmlFor="">Job Title - SR</label>
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                             <input type="text" className="form-control" placeholder="Job Title - SR" value={jobTitleSR} onChange={(e) => setJobTitleSR(e.target.value)} required/>
+                        </div> */}
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <label htmlFor="">Job Category</label>
+                            <label htmlFor="" className="float-right lead text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <select className="form-select" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                                <option value="0">None</option>
+                                {
+                                    categories.map((element, key) => {
+                                        return (
+                                            <option value={element.id}>{element.category}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="col-sm-4">
+                            <label htmlFor="">Departament</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" placeholder="Departament" value={departament} onChange={(e) => setDepartament(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4">
+                            <label htmlFor="">Division</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" placeholder="Division" value={division} onChange={(e) => setDivision(e.target.value)} required />
                         </div>
                     </div>
                     <br />
@@ -112,17 +139,17 @@ const EditOpenJob = ({ openJobID }) => {
                         <div className="col-sm-4">
                             <label htmlFor="">No. of Employees wanted</label>
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="number" className="form-control" placeholder="No. of Employees wanted" value={noEmployeesWanted} onChange={(e) => setNoEmployeesWanted(e.target.value)} required/>
+                            <input type="number" className="form-control" placeholder="No. of Employees wanted" value={noEmployeesWanted} onChange={(e) => setNoEmployeesWanted(e.target.value)} required />
                         </div>
                         <div className="col-sm-4">
                             <label htmlFor="">Job Location</label>
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="text" className="form-control" placeholder="Job Location" value={jobLocation} onChange={(e) => setJobLocation(e.target.value)} required/>
+                            <input type="text" className="form-control" placeholder="Job Location" value={jobLocation} onChange={(e) => setJobLocation(e.target.value)} required />
                         </div>
                         <div className="col-sm-4">
                             <label htmlFor="">Expire Date</label>
                             <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                            <input type="date" className="form-control" value={expireDate} onChange={(e) => setExpireDate(e.target.value)} required/>
+                            <input type="date" className="form-control" value={expireDate} onChange={(e) => setExpireDate(e.target.value)} required />
                         </div>
                     </div>
                     <br />
@@ -168,7 +195,7 @@ const EditOpenJob = ({ openJobID }) => {
                             <textarea type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </div>
                     </div>
-                    { isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" /> }
+                    {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
                     <br />
                     <div className="row">
                         <button type="submit" className="btn btn-primary"> <Icon icon={edit} /> Update Job Details</button>

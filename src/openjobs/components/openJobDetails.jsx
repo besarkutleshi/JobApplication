@@ -12,6 +12,8 @@ import Swal from 'sweetalert2'
 import Loading from '../../loader/components/loader'
 const OpenJobDetails = ({ ...props }) => {
 
+    const config = useSelector((state) => state.config.headers);
+
     const [isLoading, setIsLoading] = useState(false);
     const [jobDetails, setJobDetails] = useState({});
     const [jobResponsibility, setJobResponsibility] = useState([]);
@@ -49,7 +51,7 @@ const OpenJobDetails = ({ ...props }) => {
         });
 
         if(result.isConfirmed){
-            let deleted = await openJobsController.deleteJob(openJobID);
+            let deleted = await openJobsController.deleteJob(openJobID,config);
             if(deleted){
                 SuccessAlert("Delete Successful");
                 window.location.hash = "/"

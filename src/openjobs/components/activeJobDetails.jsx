@@ -6,6 +6,7 @@ import {fileText} from 'react-icons-kit/fa/fileText'
 import Icon from 'react-icons-kit'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
 import helper from '../../shared/helpers/helper'
+import jobCategoryController from '../controllers/jobCategory.controller'
 const ActiveJobDetails = ({ ...props }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +15,11 @@ const ActiveJobDetails = ({ ...props }) => {
     const [jobRequirements, setJobRequirements] = useState([]);
     const [openJobID, setOpenJobID] = useState(props.match.params.id);
 
+
     const openJobsStore = useSelector((state) => state.openJobs.openJobs);
     const user = useSelector((state) => state.login.user);
+
+    
     
     useEffect(() => {
         const getJobDetail = () => {

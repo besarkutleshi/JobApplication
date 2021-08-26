@@ -2,6 +2,7 @@ export const LOGIN = 'LOGIN'
 export const GETUSER = 'GETUSER'
 export const LOGOUT = 'LOGOUT'
 export const SAVECONFIG = 'SAVECONFIG'
+export const DELETECONFIG = 'DELETECONFIG'
 
 export const login = (obj) => {
     return (dispatch) => {
@@ -33,6 +34,14 @@ export const saveConfig = (header) => {
         dispatch({
             type : SAVECONFIG,
             header:header
+        })
+    }
+}
+
+export const deleteConfig = () => {
+    return(dispatch) => {
+        dispatch({
+            type : DELETECONFIG
         })
     }
 }

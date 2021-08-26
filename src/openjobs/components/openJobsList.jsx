@@ -124,7 +124,7 @@ const OpenJobList = () => {
                             data = {
                                 openJobs.map((element, key) => {
                                     let array = [
-                                        element.openJobName,element.departament,element.division,element.remainingDays,element.expireDate.toString().split('T')[0],element.applicationsNumber,element.status,
+                                        element.openJobName,element.departament,element.division,element.remainingDays + ' Days',element.expireDate.toString().split('T')[0],element.applicationsNumber,element.status,
                                         <Link to={{ pathname:`/openJobDetail/${element.id}`, state: {openJobID : element.id} }} className="btn btn-primary"><Icon icon={arrowRight2} /> </Link>]
                                     return array;
                                 })

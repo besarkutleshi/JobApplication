@@ -1,5 +1,6 @@
 import {
-    SAVECONFIG
+    SAVECONFIG,
+    DELETECONFIG
 } from "./action";
 
 const initialState = {
@@ -12,6 +13,10 @@ const configReducer = (state = initialState, action) => {
             return {
                 headers : action.header
             };
+        case DELETECONFIG:
+            return {
+                headers : {}
+            }
         default:
             return state;
     }

@@ -43,9 +43,10 @@ const Login = ({ urlRoute = null, parameter = null }) => {
         if (login.username) {
             addModulesStore(login.modules);
             addLogin(login);
+            console.log(login);
             saveChangesStore({
                 headers:{
-                    Authorization: `Bearer ${user ? user.token != "" ? user.token : '' : ''}`
+                    Authorization: `Bearer ${login.token != "" ? login.token : ''}`
                 }
             });
             if (helper.validUsername(username)) {

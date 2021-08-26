@@ -10,6 +10,9 @@ import ErrorAlert from '../../alerts/components/errorAlert'
 import applicationController from '../controllers/application.controller';
 import SuccessAlert from '../../alerts/components/successAlert'
 import helper from '../../shared/helpers/helper';
+import jobCategoryController from '../../openjobs/controllers/jobCategory.controller';
+import { Select } from 'antd';
+const { Option } = Select;
 const ApplyJob = ({ ...props }) => {
 
     const [idJob, setIdJob] = useState(props.match.params.jobId ? props.match.params.jobId : 0);
@@ -21,6 +24,8 @@ const ApplyJob = ({ ...props }) => {
     const aplicantQuestions = useSelector((state) => state.applicantQuestions.questions);
     const [responsiblity, setResponsibility] = useState(false);
     const [savePersonalData, setSavePersonalData] = useState(false);
+    const [categoryId, setCategoryId] = useState();
+    const [categories, setCategories] = useState([]);
 
     const getJobName = () => {
         if (idJob > 0) {
@@ -31,29 +36,38 @@ const ApplyJob = ({ ...props }) => {
         }
     }
 
+
+    const getJobCategories = async () => {
+        let result = await jobCategoryController.getCategories({});
+        if (result) {
+            setCategories(result)
+        }
+    }
+
     useEffect(() => {
-        const getJob = () => {
+        const getJob = async () => {
             getJobName();
+            await getJobCategories();
         }
         getJob();
     }, [])
 
     const createProfile = async () => {
         let obj = aplicantQuestions.find(element => element.hasAnswer === 1 && (!element.answer || element.answer === ''));
-        if(obj){
+        if (obj) {
             ErrorAlert("Please fill question description if you switched to ON any question!");
             return;
         }
         if (responsiblity && savePersonalData) {
             let obj = '';
-            if(parseInt(applicationTypeId) === 1){
-                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: idJob, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+            if (parseInt(applicationTypeId) === 1) {
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: idJob, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions, insertBy: user.userId };
             }
             else if (parseInt(applicationTypeId) === 2) {
-                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, categoryID:categoryId, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions, insertBy: user.userId };
             }
-            else if (parseInt(applicationTypeId) === 3){
-                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions,insertBy:user.userId };
+            else if (parseInt(applicationTypeId) === 3) {
+                obj = { id: 0, userId: user.userId, aplicantProfileId: profile.id, openJobId: null, applicationTypeId: applicationTypeId, aplicantQuestions: aplicantQuestions, insertBy: user.userId };
             }
             let created = await applicationController.createApplication(obj);
             if (created > 1) {
@@ -83,10 +97,23 @@ const ApplyJob = ({ ...props }) => {
             return (
                 <div className="row">
                     <div className="col-sm-4">
-                        <label htmlFor="">Interest Field</label>
-                        <select className="form-select">
-                            <option value=""></option>
-                        </select>
+                        <Select
+                            showSearch
+                            style={{ width: 350 }}
+                            placeholder="Select category"
+                            size="large"
+                            className="mb-2"
+                            value={categoryId}
+                            onChange={(e) => setCategoryId(e)}
+                        >
+                            {
+                                categories.map((element, key) => {
+                                    return (
+                                        <Option key={key} value={element.id}>{element.category}</Option>
+                                    )
+                                })
+                            }
+                        </Select>
                     </div>
                 </div>
             )
@@ -111,7 +138,7 @@ const ApplyJob = ({ ...props }) => {
             }
             <hr />
             <div className="row">
-                <div className="col-sm-6" style={{borderRight:"1px solid"}}>
+                <div className="col-sm-6" style={{ borderRight: "1px solid" }}>
                     <ApplicationQuestions applicationTypeId={parseInt(applicationTypeId)} />
                 </div>
                 <div className="col-sm-6">
@@ -150,7 +177,7 @@ const ApplyJob = ({ ...props }) => {
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
                     <a href={`/#/activeJobDetails/${idJob}`} className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </a>
-                    {helper.validUsername(user.username) &&  <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply </button>}
+                    {helper.validUsername(user.username) && <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply </button>}
                 </div>
             </div>
         </div>

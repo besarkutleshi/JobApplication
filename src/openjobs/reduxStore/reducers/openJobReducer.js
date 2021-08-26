@@ -16,6 +16,7 @@ const initialState = {
         JobTitleSR: "",
         NoEmployeesWanted: 0,
         JobLocation: "",
+        CategoryId:0,
         ExpireDate: "",
         IsRemote: 0,
         JobType: 'Not Selected',
