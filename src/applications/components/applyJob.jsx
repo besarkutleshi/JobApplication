@@ -10,11 +10,15 @@ import ErrorAlert from '../../alerts/components/errorAlert'
 import applicationController from '../controllers/application.controller';
 import SuccessAlert from '../../alerts/components/successAlert'
 import helper from '../../shared/helpers/helper';
+import loader from '../../images/loader.gif'
 import jobCategoryController from '../../openjobs/controllers/jobCategory.controller';
 import { Select } from 'antd';
+import Loading from '../../loader/components/loader';
+import emailController from '../../shared/email/email.controller'
 const { Option } = Select;
 const ApplyJob = ({ ...props }) => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const [idJob, setIdJob] = useState(props.match.params.jobId ? props.match.params.jobId : 0);
     const [applicationTypeId, setapplicationTypeId] = useState(props.match.params.applicationTypeId);
     const user = useSelector((state) => state.login.user);
@@ -53,7 +57,11 @@ const ApplyJob = ({ ...props }) => {
     }, [])
 
     const createProfile = async () => {
+        setIsLoading(true);
         let obj = aplicantQuestions.find(element => element.hasAnswer === 1 && (!element.answer || element.answer === ''));
+        let body = `Hello ${profile.name}, <br/><br/> Thank you for your application and your interest in KEDS Company. <br /><br/> We will screen your application 
+                    carefully and get back to you as soon as possible. Please understand that this can take a couple of days. <br /><br/> If you have any questions in the meantime
+                    please don't hesitate to contact us via hr@keds-energy.com! <br /><br/> Thank you and best wishes,<br/> KEDS Company`;
         if (obj) {
             ErrorAlert("Please fill question description if you switched to ON any question!");
             return;
@@ -71,6 +79,7 @@ const ApplyJob = ({ ...props }) => {
             }
             let created = await applicationController.createApplication(obj);
             if (created > 1) {
+                let emailed = await emailController.sendEmail(user.username,"Your application at KEDS Company",body);
                 SuccessAlert("Application send successful.");
                 window.location.hash = "/userHome";
                 return;
@@ -80,6 +89,7 @@ const ApplyJob = ({ ...props }) => {
         else {
             ErrorAlert("Please read check conditions");
         }
+        setIsLoading(false);
     }
 
     const fields = () => {
@@ -177,6 +187,7 @@ const ApplyJob = ({ ...props }) => {
             <div className="row">
                 <div className="col-sm-12 d-flex justify-content-between">
                     <a href={`/#/activeJobDetails/${idJob}`} className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </a>
+                    {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
                     {helper.validUsername(user.username) && <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply </button>}
                 </div>
             </div>

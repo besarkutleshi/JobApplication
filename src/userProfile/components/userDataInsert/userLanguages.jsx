@@ -12,6 +12,7 @@ import { ic_edit_location_outline } from 'react-icons-kit/md/ic_edit_location_ou
 import Swal from 'sweetalert2'
 import Loading from '../../../loader/components/loader'
 
+import loader from '../../../images/loader.gif'
 
 const UserLanguages = () => {
 
@@ -40,6 +41,7 @@ const UserLanguages = () => {
     }
 
     const addLanguage = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         let obj = {
             id:0,
@@ -59,6 +61,7 @@ const UserLanguages = () => {
             addLanguagesStore(languages);
             clearAttributes();
         }
+        setIsLoading(false);
     }
 
     const getDataForUpdate = (id) => {
@@ -73,6 +76,7 @@ const UserLanguages = () => {
 
     const updateLanguage = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         let obj = {
             id:updateId,
             userId: user.userId,
@@ -94,6 +98,7 @@ const UserLanguages = () => {
             addLanguagesStore(languages);
             clearAttributes();
         }
+        setIsLoading(false);
     }
 
     const deleteLanguage = async (id) => {
@@ -121,68 +126,64 @@ const UserLanguages = () => {
     }
 
 
-    if (isLoading) {
-        <Loading />
-    }
-    else {
-        return (
-            <div className="container-fluid">
-                <div className="card p-4">
-                    <h6 className="lead">Language's </h6>
-                    <hr />
-                    <br />
-                    <form onSubmit={submit === "Add Language" ? addLanguage : updateLanguage}>
-                        <div className="row">
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Language </label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={language} onChange={(e) => setLanguage(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Knowledge Level</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <select value={knowledgeLevel} onChange={(e) => setKnowledgeLevel(e.target.value)} className="form-select" required>
-                                    <option value="">Not Selected</option>
-                                    <option value="Novice">Novice</option>
-                                    <option value="Advanced Beginner">Advanced Beginner</option>
-                                    <option value="Competent">Competent</option>
-                                    <option value="Proficient">Proficient</option>
-                                    <option value="Expert">Expert</option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                            <div className="col-sm-12 d-flex justify-content-between">
-                                <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
-                                <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    return (
+        <div className="container-fluid">
+            <div className="card p-4">
+                <h6 className="lead">Language's </h6>
+                <hr />
                 <br />
-                <div className={`${classList}`} style={{height:`${heightList}`}}>
+                <form onSubmit={submit === "Add Language" ? addLanguage : updateLanguage}>
                     <div className="row">
-                        {
-                            languages.map((element, key) => {
-                                return (
-                                    <div className="col-sm-12 mb-2" key={key}>
-                                        <div className="card">
-                                            <div className="d-flex justify-content-between">
-                                                <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.language} - {element.knowledgeLevel}</h6>
-                                                <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                                <button type="button" onClick={deleteLanguage.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
-                                            </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Language </label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={language} onChange={(e) => setLanguage(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Knowledge Level</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <select value={knowledgeLevel} onChange={(e) => setKnowledgeLevel(e.target.value)} className="form-select" required>
+                                <option value="">Not Selected</option>
+                                <option value="Novice">Novice</option>
+                                <option value="Advanced Beginner">Advanced Beginner</option>
+                                <option value="Competent">Competent</option>
+                                <option value="Proficient">Proficient</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                        <div className="col-sm-12 d-flex justify-content-between">
+                            <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
+                            {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
+                            <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br />
+            <div className={`${classList}`} style={{height:`${heightList}`}}>
+                <div className="row">
+                    {
+                        languages.map((element, key) => {
+                            return (
+                                <div className="col-sm-12 mb-2" key={key}>
+                                    <div className="card">
+                                        <div className="d-flex justify-content-between">
+                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.language} - {element.knowledgeLevel}</h6>
+                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                            <button type="button" onClick={deleteLanguage.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
                                         </div>
                                     </div>
-                                )
-                            })
-                        }
-                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 
 }
 

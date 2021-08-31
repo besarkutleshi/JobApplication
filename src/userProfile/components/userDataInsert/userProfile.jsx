@@ -16,6 +16,7 @@ import { ic_delete_sweep } from 'react-icons-kit/md/ic_delete_sweep'
 import { ic_file_download_done } from 'react-icons-kit/md/ic_file_download_done'
 import { useEffect } from 'react';
 import fileController from '../../../shared/fileControllers/file.controller';
+import loader from '../../../images/loader.gif'
 const UserData = ({ submitText = null }) => {
 
     const dispatch = useDispatch();
@@ -80,6 +81,7 @@ const UserData = ({ submitText = null }) => {
     }
 
     const createProfile = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
 
         let bodyFormData = new FormData();
@@ -107,6 +109,7 @@ const UserData = ({ submitText = null }) => {
             setSubmit("Update Profile Data");
             setId(created.id);
         }
+        setIsLoading(false);
     }
 
     const clearAttributes = () => {
@@ -127,6 +130,7 @@ const UserData = ({ submitText = null }) => {
     }
 
     const updateProfile = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         let bodyFormData = new FormData();
         bodyFormData.append('id', id);
@@ -147,13 +151,13 @@ const UserData = ({ submitText = null }) => {
         bodyFormData.append('photoFile', photoFile);
         bodyFormData.append('lastImageName', lastImageName);
 
-        setPhoto(photoFile.name)
 
         let updated = await userProfileController.updateProfile(bodyFormData);
         if (updated !== false && updated.name) {
             SuccessAlert('Update Successful');
             addProfileStore(getObject(updated));
         }
+        setIsLoading(false);
     }
 
 
@@ -185,7 +189,6 @@ const UserData = ({ submitText = null }) => {
                                         );
                                     }
                                 }} />
-                                <label htmlFor="">{photo ? photo : ''}</label>
                             </div>
                         </div>
                         <div className="col-md-8">
@@ -269,6 +272,7 @@ const UserData = ({ submitText = null }) => {
                     <div className="row">
                         <div className="col-md-12 d-flex justify-content-between">
                             <button type="button" className="btn btn-primary" onClick={clearAttributes}> <Icon icon={ic_delete_sweep} size={20} /> Clear</button>
+                            {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
                             <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} size={20} /> {submit}</button>
                         </div>
                     </div>

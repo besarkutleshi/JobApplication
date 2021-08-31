@@ -12,6 +12,7 @@ import { ic_delete_forever } from 'react-icons-kit/md/ic_delete_forever'
 import { ic_edit_location_outline } from 'react-icons-kit/md/ic_edit_location_outline'
 import Swal from 'sweetalert2'
 import Loading from '../../../loader/components/loader'
+import loader from '../../../images/loader.gif'
 const UserEducation = () => {
 
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const UserEducation = () => {
 
     const addEducation = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         let obj = {
             id: 0,
             userId: user.userId,
@@ -68,6 +70,7 @@ const UserEducation = () => {
             SuccessAlert("Register Successful");
             clearAttributes();
         }
+        setIsLoading(false);
     }
 
     const clearAttributes = () => {
@@ -98,6 +101,7 @@ const UserEducation = () => {
 
     const updateData = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         let obj = {
             id: updateId,
             userId: user.userId,
@@ -132,9 +136,11 @@ const UserEducation = () => {
             clearAttributes();
             addEducationStore(educations);
         }
+        setIsLoading(false);
     }
 
     const deleteData = async (id) => {
+        setIsLoading(true);
         let result = await Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -157,97 +163,94 @@ const UserEducation = () => {
                 clearAttributes();
             }
         }
+        setIsLoading(false);
     }
 
 
-    if (isLoading) {
-        <Loading />
-    }
-    else {
-        return (
-            <div className="container-fluid">
-                <div className="card p-4">
-                    <h6 className="lead">Education's & Training's</h6>
-                    <hr />
-                    <br />
-                    <form onSubmit={submit === "Add Education" ? addEducation : updateData}>
-                        <div className="row">
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Institution</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={institution} onChange={(e) => setInstitution(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Diploma</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={direction} onChange={(e) => setDirection(e.target.value)} required />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Address</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">City</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Country</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="text" className="form-control" value={country} onChange={(e) => setCountry(e.target.value)} required />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">Start Date</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="date" className="form-control" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
-                            </div>
-                            <div className="col-sm-4 mb-2">
-                                <label htmlFor="">End Date</label>
-                                <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
-                                <input type="date" className="form-control" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-                            </div>
-                            <div className="col-sm-4 mb-2" style={{ marginTop: "40px" }}>
-                                <label htmlFor="">On Going</label>
-                                <Switch checked={onGoing === 1 ? true : false} onChange={getOnGoingValue} className="ml-5"></Switch>
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                            <div className="col-sm-12 d-flex justify-content-between">
-                                <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
-                                <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    return (
+        <div className="container-fluid">
+            <div className="card p-4">
+                <h6 className="lead">Education's & Training's</h6>
+                <hr />
                 <br />
-                <div  className={`${classList}`} style={{height:`${heightList}`}}>
+                <form onSubmit={submit === "Add Education" ? addEducation : updateData}>
                     <div className="row">
-                        {
-                            educations.map((element, key) => {
-                                return (
-                                    <div className="col-sm-12 mb-2" key={key}>
-                                        <div className="card">
-                                            <div className="d-flex justify-content-between">
-                                                <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.institution} - {element.direction}</h6>
-                                                <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
-                                                <button type="button" onClick={deleteData.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
-                                            </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Institution</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={institution} onChange={(e) => setInstitution(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Diploma</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={direction} onChange={(e) => setDirection(e.target.value)} required />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Address</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">City</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Country</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="text" className="form-control" value={country} onChange={(e) => setCountry(e.target.value)} required />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">Start Date</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="date" className="form-control" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+                        </div>
+                        <div className="col-sm-4 mb-2">
+                            <label htmlFor="">End Date</label>
+                            <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
+                            <input type="date" className="form-control" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                        </div>
+                        <div className="col-sm-4 mb-2" style={{ marginTop: "40px" }}>
+                            <label htmlFor="">On Going</label>
+                            <Switch checked={onGoing === 1 ? true : false} onChange={getOnGoingValue} className="ml-5"></Switch>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                        <div className="col-sm-12 d-flex justify-content-between">
+                            <button onClick={clearAttributes} type="button" className="btn btn-primary"> <Icon icon={ic_delete_sweep} /> Clear</button>
+                            {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
+                            <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} /> {submit} </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br />
+            <div  className={`${classList}`} style={{height:`${heightList}`}}>
+                <div className="row">
+                    {
+                        educations.map((element, key) => {
+                            return (
+                                <div className="col-sm-12 mb-2" key={key}>
+                                    <div className="card">
+                                        <div className="d-flex justify-content-between">
+                                            <h6 className="lead p-3 ml-4 flex-grow-1 bd-highlight" >{element.institution} - {element.direction}</h6>
+                                            <button type="button" onClick={getDataForUpdate.bind(this, element.id)} className="btn btn-secondary mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_edit_location_outline} /> </button>
+                                            <button type="button" onClick={deleteData.bind(this, element.id)} className="btn btn-danger mr-4 mt-2" style={{ height: "40px", borderRadius: "20px" }}> <Icon icon={ic_delete_forever} /> </button>
                                         </div>
                                     </div>
-                                )
-                            })
-                        }
-                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 
 }
 
