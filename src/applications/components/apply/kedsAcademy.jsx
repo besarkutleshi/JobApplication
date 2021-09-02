@@ -2,13 +2,12 @@ import React from 'react'
 import Icon from 'react-icons-kit'
 import {fileText} from 'react-icons-kit/fa/fileText'
 import { useSelector } from 'react-redux'
-import helper from '../../shared/helpers/helper';
+import helper from '../../../shared/helpers/helper';
 
 
 const KedsAcademy = () => {
 
     const user = useSelector((state) => state.login.user);
-
     const redirectToApplyPage = () => {
         if(user){
             if(user.token){
@@ -25,17 +24,14 @@ const KedsAcademy = () => {
 
     return(
         <div className="container">
-            {/* <div className="row">
-                <div className="col-sm-12">
-                    <img src={kedsAcademy} height="100px"/>
-                </div>
-            </div>
-            <br /> */}
             <div className="container card p-4">
                 <div className="row">
                     <div className="col-sm-12 mb-4 d-flex justify-content-between">
                         <a href="https://www.keds-energy.com/eng/csr/keds-academy/" target="_blank" className="lead">Learn more about KEDS Academy</a>
-                        {helper.validUsername(user.username) &&  <button onClick={() => redirectToApplyPage()} className="btn btn-info"><Icon icon={fileText}/> Apply Online</button> }
+                        {helper.validUsername(user.username) && 
+                            <button onClick={() => redirectToApplyPage()} className="btn btn-info"><Icon icon={fileText}/> Apply Online</button> }
+                        {helper.validUsername(user.username) || !user.username &&
+                            <button onClick={() => redirectToApplyPage()} className="btn btn-info"><Icon icon={fileText}/> Apply Online</button> }
                     </div>
                     <div className="col-sm-12 mb-4">
                         <p style={{color:"#252834",fontWeight:"400",fontSize:"1.125em"}}>KEDS Academy is the most important program in the education sector in Kosovo in 

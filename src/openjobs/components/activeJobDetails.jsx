@@ -66,6 +66,8 @@ const ActiveJobDetails = ({ ...props }) => {
                     <div className="col-sm-12 d-flex justify-content-between">
                         <Link to={{ pathname:`/`}} className="btn btn-info me-auto"><Icon icon={arrowLeft2} /> Back</Link>
                         { helper.validUsername(user.username) && <button onClick={redirectToApplyPage} className="btn btn-info float-right"> <Icon icon={fileText}/> Apply Online</button> }
+                        { helper.validUsername(user.username) || !user.username &&
+                            <button onClick={() => redirectToApplyPage()} className="btn btn-info"><Icon icon={fileText}/> Apply Online</button> }
                     </div>
                 </div>
                 <br />

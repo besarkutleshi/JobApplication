@@ -23,12 +23,15 @@ import Header from './layout/header';
 import ActiveJobDetails from './openjobs/components/activeJobDetails';
 import UserHome from './userProfile/components/userHome';
 import UserProfileProgress from './userProfile/components/userDataInsert/userProfileProgress'
-import ApplyJob from './applications/components/applyJob';
-import KedsAcademy from './applications/components/kedsAcademy';
+import ApplyJob from './applications/components/apply/applyJob';
+import KedsAcademy from './applications/components/apply/kedsAcademy';
 import JobCategories from './openjobs/components/categories/jobCategories';
+import Applicants from './applicants/components/applicants';
+import ApplicantDetails from './applicants/components/applicantDetails';
+import Applications from './applications/components/applicationsDetails/applications';
 const Demo = () => {
 
-    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress,JobCategories,ApplyJob,UserProfileProgress,UserHome };
+    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress,JobCategories,ApplyJob,UserProfileProgress,UserHome,Applicants,ApplicantDetails };
     const layoutMap = { Layout,Header }
     const user = useSelector((state) => state.login.user);
     const modulesStore = useSelector((state) => state.module.modules);
@@ -39,8 +42,6 @@ const Demo = () => {
     return (
         <div>
             <Router>
-
-
                 <Route path="/registerUser" exact strict render={() => <RegisterUser />} />
                 <Route path="/notAuthorized" exact strict render={() => <NotAuthorization />} />
                 <Route path="/emailConfirmation" exact strict render={() => <EmailConfirmation />} />
@@ -65,7 +66,9 @@ const Demo = () => {
                 <ProtectedRoute path="/activeJobs" exact strict layout={Header} component={ActiveOpenJobs} auth={"true"}/>
                 <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
                 <ProtectedRoute path="/kedsAcademy/:applicationTypeId" layout={Header} component={KedsAcademy} auth={"true"} />
-                
+
+                <ProtectedRoute path="/applications" layout={Layout} component={Applications} auth={"true"} />
+
                 <ProtectedRoute path="/showInterest/:applicationTypeId" layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
                 {
                     routes

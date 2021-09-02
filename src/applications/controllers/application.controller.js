@@ -33,6 +33,26 @@ class ApplicationController{
         }
     }
 
+    getApplications = async () => {
+        try {
+            let response = await axios.get(helper.url + 'applications');
+            return response ? response.data : null;
+        } catch (error) {
+            Error.returnError(error);
+            return null;
+        }
+    }
+
+    getApplicationQuestions = async (applicationID) => {
+        try {
+            let response = await axios.get(helper.url + `applications/${applicationID}/applicationQuestions`);
+            return response ? response.data : null;
+        } catch (error) {
+            Error.returnError(error);
+            return null;
+        }
+    }
+
 }
 
 export default new ApplicationController();

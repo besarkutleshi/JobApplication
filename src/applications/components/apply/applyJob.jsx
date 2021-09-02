@@ -6,15 +6,14 @@ import { useSelector } from 'react-redux'
 import { arrowLeft2 } from 'react-icons-kit/icomoon/arrowLeft2'
 import ApplicationQuestions from './applicationQuestions';
 import { check as conditions } from 'react-icons-kit/iconic/check'
-import ErrorAlert from '../../alerts/components/errorAlert'
-import applicationController from '../controllers/application.controller';
-import SuccessAlert from '../../alerts/components/successAlert'
-import helper from '../../shared/helpers/helper';
-import loader from '../../images/loader.gif'
-import jobCategoryController from '../../openjobs/controllers/jobCategory.controller';
+import ErrorAlert from '../../../alerts/components/errorAlert'
+import applicationController from '../../controllers/application.controller';
+import SuccessAlert from '../../../alerts/components/successAlert'
+import helper from '../../../shared/helpers/helper';
+import loader from '../../../images/loader.gif'
+import jobCategoryController from '../../../openjobs/controllers/jobCategory.controller';
 import { Select } from 'antd';
-import Loading from '../../loader/components/loader';
-import emailController from '../../shared/email/email.controller'
+import emailController from '../../../shared/email/email.controller'
 const { Option } = Select;
 const ApplyJob = ({ ...props }) => {
 
@@ -188,7 +187,9 @@ const ApplyJob = ({ ...props }) => {
                 <div className="col-sm-12 d-flex justify-content-between">
                     <a href={`/#/activeJobDetails/${idJob}`} className="btn btn-info"> <Icon icon={arrowLeft2} /> Back </a>
                     {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
-                    {helper.validUsername(user.username) && <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply </button>}
+                    {helper.validUsername(user.username) && <button onClick={() => createProfile()} className="btn btn-info"> <Icon icon={check} /> Apply Online </button>}
+                    {helper.validUsername(user.username) || !user.username &&
+                        <button onClick={() => createProfile()} className="btn btn-info"><Icon icon={check}/> Apply Online</button> }
                 </div>
             </div>
         </div>

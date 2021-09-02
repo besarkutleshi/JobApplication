@@ -38,13 +38,13 @@ const UserHome = () => {
     return (
         <div className="container-fluid">
             <div className="row mb-2">
-                <div className="col-sm-12">
+                <div className="col-lg-12">
                     <button onClick={hideorShow} className="btn btn-primary ml-3"><Icon icon={list2} /></button>
                 </div>
             </div>
             <div className="row">
-                <div className="col-sm-3 mb-2" id="list">
-                    <div className="col-sm-12">
+                <div className="col-lg-3 mb-2" id="list">
+                    <div className="col-lg-12">
                         <div className="card">
                             <a class="list-group-item" onClick={() => setComponent('UserProfile')} > 
                                 <Icon icon={profile} size={20} className="mr-3"/> <span> Profile's </span> 
@@ -72,7 +72,7 @@ const UserHome = () => {
                         </div>
                     </div>
                     <br />
-                    <div className="col-sm-12">
+                    <div className="col-lg-12">
                         <div className="card">
                             <a class="list-group-item" onClick={() => setComponent('MyApplications')} > 
                                 <Icon icon={ic_fact_check_twotone} size={20} className="mr-3 text-info"/> <span> My Application's </span> 
@@ -86,9 +86,9 @@ const UserHome = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`${classElement}`}>
+                <div id="components" className={`${classElement}`}>
                     <div className="row">
-                        <div className="col-sm-12">
+                        <div className="col-lg-12">
                             { component === "UserProfile" && <UserProfile />  }
                             { component === "UserExperience" && <UserExperience />  }
                             { component === "UserEducation" && <UserEducation />  }

@@ -169,7 +169,7 @@ const UserData = ({ submitText = null }) => {
                 <br />
                 <form id="formElm" enctype="multipart/form-data" onSubmit={submit === "Add Profile Data" ? createProfile : updateProfile}>
                     <div className="row">
-                        <div className="col-md-3 text-center">
+                        <div className="col-lg-3 text-center">
                             <label htmlFor="">Image</label>
                             <div class="image-upload ml-3" style={{ marginTop: "50px", cursor: "auto" }}>
                                 {
@@ -191,53 +191,53 @@ const UserData = ({ submitText = null }) => {
                                 }} />
                             </div>
                         </div>
-                        <div className="col-md-8">
+                        <div className="col-lg-8">
                             <div className="row">
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Name</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Surname</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={surname} onChange={(e) => setSurname(e.target.value)} required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Middle Name</label>
                                     <label htmlFor="" className="float-right" style={{ fontSize: "10px" }}>Optional</label>
                                     <input type="text" className="form-control" value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Personal Number </label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="input" className="form-control" value={personalNumber} onChange={(e) => setPersonalNumber(e.target.value)} required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Birthday</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="date" className="form-control" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Birth Place</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} required />
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Current Nationality</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" value={currentNationality} onChange={(e) => setCurrentNationality(e.target.value)} className="form-control" required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Birth Nationality</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={birthNationality} onChange={(e) => setBirthNationality(e.target.value)} />
                                 </div>
-                                <div className="col-md-4 mb-2" style={{ marginTop: "40px" }}>
+                                <div className="col-lg-4 mb-2" style={{ marginTop: "40px" }}>
                                     <label htmlFor="">Gender</label>
                                     <Radio.Group className="ml-2" value={gender} onChange={(e) => setGender(e.target.value)}>
                                         <Radio value={"M"}>Male</Radio>
@@ -246,12 +246,12 @@ const UserData = ({ submitText = null }) => {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Permanent Address </label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={permanentAddress} onChange={(e) => setPermanentAddress(e.target.value)} required />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Phone Number</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <PhoneInput
@@ -260,7 +260,7 @@ const UserData = ({ submitText = null }) => {
                                         value={phoneNumber}
                                         onChange={setPhoneNumber} />
                                 </div>
-                                <div className="col-md-4 mb-2">
+                                <div className="col-lg-4 mb-2">
                                     <label htmlFor="">Email Address</label>
                                     <label htmlFor="" className="float-right text-danger" style={{ fontSize: "13px" }}>*</label>
                                     <input type="text" className="form-control" value={permanentEmail} onChange={(e) => setPermantentEmail(e.target.value)} required />
@@ -270,7 +270,7 @@ const UserData = ({ submitText = null }) => {
                     </div>
                     <hr />
                     <div className="row">
-                        <div className="col-md-12 d-flex justify-content-between">
+                        <div className="col-lg-12 d-flex justify-content-between">
                             <button type="button" className="btn btn-primary" onClick={clearAttributes}> <Icon icon={ic_delete_sweep} size={20} /> Clear</button>
                             {isLoading && <img src={loader} alt="" className="float-right" width="80" height="80" />}
                             <button type="submit" className="btn btn-primary"> <Icon icon={ic_file_download_done} size={20} /> {submit}</button>

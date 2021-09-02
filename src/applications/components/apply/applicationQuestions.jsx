@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import applicationController from '../controllers/application.controller';
-import Loading from '../../loader/components/loader'
+import applicationController from '../../controllers/application.controller';
+import Loading from '../../../loader/components/loader'
 import { Switch } from 'antd';
-import { addQuestions } from '../reduxStore/action'
+import { addQuestions } from '../../reduxStore/action'
 import { bindActionCreators } from 'redux';
 import { info } from 'react-icons-kit/icomoon/info'
 import Icon from 'react-icons-kit'
