@@ -9,7 +9,7 @@ class ApplicationController{
             return response.data;
         } catch (error) {
             Error.returnError(error);
-            return -1;
+            // return -1;
         }
     }
 
@@ -47,6 +47,16 @@ class ApplicationController{
         try {
             let response = await axios.get(helper.url + `applications/${applicationID}/applicationQuestions`);
             return response ? response.data : null;
+        } catch (error) {
+            Error.returnError(error);
+            return null;
+        }
+    }
+
+    updateApplicationStatus = async (obj) => {
+        try {
+            let response = await axios.put(helper.url + `applications`,obj);
+            return response ? true : false;
         } catch (error) {
             Error.returnError(error);
             return null;

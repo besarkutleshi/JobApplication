@@ -15,7 +15,7 @@ import Icon from 'react-icons-kit'
 import { ic_login_outline } from 'react-icons-kit/md/ic_login_outline'
 import helper from '../../shared/helpers/helper'
 import { addEducations, addExperiences, addLanguages, addProfile, addSkills } from '../../userProfile/reduxStore/action'
-
+import securityController from '../controllers/security.controller'
 const Login = ({ urlRoute = null, parameter = null }) => {
 
     const dispatch = useDispatch();
@@ -37,13 +37,12 @@ const Login = ({ urlRoute = null, parameter = null }) => {
     const loginUser = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        let obj = { Username: username, Password: password };
+        let obj = { Username: username, Password: securityController.encrypt(password) };
         let login = await authenticationController.login(obj);
         setIsLoading(false);
         if (login.username) {
             addModulesStore(login.modules);
             addLogin(login);
-            console.log(login);
             saveChangesStore({
                 headers:{
                     Authorization: `Bearer ${login.token != "" ? login.token : ''}`
@@ -121,7 +120,7 @@ const Login = ({ urlRoute = null, parameter = null }) => {
                             <br />
                             <form action="" onSubmit={loginUser}>
                                 <div className="form-group first">
-                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Email" required />
                                 </div>
                                 <div className="form-group last mb-3">
                                     <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />

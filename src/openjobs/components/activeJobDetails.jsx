@@ -7,6 +7,7 @@ import Icon from 'react-icons-kit'
 import {arrowLeft2} from 'react-icons-kit/icomoon/arrowLeft2'
 import helper from '../../shared/helpers/helper'
 import jobCategoryController from '../controllers/jobCategory.controller'
+import Notification from '../../alerts/components/notification'
 const ActiveJobDetails = ({ ...props }) => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +40,10 @@ const ActiveJobDetails = ({ ...props }) => {
 
 
     const redirectToApplyPage = () => {
+        if(jobDetails.status === "Expired"){
+            Notification("info","Job Expired","This has expired!");
+            return;
+        }
         if(user){
             if(user.token){
                 if(user.profile){
@@ -71,73 +76,72 @@ const ActiveJobDetails = ({ ...props }) => {
                     </div>
                 </div>
                 <br />
-                <div className="row">
-                    <div className="col-sm-4">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <div className="card">
+                <div className="row mb-2">
+                    <div className="col">
+                        <div className="row mb-2">
+                            <div className="col">
+                                <div className="card pl-3 pr-3">
                                     <br />
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Role</h5>
-                                        <h6 className="mr-3">{jobDetails.openJobName}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Role</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.openJobName}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Departament</h5>
-                                        <h6 className="mr-3">{jobDetails.departament}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="float-left lead">Departament</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.departament}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Expiring Date</h5>
-                                        <h6 className="mr-3">{jobDetails.expireDate}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Expiring Date</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.expireDate}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Date Posted</h5>
-                                        <h6 className="mr-3">{jobDetails.createdDate}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Date Posted</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.createdDate}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Job Type</h5>
-                                        <h6 className="mr-3">{jobDetails.jobType}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Job Type</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.jobType}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Experience Level</h5>
-                                        <h6 className="mr-3">{jobDetails.experienceLevel}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Experience Level</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.experienceLevel}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Employees wanted</h5>
-                                        <h6 className="mr-3">{jobDetails.noEmployeesWanted}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead float-left">Employees wanted</h5>
+                                        <h6 className="mt-1 float-right">{jobDetails.noEmployeesWanted}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <div className="card">
-                                    <br />
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Active</h5>
-                                        <h6 className="mr-3">{jobDetails.isActive === 1 ? 'Yes' : 'No'}</h6>
+                        <div className="row mb-2">
+                            <div className="col">
+                                <div className="card pr-3 pl-3 pt-3">
+                                    <div className="mb-2">
+                                        <h5 className="float-left lead ml-3">Active</h5>
+                                        <h6 className="mr-3 float-right">{jobDetails.isActive === 1 ? 'Yes' : 'No'}</h6>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-right mb-2">
-                                        <h5 className="lead ml-3">Status </h5>
-                                        <h6 className="mr-3">{jobDetails.status}</h6>
+                                    <div className="mb-2">
+                                        <h5 className="lead ml-3 float-left">Status </h5>
+                                        <h6 className="mr-3 float-right">{jobDetails.status}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-sm-8">
-                        <div className="card">
+                        <div className="card pl-3">
                             <br />
-                            <p className="ml-3 mb-4" style={{fontSize:"18px"}}>
+                            <p className="mb-4" style={{fontSize:"18px"}}>
                                 <b>Based on the organizational scheme in force and the need to fill vacancies in the Division of Distribution, Operation Departament
                                     , Human Resources Departamen, July 1 2021 announces vacancies for the following positions :
                                 </b>
                             </p>
                             <div className="mb-3">
-                                <h4 className="ml-3 text-info">{jobDetails.openJobName}</h4>
+                                <h4 className="text-info">{jobDetails.openJobName}</h4>
                             </div>
                             <div>
-                                <h6 style={{fontSize:"18px"}} className="ml-3">Key tasks and responsibilities : </h6>
+                                <h6 style={{fontSize:"18px"}}>Key tasks and responsibilities : </h6>
                                 <ul>
                                     {
                                         jobResponsibility.map((element,key) => {
@@ -149,7 +153,7 @@ const ActiveJobDetails = ({ ...props }) => {
                                 </ul>
                             </div>
                             <div>
-                                <h6 style={{fontSize:"18px"}} className="ml-3">Requirements and qualifications : </h6>
+                                <h6 style={{fontSize:"18px"}}>Requirements and qualifications : </h6>
                                 <ul>
                                     {
                                         jobRequirements.map((element,key) => {

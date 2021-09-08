@@ -39,7 +39,6 @@ const ApplyJob = ({ ...props }) => {
         }
     }
 
-
     const getJobCategories = async () => {
         let result = await jobCategoryController.getCategories({});
         if (result) {
@@ -83,7 +82,6 @@ const ApplyJob = ({ ...props }) => {
                 window.location.hash = "/userHome";
                 return;
             }
-            ErrorAlert("Application does not send successful!");
         }
         else {
             ErrorAlert("Please read check conditions");

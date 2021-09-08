@@ -40,7 +40,7 @@ const EditOpenJobRequirements = ({openJobID}) => {
         let obj = {Id : id, JobId: openJobID, Requirement : requirement, IsActive: 1, InsertBy : 1};
         let added = await openJobController.addJobRequirement(obj,config);
         if(added > 0){
-            fillStoreArray(await openJobController.getOpenJobs());
+            fillStoreArray(await openJobController.getOpenJobs(config));
             let newObj = {id:added, requirement:requirement};
             openJobRequirements.push(newObj);
             setRequirement('');
@@ -69,7 +69,7 @@ const EditOpenJobRequirements = ({openJobID}) => {
                     return element.id != id;
                 });
                 setOpenJobRequirements(result);
-                fillStoreArray(await openJobController.getOpenJobs());
+                fillStoreArray(await openJobController.getOpenJobs(config));
                 SuccessAlert("Delete Successful");
                 return;
             }
@@ -94,7 +94,7 @@ const EditOpenJobRequirements = ({openJobID}) => {
                     element.requirement = obj.Requirement;
                 }
             });
-            fillStoreArray(await openJobController.getOpenJobs());
+            fillStoreArray(await openJobController.getOpenJobs(config));
             SuccessAlert("Update Successful");
             setSubmit("Add Requirement");
             setRequirement('');

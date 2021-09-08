@@ -8,6 +8,7 @@ import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
 import SuccessAlert from '../../alerts/components/successAlert'
 import $ from 'jquery'
 import loader from '../../images/loader.gif'
+import securityController from '../controllers/security.controller'
 const ResetPassword = ({ userName, token}) => {
 
     const [isLoading, setIsLoading] = useState('');
@@ -23,7 +24,7 @@ const ResetPassword = ({ userName, token}) => {
             $("#error").text("Password and Confirm password does not match");
             return;
         }
-        let obj = {Username:username, NewPassword: password, ConfirmPassword: confirmPassword, Token:token};
+        let obj = {Username:username, NewPassword: securityController.encrypt(password), ConfirmPassword: securityController.encrypt(confirmPassword), Token:token};
         let reseted = await authenticationController.resetPassword(obj);
         if(reseted){
             SuccessAlert("Reset password successful");

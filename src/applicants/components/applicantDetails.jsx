@@ -14,9 +14,8 @@ import { arrowLeft2 } from 'react-icons-kit/icomoon/arrowLeft2';
 import { Link } from 'react-router-dom';
 const ApplicantDetails = ({ ...props }) => {
 
-    console.log(props);
     const [isLoading, setIsLoading] = useState(false);
-    const [applicantID, setApplicantID] = useState(props.id);
+    const [applicantID, setApplicantID] = useState(props.match.params.id);
     const [profile, setProfile] = useState();
 
     const getProfile = async () => {

@@ -14,7 +14,6 @@ const UserApplications = ({applicationTypeId}) => {
     const getUserApplications = async () => {
         setIsLaoding(true);
         let result = await applicationController.getUserApplications(user.userId,applicationTypeId);
-        console.log(result);
         if(result){
             setUserApplications(result);
         }

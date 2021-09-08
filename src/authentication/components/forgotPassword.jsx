@@ -48,7 +48,7 @@ const ForgotPassword = () => {
                             <form action="" onSubmit={forgotPassword}>
 
                                 <div className="form-group first">
-                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Email" required />
                                 </div>
                                 
                                 <button type="submit" className="btn btn-block btn-primary"> Send Recover Link <Icon icon={ic_login_outline} size={20} className="float-right" /></button>

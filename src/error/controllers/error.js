@@ -9,6 +9,7 @@ class Error {
             window.location.hash = "/login";
         }  
         else {
+            console.log(error.response.data);
             ErrorAlert(error.response.data);
         } 
         // else if (error.response.status === 400){

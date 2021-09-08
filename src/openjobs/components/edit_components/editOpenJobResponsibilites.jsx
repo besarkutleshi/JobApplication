@@ -38,7 +38,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
         let obj = {Id : id, JobId: openJobID, Responsibility : responsibility, IsActive: 1, InsertBy : 1};
         let added = await openJobController.addJobResponsibility(obj,config);
         if(added > 0){
-            fillStoreArray(await openJobController.getOpenJobs());
+            fillStoreArray(await openJobController.getOpenJobs(config));
             let newObj = {id:added, responsibility:responsibility};
             openJobResponsibilites.push(newObj);
             setResponsibility('');
@@ -66,7 +66,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
                     return element.id != id;
                 })
                 setOpenJobResponsibilities(result);
-                fillStoreArray(await openJobController.getOpenJobs());
+                fillStoreArray(await openJobController.getOpenJobs(config));
                 SuccessAlert("Delete Successful");
                 return;
             }
@@ -91,7 +91,7 @@ const EditOpenJobResponsibilities = ({ openJobID }) => {
                     element.responsibility = obj.Responsibility;
                 }
             });
-            fillStoreArray(await openJobController.getOpenJobs());
+            fillStoreArray(await openJobController.getOpenJobs(config));
             SuccessAlert("Update Successful");
             setSubmit("Add Responsibility");
             setResponsibility('');

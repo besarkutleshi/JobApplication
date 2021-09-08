@@ -43,7 +43,6 @@ const EditOpenJob = ({ openJobID }) => {
     useEffect(() => {
         const getObjData = async () => {
             let obj = openJobs.find(e => parseInt(e.id) === parseInt(openJobID));
-            console.log(obj);
             setJobName(obj.openJobName);
             setDepartament(obj.departament);
             setDivision(obj.division);

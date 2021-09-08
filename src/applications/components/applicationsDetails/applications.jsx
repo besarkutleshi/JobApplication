@@ -13,32 +13,135 @@ import { ic_work_outline_twotone } from 'react-icons-kit/md/ic_work_outline_twot
 import { ic_work_twotone } from 'react-icons-kit/md/ic_work_twotone'
 import { ic_cast_for_education } from 'react-icons-kit/md/ic_cast_for_education'
 import { ic_computer_twotone } from 'react-icons-kit/md/ic_computer_twotone'
-import {ic_language_twotone} from 'react-icons-kit/md/ic_language_twotone'
+import { ic_language_twotone } from 'react-icons-kit/md/ic_language_twotone'
+import Swal from 'sweetalert2'
+import SuccessAlert from '../../../alerts/components/successAlert'
 const Applications = () => {
 
     const [isLoading, setIsLoading] = useState(false);
+    const [applicationID, setApplicationID] = useState();
     const [applications, setApplications] = useState([]);
     const [application, setApplication] = useState();
     const [applicationStatus, setApplicationStatus] = useState();
     const [applicationQuestions, setApplicationQuestions] = useState([]);
     const [profile, setProfile] = useState();
-    const [classList, setClassList] = useState(applications.length > 5 ? 'overflow-auto' : '');
-    const [heightList, setHeightList] = useState(applications.length > 5 ? '500px' : '');
+    const [classList, setClassList] = useState('overflow-auto');
+    const [heightList, setHeightList] = useState('700px');
 
-    const changeStatus = (value) => {
-        setApplicationStatus(value);
+    const [allApplications, setAllApplications] = useState([]);
+
+    const [normalApplication, setNormalApplications] = useState(true);
+    const [kedsAcademyApplication, setKedsAcademyApplication] = useState(true);
+    const [showYourInteresApplication, setShowYourInterestApplications] = useState(true);
+
+    const filterArray = (equals, value) => {
+        let filteredArray = [];
+        if (equals) {
+            filteredArray = applications.filter(element => {
+                return element.applicationTypeId === value;
+            });
+            filteredArray.forEach(element => {
+                applications.push(element);
+            });
+        }
+        else {
+            filteredArray = allApplications.filter(element => {
+                return element.applicationTypeId !== value;
+            });
+        }
+        setApplications(filteredArray);
+    }
+
+    const onChangeNormalApplications = (value) => {
+        if (value === false) {
+            let filteredArray = applications.filter(element => {
+                return element.applicationTypeId !== 1;
+            });
+            setApplications(filteredArray);
+        }
+        else {
+            let filteredArray = allApplications.filter(element => {
+                return element.applicationTypeId === 1;
+            });
+            let result = applications.concat(filteredArray);
+            setApplications(result);
+        }
+        setNormalApplications(value);
+    }
+
+    const onChangeKedsAcademyApplications = (value) => {
+        if (value === false) {
+            let filteredArray = applications.filter(element => {
+                return element.applicationTypeId !== 3;
+            });
+            setApplications(filteredArray);
+        }
+        else {
+            let filteredArray = allApplications.filter(element => {
+                return element.applicationTypeId === 3;
+            });
+            let result = applications.concat(filteredArray);
+            setApplications(result);
+        }
+        setKedsAcademyApplication(value);
+    }
+
+    const onChangeShowInterestApplications = (value) => {
+        if (value === false) {
+            let filteredArray = applications.filter(element => {
+                return element.applicationTypeId !== 2;
+            });
+            setApplications(filteredArray);
+        }
+        else {
+            let filteredArray = allApplications.filter(element => {
+                return element.applicationTypeId === 2;
+            });
+            let result = applications.concat(filteredArray);
+            setApplications(result);
+        }
+        setShowYourInterestApplications(value);
+    }
+
+    const changeStatus = async (value) => {
+        let result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Email will be sended to this applicant.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        });
+
+        if (result.isConfirmed) {
+            let obj = { ApplicationID: applicationID, Status: value };
+            let response = await applicationController.updateApplicationStatus(obj);
+            if (response) {
+                applications.forEach(element => {
+                    if (element.id === applicationID) {
+                        element.status = value;
+                    }
+                });
+                SuccessAlert("Application status changed");
+                setApplicationStatus(value);
+            }
+        }
     }
 
     const getApplications = async () => {
         setIsLoading(true);
         let result = await applicationController.getApplications();
+        console.log(result);
         if (result) {
             setApplications(result);
+            setAllApplications(result);
         }
         setIsLoading(false);
     }
 
     const getApplicationQuestions = async (applicationID, userProfileID) => {
+        setApplicationID(applicationID);
         let application = applications.find(a => a.id === applicationID);
         setApplication(application);
         setApplicationStatus(application.status)
@@ -46,7 +149,6 @@ const Applications = () => {
         if (result) {
             let profile = await applicantController.getApplicantProfile(userProfileID);
             if (profile) {
-                console.log(profile);
                 setProfile(profile);
                 setApplicationQuestions(result);
                 $('#applicationDetails').show();
@@ -71,44 +173,43 @@ const Applications = () => {
                     <div className="row">
                         <div className="col-lg-2 p-3 column">
                             <div>
-                                <label className="black">New Hiring</label>
-                                <Switch className="ml-2 float-right" />
+                                <label className="black">Job Vacancy</label>
+                                <Switch onChange={onChangeNormalApplications} checked={normalApplication} className="ml-2 float-right" />
                             </div>
                             <div>
                                 <label className="black">Keds Academy</label>
-                                <Switch className="ml-2 float-right" />
+                                <Switch onChange={onChangeKedsAcademyApplications} checked={kedsAcademyApplication} className="ml-2 float-right" />
                             </div>
                             <div>
                                 <label className="black">Show your interest</label>
-                                <Switch className="ml-2 float-right" />
+                                <Switch onChange={onChangeShowInterestApplications} checked={showYourInteresApplication} className="ml-2 float-right" />
                             </div>
                         </div>
                         <div className="col-lg-2 p-3 text-center column">
                             <h5 className="black text-muted">New</h5>
-                            <h3 className="black text-info">15</h3>
+                            <h3 className="black text-info"> {allApplications.filter(element => element.status === "New").length} </h3>
                         </div>
                         <div className="col-lg-2 p-3 text-center column">
-                            <h5 className="black text-muted">New Hiring</h5>
-                            <h3 className="black text-info">15</h3>
+                            <h5 className="black text-muted">Hiring</h5>
+                            <h3 className="black text-info">{allApplications.filter(element => element.status === "Hired").length}</h3>
                         </div>
                         <div className="col-lg-2 p-3 text-center column">
                             <h5 className="black text-muted">KEDS Academy</h5>
-                            <h3 className="black text-info">15</h3>
+                            <h3 className="black text-info">{allApplications.filter(element => element.applicationTypeId === 3).length}</h3>
                         </div>
                         <div className="col-lg-2 p-3 text-center column">
                             <h5 className="black text-muted">Show your interest</h5>
-                            <h3 className="black text-info">15</h3>
+                            <h3 className="black text-info">{allApplications.filter(element => element.applicationTypeId === 2).length}</h3>
                         </div>
                         <div className="col-lg-2 p-3 text-center column">
                             <h5 className="black text-muted">Total</h5>
-                            <h3 className="black text-info">15</h3>
+                            <h3 className="black text-info">{allApplications.length}</h3>
                         </div>
                     </div>
                 </div>
 
-                <div className={`row p-3 ${classList}`} style={{ height: `${heightList}` }}>
-
-                    <div className="col-lg-4">
+                <div className="row p-3">
+                    <div className={`col-lg-4 ${classList}`} style={{ height: `${heightList}` }}>
                         <div className="col-lg-12 card p-3 mb-2">
                             <div className="row">
                                 <div className="col-lg-12">
@@ -145,7 +246,7 @@ const Applications = () => {
                     </div>
                     {
                         profile &&
-                        <div style={{ display: "none" }} id="applicationDetails" className="col-lg-7 offset-md-1">
+                        <div style={{ display: "none" }} id="applicationDetails" className="col-lg-8">
                             <div className="row">
                                 <div className="col-lg-12 card p-3 mb-2">
                                     <div class="d-flex justify-content-between">
@@ -157,21 +258,19 @@ const Applications = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <select className="form-select rounded ml-2" onChange={(e) => changeStatus(e.target.value)} value={applicationStatus ? applicationStatus : "New"}>
-                                                <option className="text-warning" value="New">New</option>
-                                                <option className="text-info" value="In Review">In Review</option>
-                                                <option className="text-primary" value="Iterview">Iterview</option>
-                                                <option className="text-danger" value="Offered">Offered</option>
-                                                <option className="text-success" value="Hired">Hired</option>
-                                            </select>
+                                            <a class="btn btn-info" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Contact Applicant</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="row card p-3 mb-2">
                                 <div className="d-flex justify-content-between">
-                                    <h5 className="text-muted lead"> <Icon icon={ic_work_outline_twotone} size={30} /> <span className="ml-3"> Position </span></h5>
-                                    <h5 className="text-muted lead">{application ? application.openJob.jobName : ''}</h5>
+                                    <h5 className="text-muted lead"> <Icon icon={ic_work_outline_twotone} size={30} />
+                                        <span className="ml-3"> {application && application.applicationTypeId === 1 || application.applicationTypeId === 3 ? 'Position applied for' : 'Category applied for'} </span>
+                                    </h5>
+                                    {application && application.applicationTypeId === 1 && <h5 className="text-muted lead">{application.openJob.jobName}</h5>}
+                                    {application && application.applicationTypeId === 2 && <h5 className="text-muted lead">{application.category.category}</h5>}
+                                    {application && application.applicationTypeId === 3 && 'Keds Academy'}
                                 </div>
                             </div>
                             <div className="row">
@@ -281,6 +380,65 @@ const Applications = () => {
                                 </div></div>
                         </div>
                     }
+                </div>
+
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalToggleLabel">Contact Applicant</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div className="row">
+                                            <div className=" d-flex justify-content-between align-content-center">
+                                                <h6 className="mt-3">Change Status</h6>
+                                                <div>
+                                                    <select className="form-select rounded ml-2" onChange={(e) => changeStatus(e.target.value)} value={applicationStatus ? applicationStatus : "New"}>
+                                                        <option className="text-warning" value="New">New</option>
+                                                        <option className="text-info" value="In Review">In Review</option>
+                                                        <option className="text-primary" value="Iterview">Iterview</option>
+                                                        <option className="text-danger" value="Offered">Offered</option>
+                                                        <option className="text-success" value="Hired">Hired</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-12 mb-2">
+                                                <input type="text" className="form-control" placeholder="Email subject" />
+                                            </div>
+                                            <div className="col-sm-12">
+                                                <textarea rows="10" className="form-control" placeholder="Email body"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary">Send Email</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Hide this modal and show the first with the button below.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

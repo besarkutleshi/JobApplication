@@ -8,6 +8,7 @@ import loader from '../../images/loader.gif'
 import Icon from 'react-icons-kit'
 import {ic_login_outline} from 'react-icons-kit/md/ic_login_outline'
 import helper from '../../shared/helpers/helper'
+import securityController from '../controllers/security.controller'
 const RegisterUser = () => {
 
     const [isLoading, setIsLoading] = useState('');
@@ -19,7 +20,7 @@ const RegisterUser = () => {
         e.preventDefault();
         setIsLoading(true);
         if(helper.validUsername(username)){
-            let obj = {Username : username, Password: password, ConfirmPassword : confirmPassword};
+            let obj = {Username : username, Password: securityController.encrypt(password), ConfirmPassword : securityController.encrypt(confirmPassword)};
             if(password !== confirmPassword){
                 $("#error").text("Password and Confirm password does not match");
                 return;
@@ -60,7 +61,7 @@ const RegisterUser = () => {
                             <form action="" onSubmit={registerUser}>
 
                                 <div className="form-group first">
-                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+                                    <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Email" required />
                                 </div>
                                 <div className="form-group last mb-3">
                                     <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />

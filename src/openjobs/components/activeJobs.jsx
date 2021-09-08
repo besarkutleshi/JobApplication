@@ -123,7 +123,7 @@ const ActiveOpenJobs = () => {
                             <div className="col-lg-3">
                                 <Input value={jobName} onChange={(e) => setJobName(e.target.value)} size="large" className="d-flex mb-2" placeholder="Search Job" prefix={<Icon style={{ color: "gray" }} icon={search} />} />
                             </div>
-                            <div className="col-lg-3">
+                            <div className="col">
                                 <Select
                                     showSearch
                                     style={{ width: 220 }}
@@ -142,7 +142,7 @@ const ActiveOpenJobs = () => {
                                     }
                                 </Select>
                             </div>
-                            <div className="col-lg-3 mb-2">
+                            <div className="col mb-2">
                                 <Select
                                     showSearch
                                     style={{ width: 220 }}
@@ -192,10 +192,10 @@ const ActiveOpenJobs = () => {
                                     <Option value="Parteshi">Parteshi	</Option>
                                 </Select>
                             </div>
-                            <div className="col-lg-2 mb-2">
+                            <div className="col mb-2">
                                 <button onClick={() => filterJobs()} style={{ width: "100%" }} className="btn btn-info"> <Icon icon={search} /> Search</button>
                             </div>
-                            <div className="col-lg-1">
+                            <div className="col">
                                 <Tooltip title="Clear filter box's">
                                     <button onClick={() => clearFilterBoxs()} style={{ width: "100%" }} className="btn btn-info"> <Icon size={20} icon={ic_cleaning_services} /></button>
                                 </Tooltip>
@@ -206,7 +206,7 @@ const ActiveOpenJobs = () => {
                 </div>
             </div>
             <div className="row mt-4">
-                <div className="col-sm-12 text-center">
+                <div className="col text-center">
                     <h5 style={{ fontSize: "24px" }} className="lead text-muted">Find the <b>right job</b>. <b> Right now. </b></h5>
                 </div>
             </div>
@@ -216,7 +216,7 @@ const ActiveOpenJobs = () => {
                 {
                     activeJobs.length > 0 && activeJobs.map((element, key) => {
                         return (
-                            <div class="col-lg-3">
+                            <div class="col">
                                 <div class="card p-3 mb-2">
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row align-items-center">
@@ -249,7 +249,7 @@ const ActiveOpenJobs = () => {
             </div>
             <br />
             <div className="row">
-                <div className="col-sm-12">
+                <div className="col">
                     <Pagination className="float-right" onChange={onPaginationChange} total={openjobs.length} />
                 </div>
             </div>
