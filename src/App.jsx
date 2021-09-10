@@ -29,9 +29,12 @@ import JobCategories from './openjobs/components/categories/jobCategories';
 import Applicants from './applicants/components/applicants';
 import ApplicantDetails from './applicants/components/applicantDetails';
 import Applications from './applications/components/applicationsDetails/applications';
+import Users from './administration/components/userComponents/users';
+import Roles from './administration/components/roleComponents/roles';
 const Demo = () => {
 
-    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress,JobCategories,ApplyJob,UserProfileProgress,UserHome,Applicants,ApplicantDetails };
+    const componentsMap = { OpenJobList,OpenJobDetails,InsertJob,EditOpenJobProgress,JobCategories,
+        ApplyJob,UserProfileProgress,UserHome,Applicants,ApplicantDetails,Applications,Users,Roles };
     const layoutMap = { Layout,Header }
     const user = useSelector((state) => state.login.user);
     const modulesStore = useSelector((state) => state.module.modules);
@@ -67,7 +70,6 @@ const Demo = () => {
                 <ProtectedRoute path="/activeJobDetails/:id" exact strict layout={Header} component={ActiveJobDetails} auth={"true"}   />
                 <ProtectedRoute path="/kedsAcademy/:applicationTypeId" layout={Header} component={KedsAcademy} auth={"true"} />
 
-                <ProtectedRoute path="/applications" layout={Layout} component={Applications} auth={"true"} />
 
                 <ProtectedRoute path="/showInterest/:applicationTypeId" layout={Header} component={ApplyJob} auth={user ? user.token ? "true" : "false" : "false"} />
                 {

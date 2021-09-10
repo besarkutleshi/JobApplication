@@ -34,23 +34,6 @@ const Applications = () => {
     const [kedsAcademyApplication, setKedsAcademyApplication] = useState(true);
     const [showYourInteresApplication, setShowYourInterestApplications] = useState(true);
 
-    const filterArray = (equals, value) => {
-        let filteredArray = [];
-        if (equals) {
-            filteredArray = applications.filter(element => {
-                return element.applicationTypeId === value;
-            });
-            filteredArray.forEach(element => {
-                applications.push(element);
-            });
-        }
-        else {
-            filteredArray = allApplications.filter(element => {
-                return element.applicationTypeId !== value;
-            });
-        }
-        setApplications(filteredArray);
-    }
 
     const onChangeNormalApplications = (value) => {
         if (value === false) {
@@ -104,35 +87,21 @@ const Applications = () => {
     }
 
     const changeStatus = async (value) => {
-        let result = await Swal.fire({
-            title: 'Are you sure?',
-            text: "Email will be sended to this applicant.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, change it!'
-        });
-
-        if (result.isConfirmed) {
-            let obj = { ApplicationID: applicationID, Status: value };
-            let response = await applicationController.updateApplicationStatus(obj);
-            if (response) {
-                applications.forEach(element => {
-                    if (element.id === applicationID) {
-                        element.status = value;
-                    }
-                });
-                SuccessAlert("Application status changed");
-                setApplicationStatus(value);
-            }
+        let obj = { ApplicationID: applicationID, Status: value };
+        let response = await applicationController.updateApplicationStatus(obj);
+        if (response) {
+            applications.forEach(element => {
+                if (element.id === applicationID) {
+                    element.status = value;
+                }
+            });
+            setApplicationStatus(value);
         }
     }
 
     const getApplications = async () => {
         setIsLoading(true);
         let result = await applicationController.getApplications();
-        console.log(result);
         if (result) {
             setApplications(result);
             setAllApplications(result);
@@ -153,6 +122,21 @@ const Applications = () => {
                 setApplicationQuestions(result);
                 $('#applicationDetails').show();
             }
+        }
+    }
+
+    const sendEmail = async () => {
+        let result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Email will be sended to this applicant.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        });
+        if(result.isConfirmed){
+
         }
     }
 
@@ -208,8 +192,8 @@ const Applications = () => {
                     </div>
                 </div>
 
-                <div className="row p-3">
-                    <div className={`col-lg-4 ${classList}`} style={{ height: `${heightList}` }}>
+                <div className="row">
+                    <div className={`col-lg-4 ${classList}`} style={{ height:`${heightList}`}}>
                         <div className="col-lg-12 card p-3 mb-2">
                             <div className="row">
                                 <div className="col-lg-12">
@@ -408,32 +392,27 @@ const Applications = () => {
                                         </div>
                                         <hr />
                                         <div className="row">
-                                            <div className="col-sm-12 mb-2">
-                                                <input type="text" className="form-control" placeholder="Email subject" />
-                                            </div>
-                                            <div className="col-sm-12">
-                                                <textarea rows="10" className="form-control" placeholder="Email body"></textarea>
-                                            </div>
+                                            {
+                                                (applicationStatus != "New" && applicationStatus !== "Reject" && applicationStatus !== "In Review") &&
+                                                <div className="col-sm-12 mb-2">
+                                                    <label htmlFor="">
+                                                        {applicationStatus === "Iterview" && 'Iterview Date'}
+                                                        {applicationStatus === "Offered" && 'Offered Expire'}
+                                                        {applicationStatus === "Hired" && 'Start Date'}
+                                                    </label>
+                                                    <input type="date" className="form-control" placeholder="Email subject" />
+                                                </div>
+                                            }
+                                            {
+                                                applicationStatus === "Offered" && 
+                                                <div className="col-sm-12 mb-2">
+                                                    <textarea placeholder="What do you offer?" className="form-control" rows="10"></textarea>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-primary">Send Email</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Hide this modal and show the first with the button below.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
                                     </div>
                                 </div>
                             </div>
