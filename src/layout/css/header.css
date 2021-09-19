@@ -5,11 +5,27 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-
-.nav-link {
-
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+ .nav-link-custom{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
   margin: 5px;
+ }
+
+
+.footer {
+  position: fixed;
+  padding: 10px 10px 0px 10px;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
+}
+
+#searchBox{
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid rgb(221, 221, 221);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
 }
 
 :root {
@@ -85,12 +101,13 @@ body {
 
 
 #navbar {
-  background: #11101d;
+  background: white;
   height: 50px;
+  color: black;
 }
 
 #sidebar {
-  background: #11101d;
+  background: #343a40;
 }
 
 #sidebar ul li a {
@@ -4872,8 +4889,6 @@ input[type="button"].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
   margin-right: 1rem;
   font-size: 1.25rem;
   line-height: inherit;
@@ -4910,8 +4925,6 @@ input[type="button"].btn-block {
 
 .navbar-text {
   display: inline-block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 .navbar-collapse {

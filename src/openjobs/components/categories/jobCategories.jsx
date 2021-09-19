@@ -17,6 +17,7 @@ import { ic_done_outline_twotone } from 'react-icons-kit/md/ic_done_outline_twot
 import { ic_close } from 'react-icons-kit/md/ic_close'
 import helper from '../../../shared/helpers/helper';
 import Swal from 'sweetalert2'
+import MUIDataTable from 'mui-datatables';
 const JobCategories = () => {
 
     const user = useSelector((state) => state.login.user);
@@ -119,7 +120,7 @@ const JobCategories = () => {
     }
     else {
         return (
-            <div className="container-fluid p-4">
+            <div className="container-fluid">
                 <div className="row mb-3">
                     <div className="col-sm-12">
                         <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Category <Icon icon={plus} size={15} /> </button>
@@ -155,46 +156,21 @@ const JobCategories = () => {
                     <div className="col-sm-12">
                         <div className="row">
                             <div className="col-sm-12">
-                                <div className="table-responsive">
-                                    <table id="categoryList" className="table display">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Category</th>
-                                                <th>Is Active</th>
-                                                <th>Insert Date</th>
-                                                <th>Update</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                categories.map((element, key) => {
-                                                    return (
-                                                        <tr key={key}>
-                                                            <td>{element.id}</td>
-                                                            <td>{element.category}</td>
-                                                            <td>{element.isActive}</td>
-                                                            <td>{element.insertDate.toString().split('T')[0]}</td>
-                                                            <td><button data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => getDataForUpdate(element.id)} className="btn btn-info"> <Icon icon={edit} size={15} /> </button></td>
-                                                            <td><button onClick={() => deleteCategory(element.id)} className="btn btn-danger"> <Icon icon={ic_delete_forever_outline} size={20} /> </button></td>
-                                                        </tr>
-                                                    )
-                                                })
-                                            }
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Category</th>
-                                                <th>Is Active</th>
-                                                <th>Insert Date</th>
-                                                <th>Update</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                                <MUIDataTable 
+                                    title = "Categories"
+                                    data = {
+                                        categories.map((element,key) => {
+                                            let array = [
+                                                element.id,element.category,element.isActive,element.insertDate.toString().split('T')[0]
+                                            ].concat([
+                                                <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => getDataForUpdate(element.id)} className="btn btn-info"> <Icon icon={edit} size={15} /> </button>,
+                                                <button onClick={() => deleteCategory(element.id)} className="btn btn-danger"> <Icon icon={ic_delete_forever_outline} size={20} /> </button>
+                                            ])
+                                            return array;
+                                        })
+                                    }
+                                    columns = {["ID","Category","Is Active", "Insert Date", "Update", "Delete"]}
+                                />
                             </div>
                         </div>
                     </div>

@@ -64,7 +64,6 @@ const OpenJobList = () => {
     else if (openJobs && openJobs.length > 0){
         return (
             <div className="container-fluid" > 
-            <br />
                 <div className="row">
                     <div className="col-sm-3 mb-2">
                         <div className="card">

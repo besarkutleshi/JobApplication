@@ -1,6 +1,6 @@
 import React from 'react'
 import '../style/loader.css'
-import Loader from '../../images/loader.gif'
+import Loader from '../../images/loaderr.gif'
 const Loading = () => {
     return(
         <div className="loading">

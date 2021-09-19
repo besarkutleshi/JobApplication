@@ -59,6 +59,7 @@ const Header = ({ ...props }) => {
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
+        localStorage.clear();
     }
 
 
@@ -86,10 +87,10 @@ const Header = ({ ...props }) => {
                                     </button> */}
                                 <div class="collapse navbar-collapse" id="ftco-nav">
                                     <ul class="navbar-nav ml-auto mr-md-3">
-                                        <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link"> <Icon size={20} icon={ic_home_filled} /> Home</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="/#/"> <Icon className="text-success" size={20} icon={ic_work_twotone} />  Open Job Vacancy </a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="/#/showInterest/2"> <Icon className="text-danger" size={20} icon={heartO} /> Show your interest </a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="/#/kedsAcademy/3"> <Icon className="text-warning" size={20} icon={ic_flash_on} /> KEDS Academy </a></li>
+                                        <li class="nav-item active"><a href="https://www.keds-energy.com/" class="nav-link nav-link-custom"> <Icon size={20} icon={ic_home_filled} /> Home</a></li>
+                                        <li class="nav-item"> <a class="nav-link nav-link-custom" href="/#/"> <Icon className="text-success" size={20} icon={ic_work_twotone} />  Open Job Vacancy </a></li>
+                                        <li class="nav-item"> <a class="nav-link nav-link-custom" href="/#/showInterest/2"> <Icon className="text-danger" size={20} icon={heartO} /> Show your interest </a></li>
+                                        <li class="nav-item"> <a class="nav-link nav-link-custom" href="/#/kedsAcademy/3"> <Icon className="text-warning" size={20} icon={ic_flash_on} /> KEDS Academy </a></li>
                                         {
                                             helper.validUsername(user.username) &&
                                             modulesStore.map((element, key) => {
@@ -98,7 +99,7 @@ const Header = ({ ...props }) => {
                                                         {
                                                             element.menus.filter(filter => { return filter.isShown === 1 }).map((menu, menuKey) => {
                                                                 return (
-                                                                    <a class="nav-link" href={`/#${menu.url}`}> <Icon icon={profile} className="text-info" /> {menu.menuName} </a>
+                                                                    <a class="nav-link nav-link-custom" href={`/#${menu.url}`}> <Icon icon={profile} className="text-info" /> {menu.menuName} </a>
                                                                 )
                                                             })
                                                         }
@@ -107,10 +108,10 @@ const Header = ({ ...props }) => {
                                             })
                                         }
                                         {
-                                            user && user.token && helper.validUsername(user.username) === false && <li class="nav-item"> <a class="nav-link" href="/#/openJobs"> <Icon className="text-info" icon={ic_login} size={20} /> ATS </a></li>
+                                            user && user.token && helper.validUsername(user.username) === false && <li class="nav-item"> <a class="nav-link nav-link-custom" href="/#/openJobs"> <Icon className="text-info" icon={ic_login} size={20} /> ATS </a></li>
                                         }
-                                        {user.token && <li class="nav-item"> <a href="/#/" class="nav-link" onClick={() => logOutUser()}> <Icon className="text-black-50" size={20} icon={ic_power_settings_new_twotone} /> Log Out </a></li>}
-                                        {!user.token && <li class="nav-item"> <a class="nav-link" href="/#/login"> <Icon className="text-info" icon={ic_login} size={20} /> Login </a></li>}
+                                        {user.token && <li class="nav-item"> <a href="/#/" class="nav-link nav-link-custom" onClick={() => logOutUser()}> <Icon className="text-black-50" size={20} icon={ic_power_settings_new_twotone} /> Log Out </a></li>}
+                                        {!user.token && <li class="nav-item"> <a class="nav-link nav-link-custom" href="/#/login"> <Icon className="text-info" icon={ic_login} size={20} /> Login </a></li>}
                                     </ul>
                                 </div>
                             </div>

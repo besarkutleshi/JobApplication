@@ -39,15 +39,25 @@ const Applicants = () => {
                             title="All Applicants"
                             data={
                                 applicants.map((element,key) => {
-                                    let array = [
+                                    let array = [ 
+                                        <img id="my-img" 
+                                            height="50px" width="50px" style={{borderRadius:"50%"}} 
+                                            className="img-fluid" 
+                                            src={`data:image/png;base64, ${element.imageBytes}`} 
+                                            alt={`${element.name.substring(0,1)} ${element.surname.substring(0,1)}`} />
+                                    ]
+                                    .concat(
+                                    [
                                         element.name,element.middleName,element.surname,element.personalNumber,element.address,element.email,element.phone,element.gender,
-                                    ].concat([
+                                    ])
+                                    .concat(
+                                    [
                                         <Link to={{pathname:`/applicantDetails/${element.id}`,state:{id:element.id}}} className="btn btn-info"><Icon icon={arrowRight2}/></Link>
                                     ])
                                     return array;
                                 })
                             }
-                            columns = {["Name","Middle Name","Surname","Personal Number","Address","Email","Phone","Gender","Details"]}
+                            columns = {["Image","Name","Middle Name","Surname","Personal Number","Address","Email","Phone","Gender","Details"]}
                         />
                     </div>
                 </div>

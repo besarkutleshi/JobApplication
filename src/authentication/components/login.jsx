@@ -30,7 +30,7 @@ const Login = ({ urlRoute = null, parameter = null }) => {
     const addSkillsStore = bindActionCreators(addSkills, dispatch);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [username, setUsername] = useState('besar.kutleshi@keds-energy.com');
+    const [username, setUsername] = useState('keds30604');
     const [password, setPassword] = useState('besark');
 
 

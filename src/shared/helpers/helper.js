@@ -3,6 +3,7 @@ class Helper {
 
     constructor(){
         this.url = 'https://localhost:44323/api/'
+        this.config = JSON.parse(JSON.parse(localStorage["persist:root"]).config).headers
     }
 
 
@@ -20,4 +21,6 @@ class Helper {
     }
 
 }
+
+
 export default new Helper();

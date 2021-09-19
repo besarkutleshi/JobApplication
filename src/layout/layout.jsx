@@ -51,6 +51,7 @@ const Layout = ({ ...props }) => {
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
+        localStorage.clear();
     }
 
     return (
@@ -61,6 +62,9 @@ const Layout = ({ ...props }) => {
                         <p className="pt-3" style={{ color: "white", fontSize:"20px",marginLeft:"60px" }} id="hr" > <i class='bx bxs-bolt text-warning' ></i> KEDS - ATS </p>
                         <div class="p-4">
                             <ul class="list-unstyled components mb-5" style={{ marginTop: "20px" }}>
+                                <li>
+                                    <a href="/#/"><i style={{fontSize:"18px"}} class='bx bx-home-alt'></i> <span className="ml-3">Home</span></a>
+                                </li>
                                 {
                                     modulesStore.map((element,key) => {
                                         return(
@@ -87,12 +91,11 @@ const Layout = ({ ...props }) => {
                         </div>
                     </nav>
 
-                    <div id="content" style={{ backgroundColor: '' }}>
+                    <div id="content" style={{ backgroundColor: '#f4f6f9' }}>
                         <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
                             <div class="container-fluid">
-
                                 <button onClick={() => $('#sidebar').toggleClass('active')} type="button" id="sidebarCollapse" class="btn">
-                                    <i class="fa fa-bars text-white"></i>
+                                    <i class="fa fa-bars text-black"></i>
                                     <span class="sr-only">Toggle Menu</span>
                                 </button>
 
@@ -104,14 +107,14 @@ const Layout = ({ ...props }) => {
 
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="nav navbar-nav ml-auto">
-                                        <li id="logout" className="nav-item dropdown">
-                                            <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" style={{color:"white"}}> <span className="mr-2" style={{ fontSize: '20px' }}> <i style={{color:"white"}}> Welcome</i> <i></i> </span> </a>
+                                        <li className="nav-item dropdown">
+                                            <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown"> <span className="mr-2"> Welcome </span></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a id="" href="/myProfile" class="dropdown-item"><i class="fa fa-user" aria-hidden="true"></i> <span id="profile" className="ml-2"> My Profile</span></a>
+                                                {/* <a id="" href="/myProfile" class="dropdown-item"><i class="fa fa-user" aria-hidden="true"></i> <span id="profile" className="ml-2"> My Profile</span></a>
                                                 <div className="dropdown-divider"></div>
                                                 <a id="" className="dropdown-item"><img src={albanianFlag} width="25px" height="20px" /> <span id="albania" className="ml-2"> Albania</span></a>
                                                 <a id="" className="dropdown-item"><img src={englandFlag} width="25px" height="20px" /><span id="english" className="ml-2"> English</span></a>
-                                                <hr />
+                                                <hr /> */}
                                                 <a onClick={logOutUser} className="dropdown-item"> <Icon icon={ic_logout} size={20} className="ml-1" /> <span id="logoutbro" className="ml-2"> Log Out</span></a>
                                             </div>
                                         </li>
@@ -124,6 +127,11 @@ const Layout = ({ ...props }) => {
                         <div id="root">
                             {props.children}
                         </div>
+                        <footer class="footer">
+                            <div className="float-left">
+                                <p className="text-muted">Application Tracking System</p>
+                            </div>
+                        </footer>
                     </div>
                 </div>
             </React.Fragment>

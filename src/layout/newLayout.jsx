@@ -55,6 +55,7 @@ const NewLayout = ({ ...props }) => {
         deleteEducationsStore();
         deleteExperiencesStore();
         deleteProfileStore();
+        localStorage.clear();
     }
 
 

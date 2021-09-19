@@ -6,7 +6,7 @@ class JobCategoryController {
 
     addCategory = async (obj,config) => {
         try {
-            let added = await axios.post(helper.url + 'jobCategory',obj,config);
+            let added = await axios.post(helper.url + 'jobCategory',obj,helper.config);
             return added.data;
         } catch (error) {
             Error.returnError(error);
@@ -16,7 +16,7 @@ class JobCategoryController {
 
     deleteCategory = async (id,config) => {
         try {
-            let deleted = await axios.delete(helper.url + `jobCategory/${id}`,config);
+            let deleted = await axios.delete(helper.url + `jobCategory/${id}`,helper.config);
             return deleted.status === 200 ? true : false;
         } catch (error) {
             alert('eerr')
@@ -27,7 +27,7 @@ class JobCategoryController {
 
     updateCategory = async (obj,config) => {
         try {
-            let updated = await axios.put(helper.url + 'jobCategory',obj,config);
+            let updated = await axios.put(helper.url + 'jobCategory',obj,helper.config);
             return updated.status === 200 ? true : false;
         } catch (error) {
             Error.returnError(error);
@@ -37,7 +37,7 @@ class JobCategoryController {
 
     getCategories = async (config) => {
         try {
-            let categories = await axios.get(helper.url + 'jobCategory',config);
+            let categories = await axios.get(helper.url + 'jobCategory',helper.config);
             return categories.data;
         } catch (error) {
             Error.returnError(error);
